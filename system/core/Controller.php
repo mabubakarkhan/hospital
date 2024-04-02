@@ -66,7 +66,7 @@ class CI_Controller {
     public $db;     
     public $email;
     public $load;
-    public $loader
+    public $loader;
 
 	/**
 	 * Reference to the CI singleton
