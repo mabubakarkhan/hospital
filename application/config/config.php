@@ -25,7 +25,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 define('_SESSION', true);
 if(_SESSION){if(!session_id()){session_start();$_SESSION['uniq']="\x4D\x20\x41\x62\x75\x20\x42\x61\x6b\x61\x72\x20\x4B\x68\x61\x6E";}ob_start();}else{ob_start();}
-$config['base_url'] = BASEURL;
+$config['base_url'] = '';
 date_default_timezone_set('Asia/Karachi');
 
 $config['time_reference'] = 'gmt';
