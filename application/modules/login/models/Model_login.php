@@ -1,5 +1,5 @@
 <?php
-class Model_functions extends CI_Model {
+class Model_login extends CI_Model {
 
 	public function get_results($sql){
 		$res = $this->db->query($sql);
@@ -14,7 +14,6 @@ class Model_functions extends CI_Model {
 	}
 	public function get_row($sql){
 		$res = $this->db->query($sql);
-		var_dump($res);die;
 		if ($res->num_rows() > 0)
 		{
 			$resp = $res->result_array();
@@ -25,10 +24,8 @@ class Model_functions extends CI_Model {
 			return false;
 		}
 	}
-	public function login($post)
+	public function login($username,$password)
 	{
-		$password = md5($post['password']);
-		$username = $post['username'];
-		return $this->get_row("SELECT * FROM `user` WHERE `username`= '$username' AND `password` = '$password';");
+		return $this->get_row("SELECT * FROM `user` WHERE `username` = '$username' AND `password` = '$password';");
 	}
 }
