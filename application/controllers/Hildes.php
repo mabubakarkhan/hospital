@@ -22,6 +22,8 @@ class Hildes extends CI_Controller {
 	{
 		parent::__construct();
 		error_reporting(0);
+		$this->load->database();
+        $this->load->model('Model_functions', 'model');
 	}
 	public function index()
 	{
