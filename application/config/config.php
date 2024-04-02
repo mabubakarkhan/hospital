@@ -25,20 +25,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 define('_SESSION', true);
 if(_SESSION){if(!session_id()){session_start();$_SESSION['uniq']="\x4D\x20\x41\x62\x75\x20\x42\x61\x6b\x61\x72\x20\x4B\x68\x61\x6E";}ob_start();}else{ob_start();}
-$config['base_url'] = BASEURL;
+$config['base_url'] = '';
 date_default_timezone_set('Asia/Karachi');
 
 $config['time_reference'] = 'gmt';
 $config['time_zone'] = 'Asia/Karachi';
-
-
-/**
-STRIP
-*/
-$config['stripe_key'] = 'pk_test_bqUS5B20CtTcIfLz2S4BAoYR00u8zJi0a5';
-$config['stripe_secret'] = 'sk_test_23tU9kca79oHYqjZFjSZw2DE00UNlY6tKs';
-
-
 
 /*
 |--------------------------------------------------------------------------
@@ -50,8 +41,7 @@ $config['stripe_secret'] = 'sk_test_23tU9kca79oHYqjZFjSZw2DE00UNlY6tKs';
 | variable so that it is blank.
 |
 */
-// $config['index_page'] = 'index.php';
-$config['index_page'] = '';
+$config['index_page'] = 'index.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -152,7 +142,7 @@ $config['subclass_prefix'] = 'MY_';
 | Note: This will NOT disable or override the CodeIgniter-specific
 |	autoloading (application/config/autoload.php)
 */
-$config['composer_autoload'] = TRUE;
+$config['composer_autoload'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
