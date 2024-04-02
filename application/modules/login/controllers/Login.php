@@ -21,12 +21,12 @@ class Login extends MY_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		error_reporting(0);
+		error_reporting(E_ALL);
 		$this->load->database();
 		$this->load->model('Model_'.strtolower(get_class()),'model');
-		if (isset($_SESSION['user']) && $_SESSION['user']) {
+		/*if (isset($_SESSION['user']) && $_SESSION['user']) {
 			redirect('home');
-		}
+		}*/
 	}
 	public function index()
 	{
