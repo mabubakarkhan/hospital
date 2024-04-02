@@ -13,14 +13,16 @@ class MY_Controller extends MX_Controller
 	{
 		parent::__construct();
 		$checkModule = $this->router->fetch_module();
-		if ($checkModule == 'Login') {
+		if ($checkModule == 'login') {
 			$this->load->helper(array('form', 'url'));
+			$this->_hmvc_fixes();
 		}
 		else{
 			$this->load->helper(array('form', 'url', 'template_helper','session_helper'));
 			$this->_hmvc_fixes();
 			check_login();
 		}
+			// $this->_hmvc_fixes();
 	}
 	
 	function _hmvc_fixes()
@@ -30,6 +32,7 @@ class MY_Controller extends MX_Controller
 		$this->load->library('form_validation');
 		$this->form_validation->CI =& $this;
 	}
+
 }
 
 /* End of file MY_Controller.php */

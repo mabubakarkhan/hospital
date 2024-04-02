@@ -1,7 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
-class Home extends MY_Controller {
+class Logout extends MY_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -22,13 +21,11 @@ class Home extends MY_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		error_reporting(E_ALL);
-		$this->load->database();
-		$this->load->model('Model_home','model');
+		error_reporting(0);
 	}
-
 	public function index()
 	{
-		load_view('index');
+		unset($_SESSION['user']);
+		redirect('login');
 	}
 }
