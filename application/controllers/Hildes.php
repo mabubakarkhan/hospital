@@ -22,8 +22,8 @@ class Hildes extends CI_Controller {
 	{
 		parent::__construct();
 		error_reporting(0);
-		$this->load->database();
-        $this->load->model('Model_functions', 'model');
+		$this->loader->database();
+        $this->loader->model('Model_functions', 'model');
 	}
 	public function index()
 	{
@@ -32,7 +32,6 @@ class Hildes extends CI_Controller {
 	}
 	public function logout()
 	{
-		die;
 		unset($_SESSION['user']);
 		redirect('login');
 	}
