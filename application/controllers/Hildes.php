@@ -25,7 +25,8 @@ class Hildes extends CI_Controller {
 	}
 	public function index()
 	{
-		redirect('login');
+		echo 'ok';
+		// redirect('login');
 	}
 	public function logout()
 	{
