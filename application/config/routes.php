@@ -38,9 +38,16 @@
 |
 */
 $route['translate_uri_dashes'] = TRUE;
-$route['default_controller'] = "login";
-$controller_exceptions = array('home','token');
+$route['default_controller'] = "Hildes";
+$controller_exceptions = array('login','home','token');
 $route['404_override'] = '';
+
+$route["logout"] = 'Hildes/logout';
+
+$route["login"] = 'Login/index';
+$route["login/submit"] = 'Login/submit';
+
+
 
 
 $route["index"] = 'Home/index';

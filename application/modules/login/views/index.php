@@ -106,6 +106,7 @@
             resp = $.parseJSON(resp);
             if (resp.status == true) {
               $(".ajaxForm button").html('Redirecting...');
+              window.location.replace("<?=BASEURL.'home'?>");
             }
             else{
               $(".ajaxForm button").html('Sign in');

@@ -24,4 +24,8 @@ class Model_home extends CI_Model {
 			return false;
 		}
 	}
+	public function test()
+	{
+		return $this->get_results("SELECT * FROM `user`;");
+	}
 }

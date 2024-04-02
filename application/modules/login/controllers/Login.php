@@ -1,7 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
-class Home extends MY_Controller {
+class Login extends MY_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -24,11 +23,31 @@ class Home extends MY_Controller {
 		parent::__construct();
 		error_reporting(0);
 		$this->load->database();
-		$this->load->model('Model_home','model');
+		$this->load->model('Model_login','model');
+		if (isset($_SESSION['user']) && $_SESSION['user']) {
+			redirect('home');
+		}
 	}
-
 	public function index()
 	{
-		load_view('index');
+		$this->load->view('index',$data);
+	}
+	public function submit()
+	{
+		if (isset($_SESSION['user']) && $_SESSION['user']) {
+			echo json_encode(array("status"=>true));
+		}
+		else{
+			parse_str($_POST['data'],$post);
+			$resp = $this->model->login($post['username'],md5($post['password']));
+			if ($resp) {
+				$_SESSION['user'] = serialize($resp);
+				echo json_encode(array("status"=>true));
+			}
+			else{
+				echo json_encode(array("status"=>false,"msg"=>"username/password incorrect."));
+
+			}
+		}
 	}
 }
