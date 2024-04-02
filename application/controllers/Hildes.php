@@ -32,6 +32,7 @@ class Hildes extends CI_Controller {
 	}
 	public function logout()
 	{
+		die;
 		unset($_SESSION['user']);
 		redirect('login');
 	}

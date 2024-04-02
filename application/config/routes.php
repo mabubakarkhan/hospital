@@ -44,14 +44,16 @@ $route['404_override'] = '';
 
 $route["logout"] = 'Hildes/logout';
 
+
+
+
+
 $route["login"] = 'Login/index';
 $route["login/submit"] = 'Login/submit';
 
-
-
-
 $route["index"] = 'Home/index';
 $route["home"] = 'Home/index';
+
 $route["token"] = 'Token/index';
 
 
