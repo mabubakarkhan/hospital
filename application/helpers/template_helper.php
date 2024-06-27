@@ -4,7 +4,6 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
 function load_view($page, $data = false, $jsFile = false, $header = false, $footer = false) {
     // Get CodeIgniter instance
     $CI =& get_instance();
-    
     //loading header
     if ($header) {
         $CI->load->view($header, $data);
@@ -23,7 +22,10 @@ function load_view($page, $data = false, $jsFile = false, $header = false, $foot
         $CI->load->view('home/footer', $data);
     }
     //loading js file
-    if ($jsFile) {
+    if ($jsFile !== false && $jsFile !== true) {
+        $CI->load->view('script/'.$jsFile, $data);
+    }
+    elseif ($jsFile == true) {
         $CI->load->view('script/'.$page, $data);
     }
 }

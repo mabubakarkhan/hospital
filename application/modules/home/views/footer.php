@@ -50,6 +50,9 @@
     <script src="<?=JS?>typeahead/typeahead.custom.js"></script>
     <script src="<?=JS?>typeahead-search/handlebars.js"></script>
     <script src="<?=JS?>typeahead-search/typeahead-custom.js"></script>
+    <script src="<?=JS?>datatable/datatables/jquery.dataTables.min.js"></script>
+    <script src="<?=JS?>datatable/datatables/datatable.custom.js"></script>
+    <script src="<?=JS?>form-validation-custom.js"></script>
     <!-- Template js-->
     <script src="<?=JS?>script.js"></script>
     <script src="<?=JS?>theme-customizer/customizer.js">  </script>

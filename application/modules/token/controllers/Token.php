@@ -22,7 +22,6 @@ class Token extends MY_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		error_reporting(E_ALL);
 		$this->load->database();
 		$this->load->model('Model_'.strtolower(get_class()),'model');
 	}

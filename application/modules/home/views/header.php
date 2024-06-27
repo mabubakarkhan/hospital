@@ -28,8 +28,10 @@
     <link rel="stylesheet" type="text/css" href="<?=CSS?>vendors/chartist.css">
     <link rel="stylesheet" type="text/css" href="<?=CSS?>vendors/prism.css">
     <link rel="stylesheet" type="text/css" href="<?=CSS?>vendors/vector-map.css">
+    <link rel="stylesheet" type="text/css" href="<?=CSS?>vendors/datatables.css">
     <!-- Bootstrap css-->
     <link rel="stylesheet" type="text/css" href="<?=CSS?>vendors/bootstrap.css">
+
     <!-- App css-->
     <link rel="stylesheet" type="text/css" href="<?=CSS?>style.css">
     <link id="color" rel="stylesheet" href="<?=CSS?>color-1.css" media="screen">
