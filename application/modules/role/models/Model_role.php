@@ -28,6 +28,10 @@ class Model_role extends CI_Model {
 	{
 		return $this->get_results("SELECT * FROM `role` ORDER BY `title` ASC;");
 	}
+	public function get_roles($status)
+	{
+		return $this->get_results("SELECT * FROM `role` WHERE `status` = '$status' ORDER BY `title` ASC;");
+	}
 	public function get_role_byid($id)
 	{
 		return $this->get_row("SELECT * FROM `role` WHERE `role_id` = '$id';");

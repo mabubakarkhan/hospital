@@ -8,19 +8,21 @@ require APPPATH . "third_party/MX/Controller.php";
 
 class MY_Controller extends MX_Controller
 {	
-
+	public $userLoginData = false;
 	function __construct() 
 	{
 		parent::__construct();
 		$checkModule = $this->router->fetch_module();
 		if ($checkModule == 'login') {
+			$this->load->library(array('session','form_validation'));
 			$this->load->helper(array('form', 'url'));
 			$this->_hmvc_fixes();
 		}
 		else{
-			$this->load->helper(array('form', 'url', 'template_helper','session_helper'));
+			$this->load->library(array('session','form_validation'));
+			$this->load->helper(array('form', 'url', 'template_helper','session_helper','access_helper'));
 			$this->_hmvc_fixes();
-			check_login();
+			$this->userLoginData = check_login();
 		}
 			// $this->_hmvc_fixes();
 	}

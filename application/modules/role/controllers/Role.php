@@ -28,17 +28,22 @@ class Role extends MY_Controller {
 
 	public function index()
 	{
+		check_permissions('role');
+		$data['meta_title'] = 'All Roles';
 		$data['roles'] = $this->model->roles();
 		load_view('index',$data);
 	}
 	public function create()
 	{
+		check_permissions('role_add');
+		$data['meta_title'] = 'Create Role';
 		$data['page_title'] = 'Create New Role';
 		$data['mode'] = 'add';
 		load_view('create',$data,true);
 	}
 	public function post()
 	{
+		check_permissions('role_add');
 		parse_str($_POST['data'],$post);
 		$resp = $this->db->insert('role',$post);
 		if ($resp) {
@@ -50,6 +55,8 @@ class Role extends MY_Controller {
 	}
 	public function edit()
 	{
+		check_permissions('role_edit');
+		$data['meta_title'] = 'Edit Role';
 		$data['page_title'] = 'Edit Role';
 		$data['mode'] = 'edit';
 		$data['editID'] = $_GET['id'];
@@ -58,6 +65,7 @@ class Role extends MY_Controller {
 	}
 	public function update()
 	{
+		check_permissions('role_edit');
 		parse_str($_POST['data'],$post);
 		$resp = $this->db
 		->where('role_id',$post['id'])
@@ -72,7 +80,9 @@ class Role extends MY_Controller {
 	}
 	public function permissions()
 	{
+		check_permissions('role_permissions');
 		$data['editID'] = $_GET['id'];
+		$data['meta_title'] = 'Update Permissions';
 		$data['q'] = $this->model->get_role_byid($_GET['id']);
 		$data['page_title'] = $data['q']['title']." - Permissions";
 		if (!(empty($data['q']['permissions']))) {
@@ -85,6 +95,7 @@ class Role extends MY_Controller {
 	}
 	public function update_permissions()
 	{
+		check_permissions('role_permissions');
 		parse_str($_POST['data'],$post);
 		$permissions = implode(',', $post['title']);
 		$resp = $this->db
