@@ -22,13 +22,13 @@ class Home extends MY_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		error_reporting(0);
 		$this->load->database();
 		$this->load->model('Model_home','model');
 	}
 
 	public function index()
 	{
+		$data['meta_title'] = 'Dashboard';
 		load_view('index');
 	}
 }

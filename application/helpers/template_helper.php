@@ -4,6 +4,13 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
 function load_view($page, $data = false, $jsFile = false, $header = false, $footer = false) {
     // Get CodeIgniter instance
     $CI =& get_instance();
+    $CI->load->library('session');
+    $CI->load->database();
+    if ($CI->session->has_userdata('user')) {
+        $q = $CI->session->userdata('user');
+        $q = unserialize($q);
+        $data['permissions'] = $q['permissions'];
+    }
     //loading header
     if ($header) {
         $CI->load->view($header, $data);
