@@ -136,6 +136,7 @@ class User extends MY_Controller {
 		$userId = $_POST['id'];unset($_POST['id']);
 		$_POST['password_text'] = $_POST['password'];
 		$_POST['password'] = md5($_POST['password']);
+		$_POST['updated_at'] = date('Y-m-d H:i:s');
 
 		$this->form_validation->set_rules('fname', 'First name', 'required');
 		$this->form_validation->set_rules('lname', 'Last name', 'required');

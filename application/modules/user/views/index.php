@@ -3,8 +3,11 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12">
-				<h3>Roles <a href="<?=BASEURL.'user/create'?>" class="btn btn-success" style="float: right;">Create User</a></h3>.
-
+				<h3>Users 
+					<?php if ($permissions == 'all' || in_array('user_add', $permissions)): ?>
+						<a href="<?=BASEURL.'user/create'?>" class="btn btn-success" style="float: right;">Create User</a>
+	              	<?php endif ?>
+				</h3>.
 			</div>
 		</div>
     </div>
@@ -36,7 +39,9 @@
 												<td><?=$q['fname'].' '.$q['lname']?></td>
 												<td>
 													<ul class="action">
-														<li class="edit"> <a href="<?=BASEURL.'user/edit?id='.$q['user_id']?>"><i class="icon-pencil-alt"></i></a></li>
+														<?php if ($permissions == 'all' || in_array('user_edit', $permissions)): ?>
+															<li class="edit"> <a href="<?=BASEURL.'user/edit?id='.$q['user_id']?>"><i class="icon-pencil-alt"></i></a></li>
+										              	<?php endif ?>
 														<!-- <li class="delete"><a href="#"><i class="icon-trash"></i></a></li> -->
 													</ul>
 												</td>
