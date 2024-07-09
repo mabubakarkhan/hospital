@@ -86,6 +86,55 @@
 
 			</div><!-- /row -->
 
+
+			<div class="row">
+
+				<div class="col-sm-12 col-xl-12">
+					<div class="card">
+						<div class="card-body">
+
+							<div class="col-sm-12">
+                        		<h5><div class="form-check form-check-inline checkbox checkbox-dark mb-0">
+                    					<input class="form-check-input" id="role-inline-0" type="checkbox" name="title[]" value="building" <?=(in_array('building', $permissionsArr)) ? 'checked' : ''?> >
+										<label class="form-check-label" for="role-inline-0"><strong>Building</strong></label>
+									</div>
+                        		</h5>
+                      		</div>
+	                      	<div class="col">
+								<div class="m-t-15 m-checkbox-inline">
+									<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
+										<input class="form-check-input" id="role-inline-1" type="checkbox" name="title[]" value="building_floor_view" <?=(in_array('building_floor_view', $permissionsArr)) ? 'checked' : ''?>>
+										<label class="form-check-label" for="role-inline-1">View Floor</label>
+									</div>
+									<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
+										<input class="form-check-input" id="role-inline-2" type="checkbox" name="title[]" value="building_floor_add" <?=(in_array('building_floor_add', $permissionsArr)) ? 'checked' : ''?>>
+										<label class="form-check-label" for="role-inline-2">Create Floor</label>
+									</div>
+									<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
+										<input class="form-check-input" id="role-inline-3" type="checkbox" name="title[]" value="building_floor_add" <?=(in_array('building_floor_add', $permissionsArr)) ? 'checked' : ''?>>
+										<label class="form-check-label" for="role-inline-3">Edit Floor</label>
+									</div>
+									<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
+										<input class="form-check-input" id="role-inline-1" type="checkbox" name="title[]" value="building_room_view" <?=(in_array('building_room_view', $permissionsArr)) ? 'checked' : ''?>>
+										<label class="form-check-label" for="role-inline-1">View Room</label>
+									</div>
+									<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
+										<input class="form-check-input" id="role-inline-2" type="checkbox" name="title[]" value="building_room_add" <?=(in_array('building_room_add', $permissionsArr)) ? 'checked' : ''?>>
+										<label class="form-check-label" for="role-inline-2">Create Room</label>
+									</div>
+									<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
+										<input class="form-check-input" id="role-inline-3" type="checkbox" name="title[]" value="building_room_add" <?=(in_array('building_room_add', $permissionsArr)) ? 'checked' : ''?>>
+										<label class="form-check-label" for="role-inline-3">Edit Room</label>
+									</div>
+								</div>
+	                      	</div><!-- /col -->
+
+						</div>
+					</div><!-- /card -->
+				</div><!-- /6 -->
+
+			</div><!-- /row -->
+
 			<div class="row">
 				<div class="col-md-3">
 					<div class="card-footer" style="border: none;background: transparent;">

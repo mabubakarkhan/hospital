@@ -3,9 +3,9 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12">
-				<h3>Roles 
-					<?php if ($permissions == 'all' || in_array('role_add', $permissions)): ?>
-						<a href="<?=BASEURL.'role/create'?>" class="btn btn-success" style="float: right;">Create Role</a>
+				<h3><?=$page_title?> 
+					<?php if ($permissions == 'all' || in_array('building_room_add', $permissions)): ?>
+						<a href="<?=BASEURL.'building/add-room/'.$floorId?>" class="btn btn-success" style="float: right;">Add Room</a>
 	              	<?php endif ?>
 				</h3>.
 			</div>
@@ -23,30 +23,24 @@
 							<table class="display" id="basic-1">
 								<thead>
 									<tr>
-										<th>#</th>
-										<th>Name</th>
-										<th>Permissions</th>
+										<th>Room#</th>
+										<th>Title</th>
+										<th>Floor</th>
 										<th>Action</th>
 									</tr>
 								</thead>
 								<tbody>
 
-									<?php if ($roles): ?>
-										<?php foreach ($roles as $qKey => $q): ?>
+									<?php if ($rooms): ?>
+										<?php foreach ($rooms as $qKey => $q): ?>
 											<tr>
-												<td><?=($qKey+1)?></td>
+												<td><?=$q['room_number']?></td>
 												<td><?=$q['title']?></td>
-												<td>
-													<ul class="action"> 
-														<?php if ($permissions == 'all' || in_array('role_permissions', $permissions)): ?>
-															<li class="primary"> <a href="<?=BASEURL.'role/permissions?id='.$q['role_id']?>"><i class="fa fa-lock"></i></a></li>
-										              	<?php endif ?>
-													</ul>
-												</td>
+												<td><?=$q['floorTitle']?></td>
 												<td>
 													<ul class="action">
-										              	<?php if ($permissions == 'all' || in_array('role_edit', $permissions)): ?>
-															<li class="edit"> <a href="<?=BASEURL.'role/edit?id='.$q['role_id']?>"><i class="icon-pencil-alt"></i></a></li>
+														<?php if ($permissions == 'all' || in_array('building_room_edit', $permissions)): ?>
+															<li class="edit"> <a href="<?=BASEURL.'building/edit-room/'.$floorId.'/?id='.$q['room_id']?>"><i class="icon-pencil-alt"></i></a></li>
 										              	<?php endif ?>
 														<!-- <li class="delete"><a href="#"><i class="icon-trash"></i></a></li> -->
 													</ul>

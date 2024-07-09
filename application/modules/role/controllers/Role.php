@@ -67,6 +67,7 @@ class Role extends MY_Controller {
 	{
 		check_permissions('role_edit');
 		parse_str($_POST['data'],$post);
+		$_POST['updated_at'] = date('Y-m-d H:i:s');
 		$resp = $this->db
 		->where('role_id',$post['id'])
 		->set('title',$post['title'])
@@ -101,6 +102,7 @@ class Role extends MY_Controller {
 		$resp = $this->db
 		->where('role_id',$post['id'])
 		->set('permissions',$permissions)
+		->set('updated_at',date('Y-m-d H:i:s'))
 		->update('role');
 		if ($resp) {
 			echo json_encode(array("status"=>true,"msg"=>"permissions updated successfully."));

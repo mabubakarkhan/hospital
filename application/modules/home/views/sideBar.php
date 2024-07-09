@@ -55,6 +55,25 @@
                 </ul>
               </li>
             <?php endif ?>
+            <?php if ($permissions == 'all' || in_array('building', $permissions)): ?>
+              <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title"
+                  href="javascript:void(0)"><i data-feather="airplay"></i><span class="lan-16">Building</span></a>
+                <ul class="sidebar-submenu">
+                  <?php if ($permissions == 'all' || in_array('building_floor_view', $permissions)): ?>
+                    <li><a href="<?=BASEURL.'building'?>">Floors</a></li>
+                  <?php endif ?>
+                  <?php if ($permissions == 'all' || in_array('building_floor_add', $permissions)): ?>
+                    <li><a href="<?=BASEURL.'building/add-floor'?>">Add Floor</a></li>
+                  <?php endif ?>
+                  <?php if ($permissions == 'all' || in_array('building_room_view', $permissions)): ?>
+                    <li><a href="<?=BASEURL.'building/rooms'?>">Rooms</a></li>
+                  <?php endif ?>
+                  <?php if ($permissions == 'all' || in_array('building_room_add', $permissions)): ?>
+                    <li><a href="<?=BASEURL.'building/add-room'?>">Add Room</a></li>
+                  <?php endif ?>
+                </ul>
+              </li>
+            <?php endif ?>
           </ul>
         </div>
         <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>
