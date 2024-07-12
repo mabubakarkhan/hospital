@@ -35,6 +35,18 @@
 
 								<div class="col-md-12">
 									<div class="mb-3">
+										<label class="form-label">Building</label>
+										<select name="building_id" class="form-select" required>
+											<option value="">Select</option>
+											<?php foreach ($buildings as $keybuilding => $building): ?>
+												<option value="<?=$building['building_id']?>" <?=($building['building_id'] == $q['building_id'] || $buildingId == $building['building_id']) ? 'selected' : ''?> ><?=$building['name']?></option>
+											<?php endforeach ?>
+										</select>
+									</div>
+								</div><!-- /6 -->
+
+								<div class="col-md-12">
+									<div class="mb-3">
 										<label class="form-label">Title</label>
 										<input class="form-control" name="title" type="text" value="<?=$q['title']?>" required="">
 									</div>
@@ -54,7 +66,7 @@
 								<?php else: ?>
 									<button type="submit" class="btn btn-primary">Submit</button>
 								<?php endif ?>
-								<a href="<?=BASEURL.'user'?>" class="btn btn-secondary">Cancel</a>
+								<a href="<?=BASEURL.'building/floors/'.$floorId?>" class="btn btn-secondary">Cancel</a>
 							</div>
 							<div class="card-footer-loader" style="display: none;">
 								<div class="loader-box"><div class="loader-2"></div></div>

@@ -24,9 +24,33 @@ class Model_building extends CI_Model {
 			return false;
 		}
 	}
-	public function floors()
+	public function buildings()
 	{
-		return $this->get_results("SELECT * FROM `floor` ORDER BY `story` ASC;");
+		return $this->get_results("SELECT * FROM `building` ORDER BY `name` ASC;");
+	}
+	public function get_building_byid($id)
+	{
+		return $this->get_row("SELECT * FROM `building` WHERE `building_id` = '$id';");
+	}
+	public function floors($building_id)
+	{
+		if ($building_id > 0) {
+			return $this->get_results("
+				SELECT f.*, b.name AS buildingName 
+				FROM `floor` AS f 
+				INNER JOIN `building` AS b ON f.building_id = b.building_id 
+				WHERE f.building_id = '$building_id' 
+				ORDER BY f.story ASC
+			;");
+		}
+		else{
+			return $this->get_results("
+				SELECT f.*, b.name AS buildingName 
+				FROM `floor` AS f 
+				INNER JOIN `building` AS b ON f.building_id = b.building_id 
+				ORDER BY f.story ASC
+			;");
+		}
 	}
 	public function get_floor_byid($id)
 	{
@@ -55,5 +79,9 @@ class Model_building extends CI_Model {
 	public function get_room_byid($id)
 	{
 		return $this->get_row("SELECT * FROM `room` WHERE `room_id` = '$id';");
+	}
+	public function facilities()
+	{
+		return $this->get_results("SELECT * FROM `building_facility` ORDER BY `name` ASC;");;
 	}
 }

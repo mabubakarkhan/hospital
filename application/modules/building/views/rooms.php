@@ -26,6 +26,9 @@
 										<th>Room#</th>
 										<th>Title</th>
 										<th>Floor</th>
+										<?php if ($permissions == 'all' || in_array('building_room_facilities_view', $permissions)): ?>
+											<th>Facilities</th>
+										<?php endif ?>
 										<th>Action</th>
 									</tr>
 								</thead>
@@ -37,6 +40,11 @@
 												<td><?=$q['room_number']?></td>
 												<td><?=$q['title']?></td>
 												<td><?=$q['floorTitle']?></td>
+												<?php if ($permissions == 'all' || in_array('building_room_facilities_view', $permissions)): ?>
+													<td>
+														<a href="javascript://" class="get-room-facilities" data-id="<?=$q['room_id']?>" data-title="<?=$q['title']?>"><i class="icon-pencil-alt"></i></a>
+													</td>
+												<?php endif ?>
 												<td>
 													<ul class="action">
 														<?php if ($permissions == 'all' || in_array('building_room_edit', $permissions)): ?>
