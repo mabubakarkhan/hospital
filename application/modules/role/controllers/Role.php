@@ -92,6 +92,7 @@ class Role extends MY_Controller {
 		else{
 			$data['permissionsArr'] = false;
 		}
+		$data['room_allocation'] = $data['q']['room_allocation'];
 		load_view('permissions',$data,'permissions');
 	}
 	public function update_permissions()
@@ -99,9 +100,16 @@ class Role extends MY_Controller {
 		check_permissions('role_permissions');
 		parse_str($_POST['data'],$post);
 		$permissions = implode(',', $post['title']);
+		if (isset($post['room_allocation']) && $post['room_allocation'] == '1') {
+			$room_allocation = 1;
+		}
+		else{
+			$room_allocation = 0;
+		}
 		$resp = $this->db
 		->where('role_id',$post['id'])
 		->set('permissions',$permissions)
+		->set('room_allocation',$room_allocation)
 		->set('updated_at',date('Y-m-d H:i:s'))
 		->update('role');
 		if ($resp) {

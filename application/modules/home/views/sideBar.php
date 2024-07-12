@@ -59,8 +59,14 @@
               <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title"
                   href="javascript:void(0)"><i data-feather="airplay"></i><span class="lan-16">Building</span></a>
                 <ul class="sidebar-submenu">
+                  <?php if ($permissions == 'all' || in_array('building_building_view', $permissions)): ?>
+                    <li><a href="<?=BASEURL.'building'?>">Buildings</a></li>
+                  <?php endif ?>
+                  <?php if ($permissions == 'all' || in_array('building_building_add', $permissions)): ?>
+                    <li><a href="<?=BASEURL.'building/add-building'?>">Add Buildings</a></li>
+                  <?php endif ?>
                   <?php if ($permissions == 'all' || in_array('building_floor_view', $permissions)): ?>
-                    <li><a href="<?=BASEURL.'building'?>">Floors</a></li>
+                    <li><a href="<?=BASEURL.'building/floors'?>">Floors</a></li>
                   <?php endif ?>
                   <?php if ($permissions == 'all' || in_array('building_floor_add', $permissions)): ?>
                     <li><a href="<?=BASEURL.'building/add-floor'?>">Add Floor</a></li>
@@ -70,6 +76,19 @@
                   <?php endif ?>
                   <?php if ($permissions == 'all' || in_array('building_room_add', $permissions)): ?>
                     <li><a href="<?=BASEURL.'building/add-room'?>">Add Room</a></li>
+                  <?php endif ?>
+                </ul>
+              </li>
+            <?php endif ?>
+            <?php if ($permissions == 'all' || in_array('building_facilities', $permissions)): ?>
+              <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title"
+                  href="javascript:void(0)"><i data-feather="airplay"></i><span class="lan-16">Facilities</span></a>
+                <ul class="sidebar-submenu">
+                  <?php if ($permissions == 'all' || in_array('building_facilities_view', $permissions)): ?>
+                    <li><a href="<?=BASEURL.'facility'?>">All</a></li>
+                  <?php endif ?>
+                  <?php if ($permissions == 'all' || in_array('building_facilities_add', $permissions)): ?>
+                    <li><a href="<?=BASEURL.'facility/add'?>">Add</a></li>
                   <?php endif ?>
                 </ul>
               </li>

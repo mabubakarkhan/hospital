@@ -12,13 +12,13 @@
   	<div class="container-fluid form-validate">
 		<div class="row">
 
-			<div class="col-sm-12 col-xl-6">
+			<div class="col-sm-12 col-xl-12">
 				<div class="card">
 					<div class="card-body">
 						<form autocomplete="off" enctype="multipart/form-data" method="post" action="
 			          	<?php
-				  		if($mode != 'edit')echo BASEURL."building/post-room";
-					  	else echo BASEURL."building/update-room/";
+				  		if($mode != 'edit')echo BASEURL."building/post-building";
+					  	else echo BASEURL."building/update-building/";
 				  		?>">
 
 							<div class="row">
@@ -35,27 +35,33 @@
 
 								<div class="col-md-12">
 									<div class="mb-3">
-										<label class="form-label">Floor</label>
-										<select name="floor_id" class="form-select" required>
-											<option value="">Select</option>
-											<?php foreach ($floors as $keyFloor => $floor): ?>
-												<option value="<?=$floor['floor_id']?>" <?=($floor['floor_id'] == $q['floor_id'] || $floorId == $floor['floor_id']) ? 'selected' : ''?> ><?=$floor['title'].' ('.$floor['story'].')'?></option>
-											<?php endforeach ?>
-										</select>
+										<label class="form-label">Name</label>
+										<input class="form-control" name="name" type="text" value="<?=$q['name']?>" required="">
+									</div>
+								</div><!-- /12 -->
+								<div class="col-md-6">
+									<div class="mb-3">
+										<label class="form-label">City</label>
+										<input class="form-control" name="city" type="text" value="<?=$q['city']?>" required="">
+									</div>
+								</div><!-- /6 -->
+								<div class="col-md-6">
+									<div class="mb-3">
+										<label class="form-label">Address</label>
+										<input class="form-control" name="address" type="text" value="<?=$q['address']?>" required="">
 									</div>
 								</div><!-- /6 -->
 								<div class="col-md-12">
 									<div class="mb-3">
-										<label class="form-label">Title</label>
-										<input class="form-control" name="title" type="text" value="<?=$q['title']?>" required="">
+										<label class="form-label">Image</label>
+										<?php if ($mode == 'edit'): ?>
+											<input class="form-control" type="file" data-bs-original-title="" name="img">
+											<br><a href="<?=UPLOADS.'building/'.$q['img']?>" target="_blank"><img src="<?=UPLOADS.'building/'.$q['img']?>" width="150"></a>
+										<?php else: ?>
+											<input class="form-control" type="file" data-bs-original-title="" name="img">
+										<?php endif ?>
 									</div>
-								</div><!-- /6 -->
-								<div class="col-md-12">
-									<div class="mb-3">
-										<label class="form-label">Room Number</label>
-										<input class="form-control" name="room_number" type="text" value="<?=$q['room_number']?>" required="">
-									</div>
-								</div><!-- /6 -->
+								</div><!-- /12 -->
 								
 							</div><!-- /row -->
 							<div class="card-footer text-end">
@@ -65,11 +71,12 @@
 								<?php else: ?>
 									<button type="submit" class="btn btn-primary">Submit</button>
 								<?php endif ?>
-								<a href="<?=BASEURL.'building/'.?>" class="btn btn-secondary">Cancel</a>
+								<a href="<?=BASEURL.'building'?>" class="btn btn-secondary">Cancel</a>
 							</div>
 							<div class="card-footer-loader" style="display: none;">
 								<div class="loader-box"><div class="loader-2"></div></div>
 							</div>
+
 						</form>
 					</div>
 				</div><!-- /card -->
