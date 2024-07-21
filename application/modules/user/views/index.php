@@ -26,6 +26,9 @@
 										<th>#</th>
 										<th>Role</th>
 										<th>Name</th>
+										<?php if ($permissions == 'all' || in_array('assign_room', $permissions)): ?>
+											<th>Room</th>
+										<?php endif ?>
 										<th>Action</th>
 									</tr>
 								</thead>
@@ -37,6 +40,15 @@
 												<td><?=($qKey+1)?></td>
 												<td><?=$q['roleTitle']?></td>
 												<td><?=$q['fname'].' '.$q['lname']?></td>
+												<?php if ($permissions == 'all' || in_array('assign_room', $permissions)): ?>
+													<td>
+														<?php if (($permissions == 'all' || in_array('user_edit', $permissions)) && ($q['room_allocation'] == 1)): ?>
+															<ul class="action">
+																<li class="edit"><a href="<?=BASEURL.'user/room/'.$q['user_id']?>" target="_blank"><i class="icon-eye"></i></a></li>
+												        	</ul>
+									            		<?php endif ?>
+													</td>
+												<?php endif ?>
 												<td>
 													<ul class="action">
 														<?php if ($permissions == 'all' || in_array('user_edit', $permissions)): ?>

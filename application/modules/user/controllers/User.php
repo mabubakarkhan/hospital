@@ -123,6 +123,7 @@ class User extends MY_Controller {
 	public function edit()
 	{
 		check_permissions('user_edit');
+		$data['userLoginData'] = $this->userLoginData;
 		$data['page_title'] = 'Edit User';
 		$data['mode'] = 'edit';
 		$data['editID'] = $_GET['id'];
@@ -208,5 +209,135 @@ class User extends MY_Controller {
 			$this->session->set_flashdata('error', 'Error: user not updated, please try again.');
 		}
         redirect('user/edit?id='.$userId);
+	}
+	public function room($userId)
+	{
+		check_permissions('assign_room_view');
+		$data['userLoginData'] = $this->userLoginData;
+		$data['user'] = $this->model->get_user_byid($userId);
+		$data['role'] = $this->model->get_role_byid($data['user']['role_id']);
+		$data['rooms'] = $this->model->get_user_rooms($userId);
+		$data['buildings'] = $this->model->get_buildings();
+		$data['meta_title'] = $data['user']['fname'].' '.$data['user']['lname'].' - rooms';
+		load_view('room',$data,true);
+	}
+	public function get_floors()
+	{
+		check_permissions('assign_room_assign');
+		$floors = $this->model->get_floors($_POST['id']);
+		if ($floors) {
+			$html = '<option value="">Select Floor</option>';
+			foreach ($floors as $key => $q) {
+				$html .= '<option value="'.$q['floor_id'].'">'.$q['title'].' (story - '.$q['story'].') '.'</option>';
+			}
+			echo json_encode(array("status"=>true,"html"=>$html));
+		}
+		else{
+			echo json_encode(array("status"=>false,"msg"=>"no floor found"));
+		}
+	}
+	public function get_rooms()
+	{
+		check_permissions('assign_room_assign');
+		$rooms = $this->model->get_rooms($_POST['id']);
+		if ($rooms) {
+			$html = '<option value="">Select Room</option>';
+			foreach ($rooms as $key => $q) {
+				$html .= '<option value="'.$q['room_id'].'">'.$q['title'].' ('.$q['room_number'].') '.'</option>';
+			}
+			echo json_encode(array("status"=>true,"html"=>$html));
+		}
+		else{
+			echo json_encode(array("status"=>false,"msg"=>"no room found"));
+		}
+	}
+	public function post_user_room()
+	{
+		check_permissions('assign_room_assign');
+		$data['userLoginData'] = $this->userLoginData;
+		$_POST['adder_id'] = $data['userLoginData']['user_id'];
+		$resp = $this->db->insert('user_room',$_POST);
+		if ($resp) {
+			$this->db
+			->set('used', "used+1", FALSE)
+			->where('room_id', $_POST['room_id'])
+			->update('room');
+			$this->session->set_flashdata('success', 'Success: room assigned successfully.');
+		}
+		else{
+			$this->session->set_flashdata('error', 'Error: room not assigned, please try again.');
+		}
+		redirect('user/room/'.$_POST['user_id']);
+	}
+	public function edit_user_room()
+	{
+		check_permissions('assign_room_change');
+		$data['userLoginData'] = $this->userLoginData;
+		$userRoomId = $_GET['id'];
+		$data['room'] = $this->model->get_user_room_byid($userRoomId);
+		$data['user'] = $this->model->get_user_byid($data['room']['user_id']);
+		$data['role'] = $this->model->get_role_byid($data['user']['role_id']);
+		$data['buildings'] = $this->model->get_buildings();
+		$data['floors'] = $this->model->get_floors($data['room']['building_id']);
+		$data['rooms'] = $this->model->get_rooms($data['room']['floor_id']);
+		$data['meta_title'] = 'Change Room For - '.$data['user']['fname'].' '.$data['user']['lname'];
+		load_view('edit_user_room',$data,true);
+	}
+	public function update_user_room()
+	{
+		check_permissions('assign_room_change');
+		$data['userLoginData'] = $this->userLoginData;
+		$oldUserRoomId = $_POST['id'];unset($_POST['id']);
+		$_POST['adder_id'] = $data['userLoginData']['user_id'];
+		$oldRoom = $this->model->get_user_room_byid($oldUserRoomId);
+		if ($oldRoom['room_id'] == $_POST['room_id']) {
+			$this->session->set_flashdata('success', 'Success: room changed successfully.');
+		}
+		else{
+			$resp = $this->db->insert('user_room',$_POST);
+			if ($resp) {
+				
+				$this->db
+				->set('status', "inactive")
+				->where('user_room_id', $oldRoom['user_room_id'])
+				->update('user_room');
+
+				$this->db
+				->set('used', "used-1", FALSE)
+				->where('room_id', $oldRoom['room_id'])
+				->update('room');
+
+				$this->db
+				->set('used', "used+1", FALSE)
+				->where('room_id', $_POST['room_id'])
+				->update('room');
+
+				$this->session->set_flashdata('success', 'Success: room changed successfully.');
+			}
+			else{
+				$this->session->set_flashdata('error', 'Error: room not changed, please try again.');
+			}
+		}
+		redirect('user/room/'.$_POST['user_id']);
+	}
+	public function remove_user_room()
+	{
+		check_permissions('assign_room_remove');
+		$data['userLoginData'] = $this->userLoginData;
+		$oldRoom = $this->model->get_user_room_byid($_GET['id']);
+				
+		$this->db
+		->set('status', "inactive")
+		->where('user_room_id', $oldRoom['user_room_id'])
+		->update('user_room');
+
+		$this->db
+		->set('used', "used-1", FALSE)
+		->where('room_id', $oldRoom['room_id'])
+		->update('room');
+
+		$this->session->set_flashdata('success', 'Success: room removed successfully.');
+		
+		redirect('user/room/'.$oldRoom['user_id']);
 	}
 }
