@@ -56,6 +56,12 @@
 										<input class="form-control" name="room_number" type="text" value="<?=$q['room_number']?>" required="">
 									</div>
 								</div><!-- /6 -->
+								<div class="col-md-12">
+									<div class="mb-3">
+										<label class="form-label">Capacity</label>
+										<input class="form-control" name="capacity" type="text" value="<?=$q['capacity']?>" required="">
+									</div>
+								</div><!-- /6 -->
 								
 							</div><!-- /row -->
 							<div class="card-footer text-end">
@@ -65,7 +71,7 @@
 								<?php else: ?>
 									<button type="submit" class="btn btn-primary">Submit</button>
 								<?php endif ?>
-								<a href="<?=BASEURL.'building/'.?>" class="btn btn-secondary">Cancel</a>
+								<a href="<?=BASEURL.'building/'?>" class="btn btn-secondary">Cancel</a>
 							</div>
 							<div class="card-footer-loader" style="display: none;">
 								<div class="loader-box"><div class="loader-2"></div></div>
