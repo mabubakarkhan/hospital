@@ -60,6 +60,16 @@ class Model_user extends CI_Model {
 			ORDER BY r.room_number 
 		;");
 	}
+	public function get_room_byid($roomId)
+	{
+		return $this->get_row("
+			SELECT r.*, f.title AS floorTitle, f.story, b.name AS buildingName 
+			FROM `room` AS r 
+			LEFT JOIN `floor` AS f ON r.floor_id = f.floor_id 
+			LEFT JOIN `building` AS b ON f.building_id = b.building_id 
+			WHERE r.room_id = '$roomId' 
+		;");
+	}
 	public function get_user_room_byid($id)
 	{
 		return $this->get_row("SELECT * FROM `user_room` WHERE `user_room_id` = '$id';");
@@ -75,5 +85,9 @@ class Model_user extends CI_Model {
 	public function get_rooms($floorId)
 	{
 		return $this->get_results("SELECT * FROM `room` WHERE `capacity` > `used` AND `floor_id` = '$floorId' ORDER BY `room_number` ASC;");
+	}
+	public function get_user_time_table_by_user_room_id($userRoomId)
+	{
+		return $this->get_results("SELECT * FROM `user_room_time` WHERE `user_room_id` = '$userRoomId' ORDER BY `day_number`,`time_from` ASC;");
 	}
 }

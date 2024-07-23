@@ -340,4 +340,61 @@ class User extends MY_Controller {
 		
 		redirect('user/room/'.$oldRoom['user_id']);
 	}
+	public function user_room_time_table()
+	{
+		check_permissions('room_time_table_view');
+		$data['userLoginData'] = $this->userLoginData;
+		$userRoomId = $_GET['id'];
+		$data['user_room'] = $this->model->get_user_room_byid($userRoomId);
+		$data['user'] = $this->model->get_user_byid($data['user_room']['user_id']);
+		$data['role'] = $this->model->get_role_byid($data['user']['role_id']);
+		$data['room'] = $this->model->get_room_byid($data['user_room']['room_id']);
+		$data['page_title'] = 'Time Table <br> Room: '.$data['room']['title'].'('.$data['room']['room_number'].') <br> Role: '.$data['role']['title'].' <br> User: '.$data['user']['fname'].' '.$data['user']['lname'];
+		$data['meta_title'] = 'Time Table <br> Room: '.$data['room']['title'].'('.$data['room']['room_number'].') <br> Role: '.$data['role']['title'].' <br> User: '.$data['user']['fname'].' '.$data['user']['lname'];
+		$data['slots'] = $this->model->get_user_time_table_by_user_room_id($userRoomId);
+		load_view('user_room_time_table',$data,true);
+	}
+	public function post_user_room_time_table()
+	{
+		check_permissions('room_time_table_add');
+		$data['userLoginData'] = $this->userLoginData;
+		parse_str($_POST['data'],$post);
+		$resp = $this->db
+	    ->where('user_room_id', $post['user_room_id'])
+	    ->where('user_id', $post['user_id'])
+	    ->where('room_id', $post['room_id'])
+	    ->where('day_number', $post['day_number'])
+	    ->where('status', 'active')
+	    ->where("(
+	        (time_from <= '{$post['time_from']}' AND time_to > '{$post['time_from']}') OR
+	        (time_from < '{$post['time_to']}' AND time_to >= '{$post['time_to']}') OR
+	        (time_from >= '{$post['time_from']}' AND time_to <= '{$post['time_to']}') OR
+	        (time_from <= '{$post['time_from']}' AND time_to >= '{$post['time_to']}')
+	    )")
+	    ->get('user_room_time');
+		if ($resp->num_rows() > 0) {
+            echo json_encode(array("status"=>false,"msg"=>"Time conflict detected. Entry not added."));
+        }
+        else {
+        	$post['day_name'] = day_name($post['day_number']);
+            $this->db->insert('user_room_time',$post);
+            echo json_encode(array("status"=>true,"msg"=>"Time slot saved successfully, will show in list after refresh this page."));
+        }
+	}
+	public function remove_user_room_time_table()
+	{
+		ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
+		check_permissions('room_time_table_remove');
+		$data['userLoginData'] = $this->userLoginData;
+		$resp = $this->db->where('user_room_time_id',$_GET['id'])->delete('user_room_time');
+		if ($resp) {
+			$this->session->set_flashdata('success', 'Success: time slot deleted successfully.');
+		}
+		else{
+			$this->session->set_flashdata('error', 'Error: time slot not deleted, please try again.');
+		}
+		redirect_back();
+	}
 }
