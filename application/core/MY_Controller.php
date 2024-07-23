@@ -15,12 +15,12 @@ class MY_Controller extends MX_Controller
 		$checkModule = $this->router->fetch_module();
 		if ($checkModule == 'login') {
 			$this->load->library(array('session','form_validation'));
-			$this->load->helper(array('form', 'url'));
+			$this->load->helper(array('form','url','dal_helper'));
 			$this->_hmvc_fixes();
 		}
 		else{
 			$this->load->library(array('session','form_validation'));
-			$this->load->helper(array('form', 'url', 'template_helper','session_helper','access_helper'));
+			$this->load->helper(array('form','url','dal_helper','template_helper','session_helper','access_helper'));
 			$this->_hmvc_fixes();
 			$this->userLoginData = check_login();
 		}

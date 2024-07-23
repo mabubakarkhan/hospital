@@ -35,6 +35,9 @@
 										<th>Floor</th>
 										<th>Story</th>
 										<th>Building</th>
+										<?php if ($permissions == 'all' || in_array('room_time_table_view', $permissions)): ?>
+											<th>Time Table</th>
+										<?php endif ?>
 										<?php if ($permissions == 'all' || in_array('assign_room_change', $permissions)): ?>
 											<th>Change</th>
 										<?php endif ?>
@@ -53,7 +56,14 @@
 												<td><?=$q['floorTitle']?></td>
 												<td><?=$q['story']?></td>
 												<td><?=$q['buildingName']?></td>
-												<?php if ($permissions == 'all' || in_array('assign_room_change', $permissions)): ?>
+												<?php if ($permissions == 'all' || in_array('room_time_table_view', $permissions)): ?>
+													<td>
+														<ul class="action">
+															<li class="view"><a href="<?=BASEURL.'user/user-room-time-table?id='.$q['user_room_id']?>" target="_blank"><i class="icon-eye"></i></a></li>
+											        	</ul>
+													</td>
+											    <?php endif ?>
+											    <?php if ($permissions == 'all' || in_array('assign_room_change', $permissions)): ?>
 													<td>
 														<ul class="action">
 															<li class="edit"><a href="<?=BASEURL.'user/edit-user-room?id='.$q['user_room_id']?>"><i class="icon-pencil-alt"></i></a></li>

@@ -206,7 +206,7 @@
 
 			<div class="row">
 
-				<div class="col-sm-12 col-xl-6">
+				<div class="col-sm-12 col-xl-4">
 					<div class="card">
 						<div class="card-body">
 
@@ -224,9 +224,9 @@
 
 						</div>
 					</div><!-- /card -->
-				</div><!-- /6 -->
+				</div><!-- /4 -->
 
-				<div class="col-sm-12 col-xl-6">
+				<div class="col-sm-12 col-xl-4">
 					<div class="card">
 						<div class="card-body">
 
@@ -262,7 +262,41 @@
 
 						</div>
 					</div><!-- /card -->
-				</div><!-- /6 -->
+				</div><!-- /4 -->
+
+				<div class="col-sm-12 col-xl-4">
+					<div class="card">
+						<div class="card-body">
+
+							<div class="col-sm-12">
+                        		<h5>
+                        			<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
+                    					<input class="form-check-input" id="room-time-table-inline-0" type="checkbox" name="title[]" value="room_time_table" <?=(in_array('room_time_table', $permissionsArr)) ? 'checked' : ''?> >
+										<label class="form-check-label" for="room-time-table-inline-0"><strong>Room Time Table</strong></label>
+									</div>
+                        		</h5>
+                      		</div>
+	                      	<div class="col">
+								<div class="m-t-15 m-checkbox-inline">
+									<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
+										<input class="form-check-input" id="room-time-table-inline-1" type="checkbox" name="title[]" value="room_time_table_view" <?=(in_array('room_time_table_view', $permissionsArr)) ? 'checked' : ''?>>
+										<label class="form-check-label" for="room-time-table-inline-1">View</label>
+									</div>
+									<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
+										<input class="form-check-input" id="room-time-table-inline-2" type="checkbox" name="title[]" value="room_time_table_add" <?=(in_array('room_time_table_add', $permissionsArr)) ? 'checked' : ''?>>
+										<label class="form-check-label" for="room-time-table-inline-2">Add</label>
+									</div>
+									<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
+										<input class="form-check-input" id="room-time-table-inline-4" type="checkbox" name="title[]" value="room_time_table_remove" <?=(in_array('room_time_table_remove', $permissionsArr)) ? 'checked' : ''?>>
+										<label class="form-check-label" for="room-time-table-inline-4">Remove</label>
+									</div>
+									
+								</div>
+	                      	</div><!-- /col -->
+
+						</div>
+					</div><!-- /card -->
+				</div><!-- /4 -->
 
 			</div><!-- /row -->
 
