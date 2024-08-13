@@ -33,6 +33,8 @@
 										<th>Day #</th>
 										<th>Day Name</th>
 										<th>Time</th>
+										<th>Service</th>
+										<th>Fee</th>
 										<?php if ($permissions == 'all' || in_array('room_time_table_remove', $permissions)): ?>
 											<th>Remove</th>
 										<?php endif ?>
@@ -46,6 +48,19 @@
 												<td><?=$q['day_number']?></td>
 												<td><span style="text-transform: capitalize;"><?=$q['day_name']?></span></td>
 												<td><strong><?=date('H:i A',strtotime($q['time_from'])).' - '.date('h:i A',strtotime($q['time_to']))?></strong></td>
+												<td><?=$q['serviceName']?></td>
+												<td>
+													<table>
+														<tr>
+															<td>Fee</td>
+															<td><?=$q['fee']?></td>
+														</tr>
+														<tr>
+															<td>Commission</td>
+															<td><?=$q['user_commission']?></td>
+														</tr>
+													</table>
+												</td>
 												<?php if ($permissions == 'all' || in_array('room_time_table_remove', $permissions)): ?>
 													<td>
 														<ul class="action">
@@ -117,6 +132,29 @@
 										<div class="mb-3">
 											<label class="form-label">Time To</label>
 											<input class="form-control" name="time_to" type="time" required="">
+										</div>
+									</div><!-- /4 -->
+									<div class="col-md-4">
+										<div class="mb-3">
+											<label class="form-label">Service</label>
+											<select name="service_id" class="form-select" required>
+												<option value="">Select Service</option>
+												<?php foreach ($services as $keyService => $service): ?>
+													<option value="<?=$service['service_id']?>"><?=$service['name']?></option>
+												<?php endforeach ?>
+											</select>
+										</div>
+									</div><!-- /4 -->
+									<div class="col-md-4">
+										<div class="mb-3">
+											<label class="form-label">Fee</label>
+											<input class="form-control" name="fee" type="text" value="250" required="">
+										</div>
+									</div><!-- /4 -->
+									<div class="col-md-4">
+										<div class="mb-3">
+											<label class="form-label">User Commission Percentage (<small style="color: red;">don't use '%'</small>)</label>
+											<input class="form-control" name="user_commission" type="text" value="50" required="">
 										</div>
 									</div><!-- /4 -->
 									<div class="card-footer text-end">

@@ -88,6 +88,35 @@ class Model_user extends CI_Model {
 	}
 	public function get_user_time_table_by_user_room_id($userRoomId)
 	{
-		return $this->get_results("SELECT * FROM `user_room_time` WHERE `user_room_id` = '$userRoomId' ORDER BY `day_number`,`time_from` ASC;");
+		return $this->get_results("
+			SELECT urt.*, s.name AS serviceName 
+			FROM `user_room_time` AS urt 
+			INNER JOIN `service` AS s ON s.service_id = urt.service_id 
+			WHERE urt.user_room_id = '$userRoomId' 
+			ORDER BY urt.day_number,urt.time_from ASC
+		;");
+	}
+	public function services($status)
+	{
+		if ($status == 'all') {
+			return $this->get_results("SELECT * FROM `service` ORDER BY `name` ASC;");
+		}
+		else{
+			return $this->get_results("SELECT * FROM `service` WHERE `status` = '$status' ORDER BY `name` ASC;");
+		}
+	}
+	public function get_user_services_ids($userId)
+	{
+		return $this->get_row("SELECT GROUP_CONCAT(service_id) AS ids FROM `user_service` WHERE `user_id` = '$userId';");
+	}
+	public function get_user_services($userId)
+	{
+		return $this->get_results("
+			SELECT s.* 
+			FROM `user_service` AS us 
+			INNER JOIN `service` AS s ON s.service_id = us.service_id 
+			WHERE us.user_id = '$userId' 
+			ORDER BY s.name ASC
+		;");
 	}
 }

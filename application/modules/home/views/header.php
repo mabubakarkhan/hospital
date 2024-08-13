@@ -75,92 +75,17 @@
                 </li>
               </ul>
               <ul class="header-left"> 
+                <?php if ($permissions == 'all' || in_array('opd', $permissions)): ?>
+                    <li><a href="<?=BASEURL.'opd'?>">OPD</a></li>
+                <?php endif ?>
                 <li class="onhover-dropdown"><span class="f-w-600">Dashboard</span><span><i class="middle" data-feather="chevron-down"></i></span>
                   <ul class="onhover-show-div left-dropdown">
                     <li> <a href="index.html">Default</a></li>
                     <li> <a href="dashboard-02.html"> Ecommerce</a></li>
                   </ul>
                 </li>
-                <li class="onhover-dropdown"><span class="f-w-600">Application</span><span><i class="middle" data-feather="chevron-down"></i></span>
-                  <ul class="onhover-show-div left-dropdown">
-                    <li class="flyout-right"><a href="javascript:void(0)">Project</a>
-                      <ul>
-                        <li> <a href="projects.html">Project List</a></li>
-                        <li> <a href="projectcreate.html">Project Create</a></li>
-                      </ul>
-                    </li>
-                    <li><a href="file-manager.html">File manager</a></li>
-                    <li><a href="kanban.html">kanban</a></li>
-                    <li class="flyout-right"><a href="javascript:void(0)">Ecommerce</a>
-                      <ul>
-                        <li> <a href="product.html">Product</a></li>
-                        <li> <a href="product-page.html">Product Page</a></li>
-                        <li> <a href="list-products.html">Product List</a></li>
-                        <li> <a href="payment-details.html">Payment Details</a></li>
-                        <li> <a href="order-history.html">Order History</a></li>
-                        <li> <a href="invoice-template.html">Invoice</a></li>
-                        <li> <a href="cart.html">Cart</a></li>
-                        <li> <a href="list-wish.html">Wishlist</a></li>
-                        <li> <a href="checkout.html">Checkout</a></li>
-                        <li> <a href="pricing.html">Pricing </a></li>
-                      </ul>
-                    </li>
-                    <li class="flyout-right"><a href="javascript:void(0)">Email</a>
-                      <ul>
-                        <li> <a href="email_inbox.html">Mail Inbox</a></li>
-                        <li> <a href="email_read.html">Read Mail</a></li>
-                        <li> <a href="email_compose.html">Compose</a></li>
-                      </ul>
-                    </li>
-                    <li class="flyout-right"><a href="javascript:void(0)">Chat</a>
-                      <ul>
-                        <li> <a href="chat.html">Chat App</a></li>
-                        <li> <a href="chat-video.html">Video Chat</a></li>
-                      </ul>
-                    </li>
-                    <li class="flyout-right"><a href="javascript:void(0)">Users</a>
-                      <ul>
-                        <li> <a href="user-profile.html">User Profile</a></li>
-                        <li> <a href="edit-profile.html">Users Edit</a></li>
-                        <li> <a href="user-cards.html">User Cards</a></li>
-                      </ul>
-                    </li>
-                    <li><a href="bookmark.html">Bookmarks</a></li>
-                    <li><a href="contacts.html">Contacts</a></li>
-                    <li><a href="social-app.html">Social App</a></li>
-                  </ul>
-                </li>
-                <li class="onhover-dropdown"> <span class="f-w-600">More pages</span><span><i class="middle" data-feather="chevron-down"></i></span>
-                  <ul class="onhover-show-div left-dropdown">
-                    <li><a href="landing-page.html">Landing Page</a></li>
-                    <li><a href="sample-page.html">Sample Page</a></li>
-                    <li><a href="internationalization.html">Internationalization</a></li>
-                    <li class="flyout-right"><a href="javascript:void(0)">Starter-Kit</a>
-                      <ul> 
-                        <li class="flyout-right"><a href="javascript:void(0)">Color version</a>
-                          <ul>
-                            <li> <a href="starter-kit/index.html">Layout Light</a></li>
-                            <li> <a href="starter-kit/layout-dark.html">Layout Dark</a></li>
-                          </ul>
-                        </li>
-                        <li class="flyout-right"><a href="javascript:void(0)">Page Layout</a>
-                          <ul>
-                            <li> <a href="starter-kit/boxed.html">Boxed</a></li>
-                            <li> <a href="starter-kit/layout-rtl.html">RTL</a></li>
-                          </ul>
-                        </li>
-                        <li> <a href="starter-kit/hide-on-scroll.html">Hide Menu On Scroll</a></li>
-                        <li class="flyout-right"><a href="javascript:void(0)">Footers</a>
-                          <ul>
-                            <li> <a href="starter-kit/footer-light.html">Footer Light</a></li>
-                            <li> <a href="starter-kit/footer-dark.html">Footer Dark </a></li>
-                            <li> <a href="starter-kit/footer-fixed.html">Footer Fixed</a></li>
-                          </ul>
-                        </li>
-                      </ul>
-                    </li>
-                  </ul>
-                </li>
+
+
               </ul>
             </div>
           </div>
