@@ -32,7 +32,7 @@ class User extends MY_Controller {
 		$data['userLoginData'] = $this->userLoginData;
 		$data['meta_title'] = 'All Users';
 		$data['users'] = $this->model->users();
-		load_view('index',$data);
+		load_view('index',$data,true);
 	}
 	public function create()
 	{
@@ -349,8 +349,9 @@ class User extends MY_Controller {
 		$data['user'] = $this->model->get_user_byid($data['user_room']['user_id']);
 		$data['role'] = $this->model->get_role_byid($data['user']['role_id']);
 		$data['room'] = $this->model->get_room_byid($data['user_room']['room_id']);
-		$data['page_title'] = 'Time Table <br> Room: '.$data['room']['title'].'('.$data['room']['room_number'].') <br> Role: '.$data['role']['title'].' <br> User: '.$data['user']['fname'].' '.$data['user']['lname'];
-		$data['meta_title'] = 'Time Table <br> Room: '.$data['room']['title'].'('.$data['room']['room_number'].') <br> Role: '.$data['role']['title'].' <br> User: '.$data['user']['fname'].' '.$data['user']['lname'];
+		$data['services'] = $this->model->get_user_services($data['user_room']['user_id']);
+		$data['page_title'] = 'Room: '.$data['room']['title'].'('.$data['room']['room_number'].') <br>'.$data['role']['title'].': '.$data['user']['fname'].' '.$data['user']['lname'];
+		$data['meta_title'] = 'Time Table - '.$data['role']['title'].' - '.$data['user']['fname'].' '.$data['user']['lname'];
 		$data['slots'] = $this->model->get_user_time_table_by_user_room_id($userRoomId);
 		load_view('user_room_time_table',$data,true);
 	}
@@ -383,9 +384,6 @@ class User extends MY_Controller {
 	}
 	public function remove_user_room_time_table()
 	{
-		ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
-error_reporting(E_ALL);
 		check_permissions('room_time_table_remove');
 		$data['userLoginData'] = $this->userLoginData;
 		$resp = $this->db->where('user_room_time_id',$_GET['id'])->delete('user_room_time');
@@ -396,5 +394,30 @@ error_reporting(E_ALL);
 			$this->session->set_flashdata('error', 'Error: time slot not deleted, please try again.');
 		}
 		redirect_back();
+	}
+	public function get_user_services()
+	{
+		check_permissions('service_allocation_to_user_view');
+		$resp = $this->model->get_user_services_ids($_POST['id']);
+		$data['ids'] = explode(',', $resp['ids']);
+		$data['services'] = $this->model->services('active');
+		if ($resp) {
+			echo json_encode(array("status"=>true,"html"=>$this->load->view('html/get_user_services_ajax',$data,true)));
+		}
+		else{
+			echo json_encode(array("status"=>false,"html"=>"<p>nothing found.</p>"));
+		}
+	}
+	public function update_user_services()
+	{
+		check_permissions('service_allocation_to_user_edit');
+		parse_str($_POST['data'],$post);
+		$this->db->where('user_id',$post['id'])->delete('user_service');
+		$insert['user_id'] = $post['id'];
+		foreach ($post['service_id'] as $key => $id) {
+			$insert['service_id'] = $id;
+			$this->db->insert('user_service',$insert);
+		}
+		echo json_encode(array("status"=>true,"msg"=>"Success: services updated successfully."));
 	}
 }

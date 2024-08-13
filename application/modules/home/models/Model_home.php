@@ -24,8 +24,28 @@ class Model_home extends CI_Model {
 			return false;
 		}
 	}
-	public function test()
+	public function get_opd_active_users($currentDayName)
 	{
-		return $this->get_results("SELECT * FROM `user`;");
+		return $this->get_results("
+			SELECT urt.*, u.fname, u.lname, s.name AS serviceName, r.title AS roomTitle, r.room_number, f.title AS floorTitle, f.story AS floorStory
+			FROM `user_room_time` AS urt
+			INNER JOIN `user` AS u ON u.user_id = urt.user_id
+			INNER JOIN `service` AS s ON s.service_id = urt.service_id
+			INNER JOIN `room` AS r ON r.room_id = urt.room_id
+			INNER JOIN `floor` AS f ON f.floor_id = r.floor_id
+			WHERE (CURRENT_TIME() BETWEEN urt.time_from AND urt.time_to) AND urt.day_name = '$currentDayName' 
+			AND urt.status = 'active'
+			ORDER BY u.fname, u.lname
+		;");
+	}
+	public function patient_search_for_token_by_key($key)
+	{
+		$key = $this->db->escape_like_str($key);
+		return $this->get_results("
+			SELECT `patient_id`,`gender`,`mobile`,`fname`,`lname` 
+			FROM `patient` 
+			WHERE (`fname` LIKE '%$key%' OR `lname` LIKE '%$key%') OR (`mobile` LIKE '%$key%') 
+			ORDER BY `fname`,`lname` ASC
+		;");
 	}
 }

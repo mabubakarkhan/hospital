@@ -55,6 +55,16 @@
                 </ul>
               </li>
             <?php endif ?>
+            <?php if ($permissions == 'all' || in_array('service', $permissions)): ?>
+              <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title"
+                  href="javascript:void(0)"><i data-feather="airplay"></i><span class="lan-16">Services</span></a>
+                <ul class="sidebar-submenu">
+                  <?php if ($permissions == 'all' || in_array('service_view', $permissions)): ?>
+                    <li><a href="<?=BASEURL.'service'?>">All Services</a></li>
+                  <?php endif ?>
+                </ul>
+              </li>
+            <?php endif ?>
             <?php if ($permissions == 'all' || in_array('building', $permissions)): ?>
               <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title"
                   href="javascript:void(0)"><i data-feather="airplay"></i><span class="lan-16">Building</span></a>
@@ -89,6 +99,19 @@
                   <?php endif ?>
                   <?php if ($permissions == 'all' || in_array('building_facilities_add', $permissions)): ?>
                     <li><a href="<?=BASEURL.'facility/add'?>">Add</a></li>
+                  <?php endif ?>
+                </ul>
+              </li>
+            <?php endif ?>
+            <?php if ($permissions == 'all' || in_array('patient', $permissions)): ?>
+              <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title"
+                  href="javascript:void(0)"><i data-feather="airplay"></i><span class="lan-16">Patients</span></a>
+                <ul class="sidebar-submenu">
+                  <?php if ($permissions == 'all' || in_array('patient_view', $permissions)): ?>
+                    <li><a href="<?=BASEURL.'patient'?>">All</a></li>
+                  <?php endif ?>
+                  <?php if ($permissions == 'all' || in_array('patient_add', $permissions)): ?>
+                    <li><a href="javascript://" class="addPatientBtn">Add</a></li>
                   <?php endif ?>
                 </ul>
               </li>

@@ -1,0 +1,41 @@
+<?php
+class Model_prescription extends CI_Model {
+
+	public function get_results($sql){
+		$res = $this->db->query($sql);
+		if ($res->num_rows() > 0)
+		{
+			return $res->result_array();
+		}
+		else
+		{
+			return false;
+		}
+	}
+	public function get_row($sql){
+		$res = $this->db->query($sql);
+		if ($res->num_rows() > 0)
+		{
+			$resp = $res->result_array();
+			return $resp[0];
+		}
+		else
+		{
+			return false;
+		}
+	}
+	public function get_prescription_by_token_id($tokenId)
+	{
+		return $this->get_row("SELECT * FROM `prescription` WHERE `token_id` = '$tokenId';");
+	}
+	public function get_token_detail_byid($tokenId)
+	{
+		return $this->get_row("
+			SELECT t.*, p.fname AS patientFname, p.lname AS patientLname, p.mobile AS patientMobile, p.age AS patientAge, p.gender AS patientGender, s.name AS serviceName 
+			FROM `token` AS t 
+			INNER JOIN `patient` AS p ON p.patient_id = t.patient_id 
+			INNER JOIN `service` AS s ON s.service_id = t.service_id 
+			WHERE t.token_id = '$tokenId' 
+		;");
+	}
+}

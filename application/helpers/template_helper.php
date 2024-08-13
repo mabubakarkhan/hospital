@@ -27,6 +27,7 @@ function load_view($page, $data = false, $jsFile = false, $header = false, $foot
     }
     else{
         $CI->load->view('home/footer', $data);
+        $CI->load->view('home/html/patient', $data);
     }
     //loading js file
     if ($jsFile !== false && $jsFile !== true) {
