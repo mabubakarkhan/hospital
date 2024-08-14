@@ -451,6 +451,42 @@
 					</div><!-- /card -->
 				</div><!-- /4 -->
 
+			</div><!-- /row -->
+
+			<div class="row">
+
+				<div class="col-sm-12 col-xl-4">
+					<div class="card">
+						<div class="card-body">
+
+							<div class="col-sm-12">
+                        		<h5>
+                        			<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
+                    					<input class="form-check-input" id="procedure-inline-0" type="checkbox" name="title[]" value="procedure" <?=(in_array('procedure', $permissionsArr)) ? 'checked' : ''?> >
+										<label class="form-check-label" for="procedure-inline-0"><strong>Procedure</strong></label>
+									</div>
+                        		</h5>
+                      		</div>
+	                      	<div class="col">
+								<div class="m-t-15 m-checkbox-inline">
+									<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
+										<input class="form-check-input" id="procedure-inline-1" type="checkbox" name="title[]" value="procedure_view" <?=(in_array('procedure_view', $permissionsArr)) ? 'checked' : ''?>>
+										<label class="form-check-label" for="procedure-inline-1">View</label>
+									</div>
+									<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
+										<input class="form-check-input" id="procedure-inline-2" type="checkbox" name="title[]" value="procedure_add" <?=(in_array('procedure_add', $permissionsArr)) ? 'checked' : ''?>>
+										<label class="form-check-label" for="procedure-inline-2">Add</label>
+									</div>
+									<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
+										<input class="form-check-input" id="procedure-inline-3" type="checkbox" name="title[]" value="procedure_edit" <?=(in_array('procedure_edit', $permissionsArr)) ? 'checked' : ''?>>
+										<label class="form-check-label" for="procedure-inline-3">Edit</label>
+									</div>
+								</div>
+	                      	</div><!-- /col -->
+
+						</div>
+					</div><!-- /card -->
+				</div><!-- /4 -->
 
 			</div><!-- /row -->
 
