@@ -64,9 +64,45 @@
 										<textarea name="investigation" class="form-control"><?=(isset($prescription['investigation'])) ? $prescription['investigation'] : ''?></textarea>
 									</div><!-- /form-gorup -->
 
-									<div class="form-gorup">
+									<?php if ($procedures): ?>
+										<div class="form-gorup">
+											<br>
+											<h6>Procedure</h6>
+											<div class="col-md-4 addProcedureSection">
+												<?php if ($prescription_procedures): ?>
+													<?php foreach ($prescription_procedures as $keyPP => $pp): ?>
+														<div style="position: relative;">
+															<select name="procedure_id[]" class="form-control" style="margin: 10px 0;">
+																<option value="">Select Procedure</option>
+																<?php foreach ($procedures as $keyProcedure => $procedure): ?>
+																	<option value="<?=$procedure['procedure_id']?>" <?=($procedure['procedure_id'] == $pp['procedure_id']) ? 'selected="selected"' : ''?> ><?=$procedure['name']?></option>
+																<?php endforeach ?>
+															</select>
+															<span class="removeProcedureSelectBoxBtn"><i class="fa fa-trash-o"></i></span>
+														</div>		
+													<?php endforeach ?>	
+												<?php else: ?>
+													<div style="position: relative;">
+														<select name="procedure_id[]" class="form-control" style="margin: 10px 0;">
+															<option value="">Select Procedure</option>
+															<?php foreach ($procedures as $keyProcedure => $procedure): ?>
+																<option value="<?=$procedure['procedure_id']?>"><?=$procedure['name']?></option>
+															<?php endforeach ?>
+														</select>
+														<span class="removeProcedureSelectBoxBtn"><i class="fa fa-trash-o"></i></span>
+													</div>
+												<?php endif ?>
+											</div>
+										</div><!-- /form-gorup -->
+										<div class="form-gorup">
+											<br>
+											<button class="btn btn-square btn-primary addProcedureBtn">Add Procedure</button>
+										</div><!-- /form-gorup -->
+									<?php endif ?>
+
+									<div class="form-gorup" style="text-align: right;">
 										<br>
-										<button type="submit" class="btn btn-primary">Save</button>
+										<button type="submit" class="btn btn-square btn-primary">Save</button>
 									</div><!-- /form-gorup -->
 
 								</form><!-- #prescriptionFormId1 -->
@@ -153,7 +189,7 @@
 										<div class="col-md-12">
 											<div class="form-gorup">
 												<br>
-												<button type="submit" class="btn btn-primary">Save</button>
+												<button type="submit" class="btn btn-square btn-primary">Save</button>
 											</div><!-- /form-gorup -->
 										</div><!-- /12 -->
 

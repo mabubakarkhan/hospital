@@ -38,4 +38,22 @@ class Model_prescription extends CI_Model {
 			WHERE t.token_id = '$tokenId' 
 		;");
 	}
+	public function procedures($status)
+	{
+		if ($status == 'all') {
+			return $this->get_results("SELECT * FROM `procedure` ORDER BY `name`;");
+		}
+		else{
+			return $this->get_results("SELECT * FROM `procedure` WHERE `status` = '$status' ORDER BY `name`;");
+		}
+	}
+	public function prescription_procedures($prescriptionId)
+	{
+		return $this->get_results("
+			SELECT pp.*, p.name 
+			FROM `prescription_procedure` AS pp 
+			INNER JOIN `procedure` AS p ON p.procedure_id = pp.procedure_id 
+			WHERE pp.prescription_id = '$prescriptionId' 
+		;");
+	}
 }
