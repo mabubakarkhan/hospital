@@ -40,13 +40,18 @@ class Prescription extends MY_Controller {
 		$data['procedures'] = $this->model->procedures('active');
 		if ($data['prescription']) {
 			$data['prescription_procedures'] = $this->model->prescription_procedures($data['prescription']['prescription_id']);
+			$prescription_lab_tests = $this->model->get_prescription_lab_tests($data['prescription']['prescription_id']);
+			$data['prescription_lab_tests'] = explode(',', $prescription_lab_tests['ids']);
 		}
 		else{
 			$data['prescription_procedures'] = false;
+			$data['prescription_lab_tests'] = false;
 		}
 		if (!($data['token'])) {
 			redirect('logout');
 		}
+		$data['lab_test_cats'] = $this->model->lab_test_active_cats();
+		$data['lab_active_tests'] = $this->model->lab_active_tests();
 		load_view('new',$data,true);
 	}
 	public function submit()
@@ -81,5 +86,28 @@ class Prescription extends MY_Controller {
 			redirect('logout');
 			echo json_encode(array("status"=>false,"msg"=>"dew to some reasons you are logout."));
 		}
+	}
+	public function lab_test_submit()
+	{
+		check_permissions('add_prescription_token');
+		parse_str($_POST['data'],$post);
+		if (isset($post['prescription_id'])) {
+			$prescriptionId = $post['prescription_id'];
+		}
+		else{
+			$ins['token_id'] = $post['token_id'];
+			$this->db->insert('prescription',$ins);
+			$prescriptionId = $this->db->insert_id();
+		}
+		$this->db->where('prescription_id',$prescriptionId)->delete('prescription_lab_test');
+		$testIds = $post['lab_test_id']; unset($post['lab_test_id']);
+		foreach ($testIds as $key => $q) {
+			if (isset($q) && strlen($q) > 0) {
+				$insert['prescription_id'] = $prescriptionId;
+				$insert['lab_test_id'] = $q;
+				$this->db->insert('prescription_lab_test',$insert);
+			}
+		}
+		echo json_encode(array("status"=>true,"msg"=>"Lab test updated successfully."));
 	}
 }

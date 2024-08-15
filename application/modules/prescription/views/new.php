@@ -202,7 +202,63 @@
 							</div><!-- #Vitals-icon -->
 
 							<div class="tab-pane fade" id="Lab-order-icon" role="tabpanel" aria-labelledby="contact-icon-tab">
-								<p class="mb-0 m-t-30">C Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum</p>
+								
+			                    <div class="row">
+									<div class="col-md-12">
+									<ul class="selectedLabTestListUl">
+										
+									</ul>	
+									</div><!-- /12 -->
+
+									<div class="col-sm-2 col-xs-12">
+										<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+											<?php foreach ($lab_test_cats as $keyLabCat => $labCat): ?>
+												<a class="nav-link <?=($keyLabCat == 0) ? 'active' : ''?>" id="lab-test-cat-<?=$labCat['lab_test_cat_id']?>-tab" data-bs-toggle="pill" href="#lab-test-cat-tests-<?=$labCat['lab_test_cat_id']?>" role="tab" aria-controls="lab-test-cat-tests-<?=$labCat['lab_test_cat_id']?>" aria-selected="<?=($keyLabCat == 0) ? 'true' : 'false'?>"><?=$labCat['title']?></a>
+											<?php endforeach ?>
+										</div><!-- /nav -->
+									</div><!-- /2 -->
+			                      	<div class="col-sm-10 col-xs-12">
+			                        	<div class="tab-content" id="v-pills-tabContent">
+											<?php foreach ($lab_test_cats as $keyLabCat_ => $labCat_): ?>
+												<div class="tab-pane fade <?=($keyLabCat_ == 0) ? 'show active' : ''?>" id="lab-test-cat-tests-<?=$labCat_['lab_test_cat_id']?>" role="tabpanel" aria-labelledby="lab-test-cat-<?=$labCat_['lab_test_cat_id']?>-tab">
+													<div class="container">
+    													<div class="row d-flex flex-wrap">
+															<?php foreach ($lab_active_tests as $keyActiveTest => $activeTest): ?>
+																<?php if ($activeTest['lab_test_cat_id'] == $labCat_['lab_test_cat_id']): ?>
+																	<div class="col-md-3 d-flex align-items-stretch">
+														                <div class="flex-fill lab-test-title-tile <?=(in_array($activeTest['lab_test_id'], $prescription_lab_tests)) ? 'active' : ''?>" data-id="<?=$activeTest['lab_test_id']?>" data-title="<?=$activeTest['title']?>">
+														                    <?=$activeTest['title']?>
+														                </div>
+														            </div>
+																<?php endif ?>
+															<?php endforeach ?>
+														</div><!-- {/row} -->
+													</div><!-- {/container} -->
+												</div>
+											<?php endforeach ?>
+			                        	</div><!-- /tab-content -->
+			                      	</div><!-- /10 -->
+
+			                      	<div class="col-md-12">
+			                      		<form id="prescriptionFormId3">
+			                      			<?php if ($prescription): ?>
+												<input type="hidden" name="prescription_id" value="<?=$prescription['prescription_id']?>">
+											<?php endif ?>
+											<input type="hidden" name="token_id" value="<?=$token['token_id']?>">
+											<input type="hidden" name="user_id" value="<?=$token['user_id']?>">
+			                      			<div class="form-group" align="right">
+			                      				<hr>
+												<button type="submit" class="btn btn-square btn-primary">Save</button>
+			                      			</div><!-- /form-group -->
+			                      			<?php if ($prescription_lab_tests): ?>
+			                      				<?php foreach ($prescription_lab_tests as $keyPLT => $plt): ?>
+			                      					<input type="hidden" name="lab_test_id[]" value="<?=$plt?>">
+			                      				<?php endforeach ?>
+			                      			<?php endif ?>
+			                      		</form>
+			                      	</div><!-- /12 -->
+			                    </div><!-- /row -->
+
 							</div><!-- #Lab-order-icon -->
 
 							<div class="tab-pane fade" id="Radiology-order-icon" role="tabpanel" aria-labelledby="contact-icon-tab">
@@ -222,4 +278,8 @@
 
 </div><!-- /dashboard-default -->
 
- 
+
+
+<style>
+
+</style>

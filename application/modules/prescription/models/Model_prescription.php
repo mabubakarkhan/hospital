@@ -56,4 +56,16 @@ class Model_prescription extends CI_Model {
 			WHERE pp.prescription_id = '$prescriptionId' 
 		;");
 	}
+	public function lab_test_active_cats()
+	{
+		return $this->get_results("SELECT * FROM `lab_test_cat` WHERE `status` = 'active' ORDER BY `title` ASC;");
+	}
+	public function lab_active_tests()
+	{
+		return $this->get_results("SELECT * FROM `lab_test` WHERE `status` = 'active' ORDER BY `title` ASC;");
+	}
+	public function get_prescription_lab_tests($procedureId)
+	{
+		return $this->get_row("SELECT GROUP_CONCAT(lab_test_id) AS ids FROM `prescription_lab_test` WHERE `prescription_id` = '$procedureId';");
+	}
 }

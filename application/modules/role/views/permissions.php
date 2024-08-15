@@ -455,6 +455,56 @@
 
 			<div class="row">
 
+				<div class="col-sm-12 col-xl-12">
+					<div class="card">
+						<div class="card-body">
+
+							<div class="col-sm-12">
+                        		<h5>
+                        			<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
+                    					<input class="form-check-input" id="laboratory-inline-0" type="checkbox" name="title[]" value="laboratory" <?=(in_array('laboratory', $permissionsArr)) ? 'checked' : ''?> >
+										<label class="form-check-label" for="laboratory-inline-0"><strong>Laboratory</strong></label>
+									</div>
+                        		</h5>
+                      		</div>
+	                      	<div class="col">
+								<div class="m-t-15 m-checkbox-inline">
+									<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
+										<input class="form-check-input" id="laboratory-inline-01" type="checkbox" name="title[]" value="lab_test_category_view" <?=(in_array('lab_test_category_view', $permissionsArr)) ? 'checked' : ''?>>
+										<label class="form-check-label" for="laboratory-inline-01">Lab Test Category View</label>
+									</div>
+									<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
+										<input class="form-check-input" id="laboratory-inline-02" type="checkbox" name="title[]" value="lab_test_category_add" <?=(in_array('lab_test_category_add', $permissionsArr)) ? 'checked' : ''?>>
+										<label class="form-check-label" for="laboratory-inline-02">Lab Test Category Add</label>
+									</div>
+									<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
+										<input class="form-check-input" id="laboratory-inline-03" type="checkbox" name="title[]" value="lab_test_category_edit" <?=(in_array('lab_test_category_edit', $permissionsArr)) ? 'checked' : ''?>>
+										<label class="form-check-label" for="laboratory-inline-03">Lab Test Category Edit</label>
+									</div>
+									<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
+										<input class="form-check-input" id="laboratory-inline-1" type="checkbox" name="title[]" value="lab_test_view" <?=(in_array('lab_test_view', $permissionsArr)) ? 'checked' : ''?>>
+										<label class="form-check-label" for="laboratory-inline-1">Lab Test View</label>
+									</div>
+									<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
+										<input class="form-check-input" id="laboratory-inline-2" type="checkbox" name="title[]" value="lab_test_add" <?=(in_array('lab_test_add', $permissionsArr)) ? 'checked' : ''?>>
+										<label class="form-check-label" for="laboratory-inline-2">Lab Test Add</label>
+									</div>
+									<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
+										<input class="form-check-input" id="laboratory-inline-3" type="checkbox" name="title[]" value="lab_test_edit" <?=(in_array('lab_test_edit', $permissionsArr)) ? 'checked' : ''?>>
+										<label class="form-check-label" for="laboratory-inline-3">Lab Test Edit</label>
+									</div>
+								</div>
+	                      	</div><!-- /col -->
+
+						</div>
+					</div><!-- /card -->
+				</div><!-- /4 -->
+
+			</div><!-- /row -->
+
+
+			<div class="row">
+
 				<div class="col-sm-12 col-xl-4">
 					<div class="card">
 						<div class="card-body">
@@ -480,6 +530,39 @@
 									<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
 										<input class="form-check-input" id="procedure-inline-3" type="checkbox" name="title[]" value="procedure_edit" <?=(in_array('procedure_edit', $permissionsArr)) ? 'checked' : ''?>>
 										<label class="form-check-label" for="procedure-inline-3">Edit</label>
+									</div>
+								</div>
+	                      	</div><!-- /col -->
+
+						</div>
+					</div><!-- /card -->
+				</div><!-- /4 -->
+
+				<div class="col-sm-12 col-xl-4">
+					<div class="card">
+						<div class="card-body">
+
+							<div class="col-sm-12">
+                        		<h5>
+                        			<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
+                    					<input class="form-check-input" id="drug-inline-0" type="checkbox" name="title[]" value="drug" <?=(in_array('drug', $permissionsArr)) ? 'checked' : ''?> >
+										<label class="form-check-label" for="drug-inline-0"><strong>Drug</strong></label>
+									</div>
+                        		</h5>
+                      		</div>
+	                      	<div class="col">
+								<div class="m-t-15 m-checkbox-inline">
+									<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
+										<input class="form-check-input" id="drug-inline-1" type="checkbox" name="title[]" value="drug_view" <?=(in_array('drug_view', $permissionsArr)) ? 'checked' : ''?>>
+										<label class="form-check-label" for="drug-inline-1">View</label>
+									</div>
+									<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
+										<input class="form-check-input" id="drug-inline-2" type="checkbox" name="title[]" value="drug_add" <?=(in_array('drug_add', $permissionsArr)) ? 'checked' : ''?>>
+										<label class="form-check-label" for="drug-inline-2">Add</label>
+									</div>
+									<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
+										<input class="form-check-input" id="drug-inline-3" type="checkbox" name="title[]" value="drug_edit" <?=(in_array('drug_edit', $permissionsArr)) ? 'checked' : ''?>>
+										<label class="form-check-label" for="drug-inline-3">Edit</label>
 									</div>
 								</div>
 	                      	</div><!-- /col -->
