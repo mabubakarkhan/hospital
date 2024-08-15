@@ -65,12 +65,35 @@
                 </ul>
               </li>
             <?php endif ?>
+            <?php if ($permissions == 'all' || in_array('laboratory', $permissions)): ?>
+              <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title"
+                  href="javascript:void(0)"><i data-feather="airplay"></i><span class="lan-16">Laboratory</span></a>
+                <ul class="sidebar-submenu">
+                  <?php if ($permissions == 'all' || in_array('lab_test_category_view', $permissions)): ?>
+                    <li><a href="<?=BASEURL.'laboratory/cats'?>">All Lab Categories</a></li>
+                  <?php endif ?>
+                  <?php if ($permissions == 'all' || in_array('lab_test_view', $permissions)): ?>
+                    <li><a href="<?=BASEURL.'laboratory/tests'?>">All Lab Tests</a></li>
+                  <?php endif ?>
+                </ul>
+              </li>
+            <?php endif ?>
             <?php if ($permissions == 'all' || in_array('procedure', $permissions)): ?>
               <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title"
                   href="javascript:void(0)"><i data-feather="airplay"></i><span class="lan-16">Procedures</span></a>
                 <ul class="sidebar-submenu">
                   <?php if ($permissions == 'all' || in_array('procedure_view', $permissions)): ?>
                     <li><a href="<?=BASEURL.'procedure'?>">All Procedures</a></li>
+                  <?php endif ?>
+                </ul>
+              </li>
+            <?php endif ?>
+            <?php if ($permissions == 'all' || in_array('drug', $permissions)): ?>
+              <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title"
+                  href="javascript:void(0)"><i data-feather="airplay"></i><span class="lan-16">Drugs</span></a>
+                <ul class="sidebar-submenu">
+                  <?php if ($permissions == 'all' || in_array('drug_view', $permissions)): ?>
+                    <li><a href="<?=BASEURL.'drug'?>">All Drugs</a></li>
                   <?php endif ?>
                 </ul>
               </li>
