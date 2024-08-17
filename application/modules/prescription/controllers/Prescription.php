@@ -38,14 +38,14 @@ class Prescription extends MY_Controller {
 		$data['token'] = $this->model->get_token_detail_byid($_GET['id']);
 		$data['prescription'] = $this->model->get_prescription_by_token_id($data['token']['token_id']);
 		$data['procedures'] = $this->model->procedures('active');
+		$data['prescription_procedures'] = false;
+		$data['prescription_lab_tests'] = false;
+		$data['prescription_drugs'] = false;
 		if ($data['prescription']) {
 			$data['prescription_procedures'] = $this->model->prescription_procedures($data['prescription']['prescription_id']);
 			$prescription_lab_tests = $this->model->get_prescription_lab_tests($data['prescription']['prescription_id']);
+			$data['prescription_drugs'] = $this->model->get_prescription_drugs($data['prescription']['prescription_id']);
 			$data['prescription_lab_tests'] = explode(',', $prescription_lab_tests['ids']);
-		}
-		else{
-			$data['prescription_procedures'] = false;
-			$data['prescription_lab_tests'] = false;
 		}
 		if (!($data['token'])) {
 			redirect('logout');
@@ -109,5 +109,81 @@ class Prescription extends MY_Controller {
 			}
 		}
 		echo json_encode(array("status"=>true,"msg"=>"Lab test updated successfully."));
+	}
+	public function add_prescription_drug($value='')
+	{
+		check_permissions('add_prescription_token');
+		parse_str($_POST['data'],$post);
+		if ($post['prescription_id'] > '0') {
+			$post['prescription_id'] = $post['prescription_id'];
+		}
+		else{
+			$ins['token_id'] = $post['token_id'];
+			$this->db->insert('prescription',$ins);
+			$post['prescription_id'] = $this->db->insert_id();
+		}
+		$resp = $this->db->insert('prescription_drug',$post);
+		if ($resp) {
+			$prescription_drug = $this->model->get_prescription_drugs($post['prescription_id']);
+			$html = '<ul class="prescriptionDrugListItemWrap">';
+			foreach ($prescription_drug as $key => $pd) {
+				$html .= '<li class="prescriptionDrugListItem">';
+					$html .= '<span>'.$pd['name'].' '.$pd['type'].' '.$pd['strength_frequencey'].'</span>';
+					$html .= '<small>';
+						$html .= '<a href="javascript://" class="editPrescriptionDrugItem" data-id="'.$pd['prescription_drug_id'].'" data-prescription_id="'.$pd['prescription_id'].'" data-drug_id="'.$pd['drug_id'].'" data-name="'.$pd['name'].'" data-type="'.$pd['type'].'" data-generic_name="'.$pd['generic_name'].'" data-strength="'.$pd['strength'].'" data-strength_frequencey="'.$pd['strength_frequencey'].'" data-instruction="'.$pd['instruction'].'" data-duration="'.$pd['duration'].'" data-duration_type="'.$pd['duration_type'].'" data-frequency="'.$pd['frequency'].'" data-quantity="'.$pd['quantity'].'" data-quantity_type="'.$pd['quantity_type'].'" data-route="'.$pd['route'].'"><i class="icon-pencil-alt"></i></a> ';
+						$html .= '<a href="javascript://" class="removePrescriptionDrugItem" data-id="'.$pd['prescription_drug_id'].'" style="color: red;"><i class="fa fa-trash-o"></i></a>';
+					$html .= '</small>';
+				$html .= '</li>';
+			}
+			$html .= '</ul>';
+			echo json_encode(array("status"=>true,"prescription_id"=>$post['prescription_id'],"msg"=>"Drug added successfully.","html"=>$html));
+		}
+		else{
+			echo json_encode(array("status"=>false,"prescription_id"=>$post['prescription_id'],"msg"=>"Drug not added."));
+		}
+	}
+	public function edit_prescription_drug($value='')
+	{
+		check_permissions('add_prescription_token');
+		$userLoginData = $this->userLoginData;
+		parse_str($_POST['data'],$post);
+		$id = $post['id'];unset($post['id']);
+		$resp = $this->db
+		->where('prescription_drug_id',$id)
+		->where('user_id',$userLoginData['user_id'])
+		->update('prescription_drug',$post);
+		if ($resp) {
+			$prescription_drug = $this->model->get_prescription_drugs($post['prescription_id']);
+			$html = '<ul class="prescriptionDrugListItemWrap">';
+			foreach ($prescription_drug as $key => $pd) {
+				$html .= '<li class="prescriptionDrugListItem">';
+					$html .= '<span>'.$pd['name'].' '.$pd['type'].' '.$pd['strength_frequencey'].'</span>';
+					$html .= '<small>';
+						$html .= '<a href="javascript://" class="editPrescriptionDrugItem" data-id="'.$pd['prescription_drug_id'].'" data-prescription_id="'.$pd['prescription_id'].'" data-drug_id="'.$pd['drug_id'].'" data-name="'.$pd['name'].'" data-type="'.$pd['type'].'" data-generic_name="'.$pd['generic_name'].'" data-strength="'.$pd['strength'].'" data-strength_frequencey="'.$pd['strength_frequencey'].'" data-instruction="'.$pd['instruction'].'" data-duration="'.$pd['duration'].'" data-duration_type="'.$pd['duration_type'].'" data-frequency="'.$pd['frequency'].'" data-quantity="'.$pd['quantity'].'" data-quantity_type="'.$pd['quantity_type'].'" data-route="'.$pd['route'].'"><i class="icon-pencil-alt"></i></a> ';
+						$html .= '<a href="javascript://" class="removePrescriptionDrugItem" data-id="'.$pd['prescription_drug_id'].'" style="color: red;"><i class="fa fa-trash-o"></i></a>';
+					$html .= '</small>';
+				$html .= '</li>';
+			}
+			$html .= '</ul>';
+			echo json_encode(array("status"=>true,"prescription_id"=>$post['prescription_id'],"msg"=>"Drug updated successfully.","html"=>$html));
+		}
+		else{
+			echo json_encode(array("status"=>false,"prescription_id"=>$post['prescription_id'],"msg"=>"Drug not update."));
+		}
+	}
+	public function delete_prescription_drug()
+	{
+		check_permissions('add_prescription_token');
+		$userLoginData = $this->userLoginData;
+		$resp = $this->db
+		->where('user_id',$userLoginData['user_id'])
+		->where('prescription_drug_id',$_POST['id'])
+		->delete('prescription_drug');
+		if ($resp) {
+			echo json_encode(array("status"=>true,"msg"=>"Drug removed."));
+		}
+		else{
+			echo json_encode(array("status"=>true,"msg"=>"Drug not removed."));
+		}
 	}
 }

@@ -59,10 +59,10 @@ class Home extends MY_Controller {
 				$html .= '<a href="javascript://" class="selectPatientBtn" data-id="'.$q['patient_id'].'" data-title="'.$q['fname'].' '.$q['lname'].' - '.$q['mobile'].'">'.$q['fname'].' '.$q['lname'].'<br><small>'.$q['mobile'].'</small></a>';
 			}
 			$html .= '<hr><a href="javascript://" class="addPatientBtn" style="color: blue;">+ Add Patient</a>';
-			echo json_encode(array("status"=>true,"html"=>$html));
 		}
 		else{
 			$html = '<a href="javascript://" class="addPatientBtn" style="color: blue;">+ Add Patient</a>';
 		}
+		echo json_encode(array("status"=>true,"html"=>$html));
 	}
 }

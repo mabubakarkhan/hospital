@@ -27,7 +27,12 @@ function load_view($page, $data = false, $jsFile = false, $header = false, $foot
     }
     else{
         $CI->load->view('home/footer', $data);
-        $CI->load->view('home/html/patient', $data);
+        if ($data['permissions'] == 'all' || in_array('patient_add', $data['permissions']) || in_array('patient_edit', $data['permissions'])){
+            $CI->load->view('home/html/patient', $data);
+        }
+        if ($data['permissions'] == 'all' || in_array('drug_add', $data['permissions']) || in_array('drug_edit', $data['permissions'])){
+            $CI->load->view('home/html/add_drug', $data);
+        }
     }
     //loading js file
     if ($jsFile !== false && $jsFile !== true) {
