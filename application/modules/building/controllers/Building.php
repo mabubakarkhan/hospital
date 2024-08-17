@@ -221,9 +221,6 @@ class Building extends MY_Controller {
 	}
 	public function add_room($floorId = 0)
 	{
-		ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
-error_reporting(E_ALL);
 		check_permissions('building_room_add');
 		$data['userLoginData'] = $this->userLoginData;
 		if ($floorId > 0) {
