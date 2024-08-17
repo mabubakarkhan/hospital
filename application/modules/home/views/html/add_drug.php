@@ -5,21 +5,20 @@ if ($checkUserPermissions['permissions'] == 'all' || in_array('drug_add', $check
 	<script>
 	$(function(){
 		//ADD
-		$(document).on('click', '.createProcedureBtn', function(event) {
+		$(document).on('click', '.createDrugBtn', function(event) {
 			event.preventDefault();
-			$("#add-service-modal").modal('show');
+			$("#add-drug-modal").modal('show');
 		});
-		$(document).on('submit', '#add-service-modal form', function(event) {
+		$(document).on('submit', '#add-drug-modal form', function(event) {
 			event.preventDefault();
 			$form = $(this);
-			$("#add-service-modal .submitBtn").text('Wait...');
+			$("#add-drug-modal .submitBtn").text('Wait...');
 			$.post('<?=BASEURL."drug/add"?>', {data: $form.serialize()}, function(resp) {
 				resp = $.parseJSON(resp);
-				$("#add-service-modal .submitBtn").text('Add');
+				$("#add-drug-modal .submitBtn").text('Add');
 				alert(resp.msg)
 				if (resp.status == true) {
-					$("#add-service-modal").modal('hide');
-					location.reload();
+					$("#add-drug-modal").modal('hide');
 				}
 			});
 		});
@@ -27,8 +26,13 @@ if ($checkUserPermissions['permissions'] == 'all' || in_array('drug_add', $check
 	});//onload
 	</script>
 
+	<style>
+	#add-drug-modal{
+		z-index: 2000;
+	}
+	</style>
 
-	<div class="modal fade bd-example-modal-lg" id="add-service-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal fade bd-example-modal-lg" id="add-drug-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -131,7 +135,7 @@ if ($checkUserPermissions['permissions'] == 'all' || in_array('drug_add', $check
 				</div><!-- /modal-body -->
 			</div><!-- /modal-content -->
 		</div><!-- /modal-lg -->
-	</div><!-- #add-service-modal -->
+	</div><!-- #add-drug-modal -->
 
 <?php
 }//check permission
@@ -145,41 +149,40 @@ if ($checkUserPermissions['permissions'] == 'all' || in_array('drug_edit', $chec
 	$(function(){
 
 		//EDIT
-		$(document).on('click', '.editProcedureBtn', function(event) {
+		$(document).on('click', '.editDrugBtn', function(event) {
 			event.preventDefault();
 			$this = $(this);
-			$("#edit-service-modal form input[name='id']").val($this.attr('data-id'));
-			$("#edit-service-modal form input[name='name']").val($this.attr('data-name'));
-			$("#edit-service-modal form input[name='generic_name']").val($this.attr('data-generic_name'));
-			$("#edit-service-modal form input[name='strength']").val($this.attr('data-strength'));
-			$('#edit-service-modal form select[name="strength_frequencey"] option').each(function() {
+			$("#edit-drug-modal form input[name='id']").val($this.attr('data-id'));
+			$("#edit-drug-modal form input[name='name']").val($this.attr('data-name'));
+			$("#edit-drug-modal form input[name='generic_name']").val($this.attr('data-generic_name'));
+			$("#edit-drug-modal form input[name='strength']").val($this.attr('data-strength'));
+			$('#edit-drug-modal form select[name="strength_frequencey"] option').each(function() {
 			    if ($(this).val() == $this.attr('data-strength_frequencey')) {
 			    	$(this).attr('selected','selected');
 			    }
 			});
-			$('#edit-service-modal form select[name="type"] option').each(function() {
+			$('#edit-drug-modal form select[name="type"] option').each(function() {
 			    if ($(this).val() == $this.attr('data-type')) {
 			    	$(this).attr('selected','selected');
 			    }
 			});
-			$('#edit-service-modal form select[name="status"] option').each(function() {
+			$('#edit-drug-modal form select[name="status"] option').each(function() {
 			    if ($(this).val() == $this.attr('data-status')) {
 			    	$(this).attr('selected','selected');
 			    }
 			});
-			$("#edit-service-modal").modal('show');
+			$("#edit-drug-modal").modal('show');
 		});
-		$(document).on('submit', '#edit-service-modal form', function(event) {
+		$(document).on('submit', '#edit-drug-modal form', function(event) {
 			event.preventDefault();
 			$form = $(this);
-			$("#edit-service-modal .submitBtn").text('Wait...');
+			$("#edit-drug-modal .submitBtn").text('Wait...');
 			$.post('<?=BASEURL."drug/update"?>', {data: $form.serialize()}, function(resp) {
 				resp = $.parseJSON(resp);
-				$("#edit-service-modal .submitBtn").text('Update');
+				$("#edit-drug-modal .submitBtn").text('Update');
 				alert(resp.msg)
 				if (resp.status == true) {
-					$("#edit-service-modal").modal('hide');
-					location.reload();
+					$("#edit-drug-modal").modal('hide');
 				}
 			});
 		});
@@ -188,11 +191,16 @@ if ($checkUserPermissions['permissions'] == 'all' || in_array('drug_edit', $chec
 	});//onload
 	</script>
 
-	<div class="modal fade bd-example-modal-lg" id="edit-service-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<style>
+	#edit-drug-modal{
+		z-index: 2000;
+	}
+	</style>
+	<div class="modal fade bd-example-modal-lg" id="edit-drug-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title" id="myLargeModalLabel">Edit Procedure</h4>
+					<h4 class="modal-title" id="myLargeModalLabel">Edit Drug</h4>
 					<button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div><!-- /modal-header -->
 				<div class="modal-body">
@@ -292,7 +300,7 @@ if ($checkUserPermissions['permissions'] == 'all' || in_array('drug_edit', $chec
 				</div><!-- /modal-body -->
 			</div><!-- /modal-content -->
 		</div><!-- /modal-lg -->
-	</div><!-- #edit-service-modal -->
+	</div><!-- #edit-drug-modal -->
 <?php
 }//check permission
 ?>

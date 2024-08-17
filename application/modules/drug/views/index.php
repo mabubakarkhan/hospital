@@ -5,7 +5,7 @@
 			<div class="col-md-12">
 				<h3>Drugs 
 					<?php if ($permissions == 'all' || in_array('drug_add', $permissions)): ?>
-						<a href="javascript://" class="btn btn-success createProcedureBtn" style="float: right;">Add New</a>
+						<a href="javascript://" class="btn btn-success createDrugBtn" style="float: right;">Add New</a>
 	              	<?php endif ?>
 				</h3>
 				<br>
@@ -49,7 +49,7 @@
 												<td>
 													<ul class="action">
 														<?php if ($permissions == 'all' || in_array('drug_edit', $permissions)): ?>
-															<li class="edit"> <a href="javascript://" class="editProcedureBtn" data-id="<?=$q['drug_id']?>" data-name="<?=$q['name']?>" data-generic_name="<?=$q['generic_name']?>" data-type="<?=$q['type']?>" data-strength="<?=$q['strength']?>" data-strength_frequencey="<?=$q['strength_frequencey']?>" data-status="<?=$q['status']?>"><i class="icon-pencil-alt"></i></a></li>
+															<li class="edit"> <a href="javascript://" class="editDrugBtn" data-id="<?=$q['drug_id']?>" data-name="<?=$q['name']?>" data-generic_name="<?=$q['generic_name']?>" data-type="<?=$q['type']?>" data-strength="<?=$q['strength']?>" data-strength_frequencey="<?=$q['strength_frequencey']?>" data-status="<?=$q['status']?>"><i class="icon-pencil-alt"></i></a></li>
 										              	<?php endif ?>
 													</ul>
 												</td>

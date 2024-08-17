@@ -271,7 +271,45 @@
                     	</div><!-- /tab-content -->
                   	</div><!-- /card-body -->
                 </div><!-- /card -->
-          	</div><!-- /12 -->
+          	</div><!-- /9 -->
+
+          	<div class="col-sm-12 col-xl-3">
+          		<div class="card">
+          			<div class="card-body">
+	                    <div class="default-according" id="accordionclose">
+
+	                      	<div class="card">
+								<div class="card-header" id="heading1" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="true" aria-controls="heading1" style="cursor: pointer;">
+									<h5 class="mb-0"><button class="btn btn-link ps-0">Drugs</button></h5>
+								</div><!-- /card-header -->
+								<div class="collapse" id="collapse1" aria-labelledby="heading1" data-bs-parent="#accordionclose">
+									<div class="card-body" style="padding: 20px 10px;">
+										
+										<p align="right"><a href="javascript:void(0);" class="addDrugToPrescription" style="color: #000;">+ Add</a></p>
+										<div class="prescriptionDrugList">
+											<?php if ($prescription_drugs): ?>
+												<ul class="prescriptionDrugListItemWrap">
+													<?php foreach ($prescription_drugs as $keyPD => $pd): ?>
+														<li class="prescriptionDrugListItem">
+															<span><?=$pd['name'].' '.$pd['type'].' '.$pd['strength_frequencey']?></span>
+															<small>
+																<a href="javascript://" class="editPrescriptionDrugItem" data-id="<?=$pd['prescription_drug_id']?>" data-prescription_id="<?=$pd['prescription_id']?>" data-drug_id="<?=$pd['drug_id']?>" data-name="<?=$pd['name']?>" data-type="<?=$pd['type']?>" data-generic_name="<?=$pd['generic_name']?>" data-strength="<?=$pd['strength']?>" data-strength_frequencey="<?=$pd['strength_frequencey']?>" data-instruction="<?=$pd['instruction']?>" data-duration="<?=$pd['duration']?>" data-duration_type="<?=$pd['duration_type']?>" data-frequency="<?=$pd['frequency']?>" data-quantity="<?=$pd['quantity']?>" data-quantity_type="<?=$pd['quantity_type']?>" data-route="<?=$pd['route']?>"><i class="icon-pencil-alt"></i></a> 
+																<a href="javascript://" class="removePrescriptionDrugItem" data-id="<?=$pd['prescription_drug_id']?>" style="color: red;"><i class="fa fa-trash-o"></i></a>
+															</small>
+														</li>
+													<?php endforeach ?>
+												</ul>
+											<?php endif ?>
+										</div><!-- /prescriptionDrugList -->
+
+									</div><!-- /card-body -->
+								</div><!-- /collapse -->
+	                      	</div><!-- /card -->
+
+	                    </div><!-- /default-according -->
+                  	</div><!-- /card-body -->
+                </div><!-- /card -->
+          	</div><!-- /3 -->
 
         </div><!-- row -->
     </div><!-- /container-fluid -->

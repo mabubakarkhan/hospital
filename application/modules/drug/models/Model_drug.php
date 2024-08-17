@@ -37,4 +37,14 @@ class Model_drug extends CI_Model {
 	{
 		return $this->get_row("SELECT * FROM `drug` WHERE `drug_id` = '$id';");
 	}
+	public function drug_search_by_key($key)
+	{
+		$key = $this->db->escape_like_str($key);
+		return $this->get_results("
+			SELECT * 
+			FROM `drug` 
+			WHERE (`name` LIKE '%$key%' OR `generic_name` LIKE '%$key%') AND `status` = 'active' 
+			ORDER BY `name`,`generic_name` ASC
+		;");
+	}
 }

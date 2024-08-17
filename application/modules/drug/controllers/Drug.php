@@ -32,7 +32,7 @@ class Drug extends MY_Controller {
 		$data['userLoginData'] = $this->userLoginData;
 		$data['meta_title'] = 'Drugs';
 		$data['drugs'] = $this->model->drugs('all');
-		load_view('index',$data,true);
+		load_view('index',$data);
 	}
 	public function add()
 	{
@@ -41,7 +41,7 @@ class Drug extends MY_Controller {
 		parse_str($_POST['data'],$post);
 		$resp = $this->db->insert('drug',$post);
 		if ($resp) {
-			echo json_encode(array("status"=>true,"msg"=>"Drug added successfully"));
+			echo json_encode(array("status"=>true,"msg"=>"Drug added successfully, will appear after page reload."));
 		}
 		else{
 			echo json_encode(array("status"=>false,"msg"=>"Drug not added, please try again."));
@@ -57,10 +57,34 @@ class Drug extends MY_Controller {
 		->where('drug_id',$id)
 		->update('drug',$post);
 		if ($resp) {
-			echo json_encode(array("status"=>true,"msg"=>"Drug updated successfully"));
+			echo json_encode(array("status"=>true,"msg"=>"Drug updated successfully, changes will appear after page reload."));
 		}
 		else{
 			echo json_encode(array("status"=>false,"msg"=>"Drug not updated, please try again."));
 		}
+	}
+	public function drug_search_by_key()
+	{
+		check_permissions('drug_view');
+		$userLoginData = $this->userLoginData;
+		$resp = $this->model->drug_search_by_key($_POST['key']);
+		if ($resp) {
+			$html = '';
+			foreach ($resp as $key => $q) {
+				$html .= '<a href="javascript://" class="selectDrugBtn" data-id="'.$q['drug_id'].'" data-name="'.$q['name'].'" data-generic_name="'.$q['generic_name'].'" data-type="'.$q['type'].'" data-strength="'.$q['strength'].'" data-strength_frequencey="'.$q['strength_frequencey'].'">'.$q['name'].' ('.$q['type'].')<br><small>'.$q['strength'].' '.$q['strength_frequencey'].'</small></a>';
+			}
+			if ($userLoginData['permissions'] == 'all' || in_array('drug_add', $userLoginData['permissions'])) {
+				$html .= '<hr><a href="javascript://" class="createDrugBtn" style="color: blue;">+ Add New Drug</a>';
+			}
+		}
+		else{
+			if ($userLoginData['permissions'] == 'all' || in_array('drug_add', $userLoginData['permissions'])) {
+				$html = '<hr><a href="javascript://" class="createDrugBtn" style="color: blue;">+ Add New Drug</a>';
+			}
+			else{
+				$html = '<small>no record found</small>';
+			}
+		}
+		echo json_encode(array("status"=>true,"html"=>$html));
 	}
 }
