@@ -222,7 +222,7 @@ class Building extends MY_Controller {
 	public function add_room($floorId = 0)
 	{
 		die('here)';
-		check_permissions('building_room_add');
+		/*check_permissions('building_room_add');
 		$data['userLoginData'] = $this->userLoginData;
 		if ($floorId > 0) {
 			$data['floor'] = $this->model->get_floor_byid($floorId);
@@ -237,7 +237,7 @@ class Building extends MY_Controller {
 		$data['mode'] = 'add';
 		$data['floorId'] = $floorId;
 		$data['floors'] = $this->model->floors();
-		load_view('add_room',$data);
+		load_view('add_room',$data);*/
 	}
 	public function post_room()
 	{
