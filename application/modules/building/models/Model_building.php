@@ -32,7 +32,7 @@ class Model_building extends CI_Model {
 	{
 		return $this->get_row("SELECT * FROM `building` WHERE `building_id` = '$id';");
 	}
-	public function floors($building_id)
+	public function floors($building_id = 0)
 	{
 		if ($building_id > 0) {
 			return $this->get_results("
