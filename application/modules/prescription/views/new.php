@@ -226,7 +226,7 @@
 															<?php foreach ($lab_active_tests as $keyActiveTest => $activeTest): ?>
 																<?php if ($activeTest['lab_test_cat_id'] == $labCat_['lab_test_cat_id']): ?>
 																	<div class="col-md-3 d-flex align-items-stretch">
-														                <div class="flex-fill lab-test-title-tile <?=(in_array($activeTest['lab_test_id'], $prescription_lab_tests)) ? 'active' : ''?>" data-id="<?=$activeTest['lab_test_id']?>" data-title="<?=$activeTest['title']?>">
+														                <div class="flex-fill lab-test-title-tile <?=($prescription_lab_tests && in_array($activeTest['lab_test_id'], $prescription_lab_tests)) ? 'active' : ''?>" data-id="<?=$activeTest['lab_test_id']?>" data-title="<?=$activeTest['title']?>">
 														                    <?=$activeTest['title']?>
 														                </div>
 														            </div>
