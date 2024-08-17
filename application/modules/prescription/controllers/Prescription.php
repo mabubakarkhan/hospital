@@ -32,6 +32,9 @@ class Prescription extends MY_Controller {
 	}
 	public function new()
 	{
+		ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
 		check_permissions('add_prescription_token');
 		$data['userLoginData'] = $this->userLoginData;
 		$data['meta_title'] = 'Prescription';
