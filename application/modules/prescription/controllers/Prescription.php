@@ -43,8 +43,8 @@ class Prescription extends MY_Controller {
 		$data['prescription_drugs'] = false;
 		if ($data['prescription']) {
 			$data['prescription_procedures'] = $this->model->prescription_procedures($data['prescription']['prescription_id']);
-			$prescription_lab_tests = $this->model->get_prescription_lab_tests($data['prescription']['prescription_id']);
 			$data['prescription_drugs'] = $this->model->get_prescription_drugs($data['prescription']['prescription_id']);
+			$prescription_lab_tests = $this->model->get_prescription_lab_tests($data['prescription']['prescription_id']);
 			$data['prescription_lab_tests'] = explode(',', $prescription_lab_tests['ids']);
 		}
 		if (!($data['token'])) {

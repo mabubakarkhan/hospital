@@ -66,7 +66,7 @@ class Model_prescription extends CI_Model {
 	}
 	public function get_prescription_lab_tests($prescriptionId)
 	{
-		return $this->get_row("SELECT GROUP_CONCAT(lab_test_id) AS ids FROM `prescription_lab_test` WHERE `prescription_id` = '$procedureId';");
+		return $this->get_row("SELECT GROUP_CONCAT(lab_test_id) AS ids FROM `prescription_lab_test` WHERE `prescription_id` = '$prescriptionId';");
 	}
 	public function get_prescription_drugs($prescriptionId)
 	{
