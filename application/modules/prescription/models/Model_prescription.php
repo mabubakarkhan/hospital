@@ -72,4 +72,14 @@ class Model_prescription extends CI_Model {
 	{
 		return $this->get_results("SELECT * FROM `prescription_drug` WHERE `prescription_id` = '$prescriptionId' ORDER BY `name` ASC;");
 	}
+	public function get_investigations($prescriptionId)
+	{
+		return $this->get_results("
+			SELECT i.*, lt.title AS labTestTitle
+			FROM `investigation` AS i 
+			INNER JOIN `lab_test` AS lt ON lt.lab_test_id = i.lab_test_id 
+			WHERE i.prescription_id = '$prescriptionId' 
+			ORDER BY i.investigation_id ASC 
+		;");
+	}
 }

@@ -239,6 +239,53 @@ if ($checkUserPermissions['permissions'] == 'all' || in_array('add_prescription_
 			});
 		});
 
+		/* Investigation */
+		$(document).on('click', '.addInvestigationBtn', function(event) {
+			event.preventDefault();
+			$("#prescriptionFormInvestigation").append($(".investigationSectionToAddHide").html());
+		});
+		$(document).on('click', '.removeInvestigationSelectBoxBtn', function(event) {
+			event.preventDefault();
+			$(this).closest('.row').remove();
+		});
+		$(document).on('change', '#prescriptionFormInvestigation select[name="lab_test_id[]"]', function(event) {
+			event.preventDefault();
+			$this = $(this);
+			$selectedInvestigationTypeOptionId = $this.val();
+			$investigationPreviousResult = '';
+			$('#prescriptionFormInvestigation select[name="lab_test_id[]"]').each(function() {
+
+				if ($(this).is($this)) {
+		            return;
+		        }
+
+                if ($(this).val() == $selectedInvestigationTypeOptionId) {
+                	$investigationPreviousResult = $(this).closest('.row').find('input[name="result[]"]').val();
+                	$investigationPreviousResultDate = $(this).closest('.row').find('.previous_result_at').val();
+                }
+            });
+            if ($investigationPreviousResult.length > 0) {
+            	$this.closest('.row').find('input[name="previous_result[]"]').val($investigationPreviousResult);
+            	$this.closest('.row').find('input[name="previous_result_at[]"]').val($investigationPreviousResultDate);
+            	$this.closest('.row').find('input[name="previous_result_at[]"]').show(0);
+            	//$this.closest('.row').find('input[name="previous_result[]"]').parent('div').append('<input type="text" name="previous_result_at[]" class="form-control" value="'+$investigationPreviousResultDate+'" readonly>');
+            }
+		});
+		$(document).on('click', '.saveInvestigationBtn', function(event) {
+			event.preventDefault();
+			$thisBtn = $(this);
+			$thisBtn.text('Wait...');
+			$form = $("#prescriptionFormInvestigation");
+			$.post('<?=BASEURL.'prescription/post-investigation'?>', {data: $form.serialize()}, function(resp) {
+				resp = $.parseJSON(resp);
+				$thisBtn.text('Save');
+				alert(resp.msg);
+				if (resp.status == true) {
+					location.reload();
+				}
+			});
+		});
+
 	});//onload
 	</script>
 
@@ -252,6 +299,44 @@ if ($checkUserPermissions['permissions'] == 'all' || in_array('add_prescription_
 			</select>
 			<span class="removeProcedureSelectBoxBtn"><i class="fa fa-trash-o"></i></span>
 		</div>
+	</div>
+	<div class="investigationSectionToAddHide" style="display: none;">
+		<div class="row" style="margin-bottom: 20px;">
+			<div class="col-md-3">
+				<div class="form-gorup">
+					<label>Type</label>
+					<select name="lab_test_id[]" class="form-control">
+						<option value="">Select</option>
+						<?php foreach ($lab_active_tests as $keyLAT2 => $LAT2): ?>
+							<option value="<?=$LAT2['lab_test_id']?>"><?=$LAT2['title']?></option>
+						<?php endforeach ?>
+					</select>
+					<input type="hidden" class="previous_result_at" value="<?=date('Y-m-d')?>">
+				</div><!-- /form-gorup -->
+			</div><!-- /3 -->
+			<div class="col-md-3">
+				<div class="form-gorup">
+					<label>Result</label>
+					<input type="text" name="result[]" class="form-control">
+				</div><!-- /form-gorup -->
+			</div><!-- /3 -->
+			<div class="col-md-3">
+				<div class="form-gorup">
+					<label>Previous Result</label>
+					<input type="text" name="previous_result[]" class="form-control" readonly>
+					<input type="text" name="previous_result_at[]" class="form-control" readonly style="display: none;">
+				</div><!-- /form-gorup -->
+			</div><!-- /3 -->
+			<div class="col-md-2">
+				<div class="form-gorup">
+					<label>Comment</label>
+					<textarea name="comment[]" class="form-control" rows="1"></textarea>
+				</div><!-- /form-gorup -->
+			</div><!-- /2 -->
+			<div class="col-md-1" style="position: relative;">
+				<span class="removeInvestigationSelectBoxBtn"><i class="fa fa-trash-o"></i></span>
+			</div><!-- /1 -->
+		</div><!-- /row -->
 	</div>
 
 
@@ -493,6 +578,14 @@ if ($checkUserPermissions['permissions'] == 'all' || in_array('add_prescription_
 
 
 	<style>
+	.removeInvestigationSelectBoxBtn{
+		position: absolute;
+		right: 0px;
+		top: 36px;
+		color: red;
+		cursor: pointer;
+		font-size: 20px;
+	}
 	.removeProcedureSelectBoxBtn{
 		position: absolute;
 		right: -30px;

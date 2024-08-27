@@ -266,7 +266,109 @@
 							</div><!-- #Radiology-order-icon -->
 
 							<div class="tab-pane fade" id="Investigation-icon" role="tabpanel" aria-labelledby="contact-icon-tab">
-								<p class="mb-0 m-t-30">E Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum</p>
+								
+								<div class="card-body" style="padding: 0;">
+				                    <ul class="nav nav-pills" id="pills-tab" role="tablist">
+				                      <li class="nav-item"><a class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Current Investigation<div class="d-flex"></div></a></li>
+				                      <li class="nav-item"><a class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Previous Investigation</a></li>
+				                    </ul>
+				                    <div class="tab-content" id="pills-tabContent">
+										<div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+											<br>
+											<form id="prescriptionFormInvestigation">
+												<?php if ($prescription): ?>
+													<input type="hidden" name="prescription_id" value="<?=$prescription['prescription_id']?>">
+												<?php else: ?>
+													<input type="hidden" name="prescription_id" value="0">
+												<?php endif ?>
+												<input type="hidden" name="token_id" value="<?=$token['token_id']?>">
+												<input type="hidden" name="user_id" value="<?=$token['user_id']?>">
+
+												<?php if ($investigations): ?>
+													<?php foreach ($investigations as $keyInvestigation => $investigation): ?>
+														<div class="row" style="margin-bottom: 20px;">
+															<div class="col-md-3">
+																<div class="form-gorup">
+																	<label>Type</label>
+																	<select name="lab_test_id[]" class="form-control">
+																		<option value="">Select</option>
+																		<?php foreach ($lab_active_tests as $keyLAT2 => $LAT2): ?>
+																			<option value="<?=$LAT2['lab_test_id']?>" <?=($LAT2['lab_test_id'] == $investigation['lab_test_id']) ? 'selected="selected"' : ''?> ><?=$LAT2['title']?></option>
+																		<?php endforeach ?>
+																	</select>
+																	<input type="hidden" class="previous_result_at" value="<?=date('Y-m-d',strtotime($investigation['at']))?>">
+																</div><!-- /form-gorup -->
+															</div><!-- /3 -->
+															<div class="col-md-3">
+																<div class="form-gorup">
+																	<label>Result</label>
+																	<input type="text" name="result[]" value="<?=$investigation['result']?>" class="form-control">
+																</div><!-- /form-gorup -->
+															</div><!-- /3 -->
+															<div class="col-md-3">
+																<div class="form-gorup">
+																	<label>Previous Result</label>
+																	<input type="text" name="previous_result[]" value="<?=$investigation['previous_result']?>" class="form-control" readonly>
+																	<?php if (isset($investigation['previous_result']) && strlen($investigation['previous_result']) > 0): ?>
+																		<input type="text" name="previous_result_at[]" value="<?=date('Y-m-d',strtotime($investigation['previous_result_at']))?>" class="form-control" readonly>
+																	<?php else: ?>
+																		<input type="text" name="previous_result_at[]" value="" class="form-control" readonly style="display: none;">
+																	<?php endif ?>
+																</div><!-- /form-gorup -->
+															</div><!-- /3 -->
+															<div class="col-md-2">
+																<div class="form-gorup">
+																	<label>Comment</label>
+																	<textarea name="comment[]" class="form-control" rows="1"><?=$investigation['comment']?></textarea>
+																</div><!-- /form-gorup -->
+															</div><!-- /2 -->
+															<div class="col-md-1" style="position: relative;">
+																<span class="removeInvestigationSelectBoxBtn"><i class="fa fa-trash-o"></i></span>
+															</div><!-- /1 -->
+														</div><!-- /row -->
+													<?php endforeach ?>
+												<?php endif ?>
+
+											</form><!-- #prescriptionFormInvestigation -->
+
+											<div class="row">
+												<div class="col-md-12" align="right">
+													<br>
+													<button class="btn btn-square btn-success saveInvestigationBtn">Save</button>
+													<button class="btn btn-square btn-primary addInvestigationBtn">+ Investigation</button>
+												</div>
+											</div><!-- /row -->
+
+
+										</div><!-- /pills-home -->
+										<div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+											<br>
+											<table class="table table-bordered">
+												<thead class="table-dark">
+													<tr>
+														<th>Test</th>
+														<th>Result</th>
+														<th>Comment</th>
+														<th>Date</th>
+													</tr>
+												</thead>
+												<tbody>
+													<?php foreach ($investigations as $keyInvestigation => $investigation): ?>
+														<tr>
+															<td><?=$investigation['labTestTitle']?></td>
+															<td><?=$investigation['result']?></td>
+															<td><?=$investigation['comment']?></td>
+															<td><?=date('Y-m-d',strtotime($investigation['at']))?></td>
+														</tr>
+													<?php endforeach ?>
+												</tbody>
+											</table>
+
+
+										</div><!-- /pills-profile -->
+				                    </div><!-- /tab-content -->
+			                  	</div><!-- /card-body -->
+
 							</div><!-- #Investigation-icon -->
                     	</div><!-- /tab-content -->
                   	</div><!-- /card-body -->

@@ -32,9 +32,6 @@ class Prescription extends MY_Controller {
 	}
 	public function new()
 	{
-		ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
-error_reporting(E_ALL);
 		check_permissions('add_prescription_token');
 		$data['userLoginData'] = $this->userLoginData;
 		$data['meta_title'] = 'Prescription';
@@ -44,11 +41,13 @@ error_reporting(E_ALL);
 		$data['prescription_procedures'] = false;
 		$data['prescription_lab_tests'] = false;
 		$data['prescription_drugs'] = false;
+		$data['investigations'] = false;
 		if ($data['prescription']) {
 			$data['prescription_procedures'] = $this->model->prescription_procedures($data['prescription']['prescription_id']);
 			$data['prescription_drugs'] = $this->model->get_prescription_drugs($data['prescription']['prescription_id']);
 			$prescription_lab_tests = $this->model->get_prescription_lab_tests($data['prescription']['prescription_id']);
 			$data['prescription_lab_tests'] = explode(',', $prescription_lab_tests['ids']);
+			$data['investigations'] = $this->model->get_investigations($data['prescription']['prescription_id']);
 		}
 		if (!($data['token'])) {
 			redirect('logout');
@@ -188,5 +187,33 @@ error_reporting(E_ALL);
 		else{
 			echo json_encode(array("status"=>true,"msg"=>"Drug not removed."));
 		}
+	}
+	public function post_investigation()
+	{
+		check_permissions('add_prescription_token');
+		$userLoginData = $this->userLoginData;
+		parse_str($_POST['data'],$post);
+		if ($post['prescription_id'] > '0') {
+			$insert['prescription_id'] = $post['prescription_id'];
+			$this->db->where('prescription_id',$insert['prescription_id'])->delete('investigation');
+		}
+		else{
+			$ins['token_id'] = $post['token_id'];
+			$this->db->insert('prescription',$ins);
+			$insert['prescription_id'] = $this->db->insert_id();
+		}
+		$insert['user_id'] = $post['user_id'];
+		$insert['token_id'] = $post['token_id'];
+		foreach ($post['lab_test_id'] as $key => $q) {
+			if (isset($q) && strlen($q) > 0) {
+				$insert['lab_test_id'] = $q;
+				$insert['result'] = $post['result'][$key];
+				$insert['previous_result'] = $post['previous_result'][$key];
+				$insert['previous_result_at'] = $post['previous_result_at'][$key];
+				$insert['comment'] = $post['comment'][$key];
+				$this->db->insert('investigation',$insert);
+			}
+		}
+		echo json_encode(array("status"=>true,"msg"=>"investigation updated successfully."));
 	}
 }
