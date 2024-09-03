@@ -78,6 +78,16 @@
                 </ul>
               </li>
             <?php endif ?>
+            <?php if ($permissions == 'all' || in_array('radiology', $permissions)): ?>
+              <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title"
+                  href="javascript:void(0)"><i data-feather="airplay"></i><span class="lan-16">Radiology</span></a>
+                <ul class="sidebar-submenu">
+                  <?php if ($permissions == 'all' || in_array('radiology_test_view', $permissions)): ?>
+                    <li><a href="<?=BASEURL.'radiology/tests'?>">Radiology Test</a></li>
+                  <?php endif ?>
+                </ul>
+              </li>
+            <?php endif ?>
             <?php if ($permissions == 'all' || in_array('procedure', $permissions)): ?>
               <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title"
                   href="javascript:void(0)"><i data-feather="airplay"></i><span class="lan-16">Procedures</span></a>

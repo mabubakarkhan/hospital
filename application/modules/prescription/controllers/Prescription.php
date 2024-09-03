@@ -54,6 +54,7 @@ class Prescription extends MY_Controller {
 		}
 		$data['lab_test_cats'] = $this->model->lab_test_active_cats();
 		$data['lab_active_tests'] = $this->model->lab_active_tests();
+		$data['radiology_tests'] = $this->model->radiology_tests('active');
 		load_view('new',$data,true);
 	}
 	public function submit()

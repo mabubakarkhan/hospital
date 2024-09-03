@@ -498,7 +498,44 @@
 
 						</div>
 					</div><!-- /card -->
-				</div><!-- /4 -->
+				</div><!-- /12 -->
+
+			</div><!-- /row -->
+
+			<div class="row">
+
+				<div class="col-sm-12 col-xl-12">
+					<div class="card">
+						<div class="card-body">
+
+							<div class="col-sm-12">
+                        		<h5>
+                        			<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
+                    					<input class="form-check-input" id="radiology-inline-0" type="checkbox" name="title[]" value="radiology" <?=(in_array('radiology', $permissionsArr)) ? 'checked' : ''?> >
+										<label class="form-check-label" for="radiology-inline-0"><strong>Radiology</strong></label>
+									</div>
+                        		</h5>
+                      		</div>
+	                      	<div class="col">
+								<div class="m-t-15 m-checkbox-inline">
+									<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
+										<input class="form-check-input" id="radiology-inline-01" type="checkbox" name="title[]" value="radiology_test_view" <?=(in_array('radiology_test_view', $permissionsArr)) ? 'checked' : ''?>>
+										<label class="form-check-label" for="radiology-inline-01">Radiology Test View</label>
+									</div>
+									<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
+										<input class="form-check-input" id="radiology-inline-02" type="checkbox" name="title[]" value="radiology_test_add" <?=(in_array('radiology_test_add', $permissionsArr)) ? 'checked' : ''?>>
+										<label class="form-check-label" for="radiology-inline-02">Radiology Test Add</label>
+									</div>
+									<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
+										<input class="form-check-input" id="radiology-inline-03" type="checkbox" name="title[]" value="radiology_test_edit" <?=(in_array('radiology_test_edit', $permissionsArr)) ? 'checked' : ''?>>
+										<label class="form-check-label" for="radiology-inline-03">Radiology Test Edit</label>
+									</div>
+								</div>
+	                      	</div><!-- /col -->
+
+						</div>
+					</div><!-- /card -->
+				</div><!-- /12 -->
 
 			</div><!-- /row -->
 

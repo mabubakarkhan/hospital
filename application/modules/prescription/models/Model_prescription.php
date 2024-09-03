@@ -82,4 +82,13 @@ class Model_prescription extends CI_Model {
 			ORDER BY i.investigation_id ASC 
 		;");
 	}
+	public function radiology_tests($status)
+	{
+		if ($status == 'all') {
+			return $this->get_results("SELECT * FROM `radiology_test` ORDER BY `title`;");
+		}
+		else{
+			return $this->get_results("SELECT * FROM `radiology_test` WHERE `status` = '$status' ORDER BY `title`;");
+		}
+	}
 }
