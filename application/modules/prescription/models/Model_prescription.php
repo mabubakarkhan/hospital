@@ -91,4 +91,8 @@ class Model_prescription extends CI_Model {
 			return $this->get_results("SELECT * FROM `radiology_test` WHERE `status` = '$status' ORDER BY `title`;");
 		}
 	}
+	public function get_prescription_radiology_tests($prescriptionId)
+	{
+		return $this->get_results("SELECT * FROM `prescription_radiology_test` WHERE `prescription_id` = '$prescriptionId' ORDER BY `prescription_radiology_test_id` ASC;");
+	}
 }

@@ -262,7 +262,88 @@
 							</div><!-- #Lab-order-icon -->
 
 							<div class="tab-pane fade" id="Radiology-order-icon" role="tabpanel" aria-labelledby="contact-icon-tab">
-								<p class="mb-0 m-t-30">D Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum</p>
+								
+								<br>
+									<form id="prescriptionFormRadiology">
+										<?php if ($prescription): ?>
+											<input type="hidden" name="prescription_id" value="<?=$prescription['prescription_id']?>">
+										<?php else: ?>
+											<input type="hidden" name="prescription_id" value="0">
+										<?php endif ?>
+										<input type="hidden" name="token_id" value="<?=$token['token_id']?>">
+										<input type="hidden" name="user_id" value="<?=$token['user_id']?>">
+
+										<?php if ($prescription_radiology_tests): ?>
+											<?php foreach ($prescription_radiology_tests as $keyRadiologyTest => $radiology_test): ?>
+												<div class="row" style="margin-bottom: 20px;">
+													<div class="col-md-7">
+														<div class="form-gorup">
+															<label>Type</label>
+															<select name="radiology_test_id[]" class="form-control">
+																<option value="">Select Radiology Test</option>
+																<?php foreach ($radiology_tests as $keyRT => $RT): ?>
+																	<option value="<?=$RT['radiology_test_id']?>" <?=($radiology_test['radiology_test_id'] == $RT['radiology_test_id']) ? 'selected="selected"' : ''?> ><?=$RT['title']?></option>
+																<?php endforeach ?>
+															</select>
+														</div><!-- /form-gorup -->
+													</div><!-- /7 -->
+													<div class="col-md-4">
+														<div class="form-gorup">
+															<label>Priority</label>
+															<select name="priority[]" class="form-control">
+																<option value="">Select Priority</option>
+																<option value="regular" <?=($radiology_test['priority'] == 'regular') ? 'selected="selected"' : ''?>>Regular</option>
+																<option value="prior" <?=($radiology_test['priority'] == 'prior') ? 'selected="selected"' : ''?>>Prior</option>
+															</select>
+														</div><!-- /form-gorup -->
+													</div><!-- /4 -->
+													<div class="col-md-1" style="position: relative;">
+														<span class="removeRadiologySelectBoxBtn"><i class="fa fa-trash-o"></i></span>
+													</div><!-- /1 -->
+												</div><!-- /row -->
+											<?php endforeach ?>
+										<?php else: ?>
+
+											<div class="row" style="margin-bottom: 20px;">
+												<div class="col-md-7">
+													<div class="form-gorup">
+														<label>Type</label>
+														<select name="radiology_test_id[]" class="form-control">
+															<option value="">Select Radiology Test</option>
+															<?php foreach ($radiology_tests as $keyRT => $RT): ?>
+																<option value="<?=$RT['radiology_test_id']?>"><?=$RT['title']?></option>
+															<?php endforeach ?>
+														</select>
+													</div><!-- /form-gorup -->
+												</div><!-- /7 -->
+												<div class="col-md-4">
+													<div class="form-gorup">
+														<label>Priority</label>
+														<select name="priority[]" class="form-control">
+															<option value="">Select Priority</option>
+															<option value="regular">Regular</option>
+															<option value="prior">Prior</option>
+														</select>
+													</div><!-- /form-gorup -->
+												</div><!-- /4 -->
+												<div class="col-md-1" style="position: relative;">
+													<span class="removeRadiologySelectBoxBtn"><i class="fa fa-trash-o"></i></span>
+												</div><!-- /1 -->
+											</div><!-- /row -->
+
+										<?php endif ?>
+
+									</form><!-- #prescriptionFormInvestigation -->
+
+									<div class="row">
+										<div class="col-md-12" align="right">
+											<br>
+											<button class="btn btn-square btn-success saveRadiologyBtn">Save</button>
+											<button class="btn btn-square btn-primary addRadiologyBtn">+ Radiology Test</button>
+										</div>
+									</div><!-- /row -->
+
+
 							</div><!-- #Radiology-order-icon -->
 
 							<div class="tab-pane fade" id="Investigation-icon" role="tabpanel" aria-labelledby="contact-icon-tab">

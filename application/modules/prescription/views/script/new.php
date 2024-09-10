@@ -286,6 +286,30 @@ if ($checkUserPermissions['permissions'] == 'all' || in_array('add_prescription_
 			});
 		});
 
+		/* Radiology */
+		$(document).on('click', '.addRadiologyBtn', function(event) {
+			event.preventDefault();
+			$("#prescriptionFormRadiology").append($(".radiologySectionToAddHide").html());
+		});
+		$(document).on('click', '.removeRadiologySelectBoxBtn', function(event) {
+			event.preventDefault();
+			$(this).closest('.row').remove();
+		});
+		$(document).on('click', '.saveRadiologyBtn', function(event) {
+			event.preventDefault();
+			$thisBtn = $(this);
+			$thisBtn.text('Wait...');
+			$form = $("#prescriptionFormRadiology");
+			$.post('<?=BASEURL.'prescription/post-radiology'?>', {data: $form.serialize()}, function(resp) {
+				resp = $.parseJSON(resp);
+				$thisBtn.text('Save');
+				alert(resp.msg);
+				if (resp.status == true) {
+					location.reload();
+				}
+			});
+		});
+
 	});//onload
 	</script>
 
@@ -337,7 +361,37 @@ if ($checkUserPermissions['permissions'] == 'all' || in_array('add_prescription_
 				<span class="removeInvestigationSelectBoxBtn"><i class="fa fa-trash-o"></i></span>
 			</div><!-- /1 -->
 		</div><!-- /row -->
-	</div>
+	</div><!-- /investigationSectionToAddHide -->
+
+
+	<div class="radiologySectionToAddHide" style="display: none;">
+		<div class="row" style="margin-bottom: 20px;">
+			<div class="col-md-7">
+				<div class="form-gorup">
+					<label>Type</label>
+					<select name="radiology_test_id[]" class="form-control">
+						<option value="">Select Radiology Test</option>
+						<?php foreach ($radiology_tests as $keyRT => $RT): ?>
+							<option value="<?=$RT['radiology_test_id']?>"><?=$RT['title']?></option>
+						<?php endforeach ?>
+					</select>
+				</div><!-- /form-gorup -->
+			</div><!-- /7 -->
+			<div class="col-md-4">
+				<div class="form-gorup">
+					<label>Priority</label>
+					<select name="priority[]" class="form-control">
+						<option value="">Select Priority</option>
+						<option value="regular">Regular</option>
+						<option value="prior">Prior</option>
+					</select>
+				</div><!-- /form-gorup -->
+			</div><!-- /4 -->
+			<div class="col-md-1" style="position: relative;">
+				<span class="removeRadiologySelectBoxBtn"><i class="fa fa-trash-o"></i></span>
+			</div><!-- /1 -->
+		</div><!-- /row -->
+	</div><!-- /radiologySectionToAddHide -->
 
 
 	<div class="modal fade bd-example-modal-lg" id="addDrugToPrescriptionModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -578,6 +632,7 @@ if ($checkUserPermissions['permissions'] == 'all' || in_array('add_prescription_
 
 
 	<style>
+	.removeRadiologySelectBoxBtn,
 	.removeInvestigationSelectBoxBtn{
 		position: absolute;
 		right: 0px;

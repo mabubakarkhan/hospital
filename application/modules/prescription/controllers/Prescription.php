@@ -41,6 +41,7 @@ class Prescription extends MY_Controller {
 		$data['prescription_procedures'] = false;
 		$data['prescription_lab_tests'] = false;
 		$data['prescription_drugs'] = false;
+		$data['prescription_radiology_tests'] = false;
 		$data['investigations'] = false;
 		if ($data['prescription']) {
 			$data['prescription_procedures'] = $this->model->prescription_procedures($data['prescription']['prescription_id']);
@@ -48,6 +49,7 @@ class Prescription extends MY_Controller {
 			$prescription_lab_tests = $this->model->get_prescription_lab_tests($data['prescription']['prescription_id']);
 			$data['prescription_lab_tests'] = explode(',', $prescription_lab_tests['ids']);
 			$data['investigations'] = $this->model->get_investigations($data['prescription']['prescription_id']);
+			$data['prescription_radiology_tests'] = $this->model->get_prescription_radiology_tests($data['prescription']['prescription_id']);
 		}
 		if (!($data['token'])) {
 			redirect('logout');
@@ -216,5 +218,30 @@ class Prescription extends MY_Controller {
 			}
 		}
 		echo json_encode(array("status"=>true,"msg"=>"investigation updated successfully."));
+	}
+	public function post_radiology()
+	{
+		check_permissions('add_prescription_token');
+		$userLoginData = $this->userLoginData;
+		parse_str($_POST['data'],$post);
+		if ($post['prescription_id'] > '0') {
+			$insert['prescription_id'] = $post['prescription_id'];
+			$this->db->where('prescription_id',$insert['prescription_id'])->delete('prescription_radiology_test');
+		}
+		else{
+			$ins['token_id'] = $post['token_id'];
+			$this->db->insert('prescription',$ins);
+			$insert['prescription_id'] = $this->db->insert_id();
+		}
+		$insert['user_id'] = $post['user_id'];
+		$insert['token_id'] = $post['token_id'];
+		foreach ($post['radiology_test_id'] as $key => $q) {
+			if (isset($q) && strlen($q) > 0) {
+				$insert['radiology_test_id'] = $q;
+				$insert['priority'] = $post['priority'][$key];
+				$this->db->insert('prescription_radiology_test',$insert);
+			}
+		}
+		echo json_encode(array("status"=>true,"msg"=>"Radiology Test updated successfully."));
 	}
 }
