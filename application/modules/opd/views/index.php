@@ -4,6 +4,9 @@
 		<div class="row">
 			<div class="col-md-12">
 				<h3>OPD 
+	              	<?php if ($permissions == 'all' || in_array('create_token', $permissions)): ?>
+						<a href="javascript://" class="btn btn-primary createAppointmentBtn" style="float: right;margin-left: 15px;">Appointment</a>
+	              	<?php endif ?>
 					<?php if ($permissions == 'all' || in_array('create_token', $permissions)): ?>
 						<a href="javascript://" class="btn btn-success createTokenBtn" style="float: right;">Create Token</a>
 	              	<?php endif ?>

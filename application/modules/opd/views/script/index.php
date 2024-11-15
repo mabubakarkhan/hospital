@@ -52,7 +52,7 @@ if ($checkUser['permissions'] == 'all' || in_array('create_token', $checkUser['p
 				});
 			}
 		});
-		$(document).on('click', '.selectPatientBtn', function(event) {
+		$(document).on('click', '#createTokenModal .selectPatientBtn', function(event) {
 			event.preventDefault();
 			$this = $(this);
 			$("#createTokenInputPatientSearch").val($this.attr('data-title'));
@@ -60,7 +60,7 @@ if ($checkUser['permissions'] == 'all' || in_array('create_token', $checkUser['p
 			$("#dropdownPatientSearchList").hide(0);
 			$("#dropdownPatientSearchList").html('');
 		});
-		$(document).on('submit', '#createTokenModal form', function(event) {
+		$(document).on('submit', '#createAppointmentModal form, #createTokenModal form', function(event) {
 			event.preventDefault();
 			$form = $(this);
 			$.post('<?=BASEURL."opd/create-token"?>', {data: $form.serialize()}, function(resp) {
@@ -68,13 +68,71 @@ if ($checkUser['permissions'] == 'all' || in_array('create_token', $checkUser['p
 				alert(resp.msg);
 			});
 		});
+
+
+		//Appointment
+		$(document).on('click', '.createAppointmentBtn', function(event) {
+			event.preventDefault();
+			$("#createAppointmentModal").modal('show');
+		});
+
+		$(document).on('keyup', '#createAppointmentInputPatientSearch', function(event) {
+			event.preventDefault();
+			$this = $(this);
+			$("#dropdownPatientSearchListAppointment").html('');
+			$("#createAppointmentModal input[name='patient_id']").val('');
+			$key = $this.val();
+			if ($key.length > 0) {
+				$.post('<?=BASEURL."home/patient-search-for-token"?>', {key: $key}, function(resp) {
+					resp = $.parseJSON(resp);
+					$("#dropdownPatientSearchListAppointment").html(resp.html);
+					$("#dropdownPatientSearchListAppointment").show(0);
+				});
+			}
+		});
+		$(document).on('click', '#createAppointmentModal .selectPatientBtn', function(event) {
+			event.preventDefault();
+			$this = $(this);
+			$("#createAppointmentInputPatientSearch").val($this.attr('data-title'));
+			$("#createAppointmentModal input[name='patient_id']").val($this.attr('data-id'));
+			$("#dropdownPatientSearchListAppointment").hide(0);
+			$("#dropdownPatientSearchListAppointment").html('');
+			$.post('<?=BASEURL."home/get-patient-appointments"?>', {id: $this.attr('data-id')}, function(resp) {
+				resp = $.parseJSON(resp);
+				$("#createAppointmentModal select[name='user_id']").html(resp.html);
+			});
+		});
+
+		$(document).on('change', "#createAppointmentModal select[name='user_id']", function(event) {
+			event.preventDefault();
+			$this = $(this);
+			$val = $this.val();
+			if ($val.length > 0) {
+				$("#createAppointmentModal input[name='room_id']").val($this.children('option:selected').attr('data-room_id'));
+				$("#createAppointmentModal input[name='user_room_time_id']").val($this.children('option:selected').attr('data-user_room_time_id'));
+				$("#createAppointmentModal input[name='service_id']").val($this.children('option:selected').attr('data-service_id'));
+				$("#createAppointmentModal input[name='user_commission']").val($this.children('option:selected').attr('data-user_commission'));
+				$("#createAppointmentModal input[name='fee']").val($this.children('option:selected').attr('data-fee'));
+				$("#createAppointmentModal .showFeeTokenCreateForm").val($this.children('option:selected').attr('data-fee'));
+			}
+			else{
+				$("#createAppointmentModal input[name='room_id']").val('');
+				$("#createAppointmentModal input[name='user_room_time_id']").val('');
+				$("#createAppointmentModal input[name='service_id']").val('');
+				$("#createAppointmentModal input[name='user_commission']").val('');
+				$("#createAppointmentModal input[name='fee']").val('');
+				$("#createAppointmentModal .showFeeTokenCreateForm").val('');
+			}
+		});
+
 	});//onload
-	</script>
-	<script>
+
 	$(document).ready(function() {
 	    // Function to hide the dropdown
 	    function hideDropdown() {
-	        $('#dropdownPatientSearchList').hide();
+	    	if ($("#dropdownPatientSearchList").is(":visible")) {
+	        	$('#dropdownPatientSearchList').hide();
+			}
 	    }
 
 	    // Click event on the document
@@ -93,6 +151,34 @@ if ($checkUser['permissions'] == 'all' || in_array('create_token', $checkUser['p
 	        setTimeout(function() {
 	            if (!$('#dropdownPatientSearchList').is(':focus') && !$('#createTokenInputPatientSearch').is(':focus')) {
 	                $('#dropdownPatientSearchList').hide();
+	            }
+	        }, 200); // Adjust the delay if needed
+	    });
+
+	    ////Appointment
+	    // Function to hide the dropdown
+	    function hideDropdownAppointment() {
+	    	if ($("#dropdownPatientSearchListAppointment").is(":visible")) {
+	        	$('#dropdownPatientSearchListAppointment').hide();
+			}
+	    }
+
+	    // Click event on the document
+	    $(document).on('mousedown', function(e) {
+	        var input = $("#createAppointmentInputPatientSearch");
+	        var dropdown = $("#dropdownPatientSearchListAppointment");
+
+	        // Check if the click was outside the input and the dropdown
+	        if (!input.is(e.target) && !dropdown.is(e.target) && dropdown.has(e.target).length === 0) {
+	            hideDropdownAppointment();
+	        }
+	    });
+
+	    // Optional: Hide dropdown when input loses focus (with delay to allow click events inside the dropdown to register)
+	    $('#createAppointmentInputPatientSearch').on('blur', function() {
+	        setTimeout(function() {
+	            if (!$('#dropdownPatientSearchListAppointment').is(':focus') && !$('#createAppointmentInputPatientSearch').is(':focus')) {
+	                $('#dropdownPatientSearchListAppointment').hide();
 	            }
 	        }, 200); // Adjust the delay if needed
 	    });
@@ -166,7 +252,76 @@ if ($checkUser['permissions'] == 'all' || in_array('create_token', $checkUser['p
 				</div><!-- /modal-body -->
 			</div><!-- /modal-content -->
 		</div><!-- /modal-lg -->
-	</div><!-- #add-service-modal -->
+	</div><!-- #createTokenModal -->
+	<div class="modal fade bd-example-modal-lg" id="createAppointmentModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Appointment</h4>
+					<button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div><!-- /modal-header -->
+				<div class="modal-body">
+
+					<form>
+						<input type="hidden" name="patient_id">
+						<input type="hidden" name="room_id">
+						<input type="hidden" name="user_room_time_id">
+						<input type="hidden" name="service_id">
+						<input type="hidden" name="user_commission">
+						<input type="hidden" name="fee">
+						<input type="hidden" name="type" value="general">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>Patient</label>
+									<input class="form-control" id="createAppointmentInputPatientSearch" placeholder="Search by name, mobile" type="text" required="">
+									<div id="dropdownPatientSearchListAppointment" class="dropdown-patient-search-list"></div>
+								</div><!-- /form-group -->
+							</div><!-- /12 -->
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>Doctor *</label>
+									<select name="user_id" class="form-control" required>
+										<option value="">Select</option>
+									</select>
+								</div><!-- /form-group -->
+							</div><!-- /12 -->
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Date</label>
+									<input class="form-control" name="at" type="date" value="<?=date('Y-m-d')?>" required="">
+								</div><!-- /form-group -->
+							</div><!-- /6 -->
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Token #</label>
+									<input class="form-control" name="token_number" type="text" value="1" required="">
+								</div><!-- /form-group -->
+							</div><!-- /6 -->
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>Fee</label>
+									<input class="form-control showFeeTokenCreateForm" type="text" value="" readonly>
+								</div><!-- /form-group -->
+							</div><!-- /12 -->
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>Comment</label>
+									<textarea name="comment" class="form-control"></textarea>
+								</div><!-- /form-group -->
+							</div><!-- /12 -->
+							<div class="col-md-6">
+								<div class="form-group">
+									<button type="submit" class="btn btn-primary submitBtn">Add</button>
+								</div><!-- /form-group -->
+							</div><!-- /6 -->
+						</div><!-- /row -->
+					</form>
+
+				</div><!-- /modal-body -->
+			</div><!-- /modal-content -->
+		</div><!-- /modal-lg -->
+	</div><!-- #createAppointmentModal -->
 <?php endif ?>
 
 

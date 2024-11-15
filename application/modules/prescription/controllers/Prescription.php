@@ -54,6 +54,7 @@ class Prescription extends MY_Controller {
 		if (!($data['token'])) {
 			redirect('logout');
 		}
+		$data['followUpDate'] = $this->model->get_row("SELECT `followup_date` FROM `token_followup` WHERE `token_id` = '".$data['token']['token_id']."'");
 		$data['lab_test_cats'] = $this->model->lab_test_active_cats();
 		$data['lab_active_tests'] = $this->model->lab_active_tests();
 		$data['radiology_tests'] = $this->model->radiology_tests('active');
@@ -78,6 +79,7 @@ class Prescription extends MY_Controller {
 				$prescriptionId = $this->db->insert_id();
 			}
 			$this->db->where('prescription_id',$prescriptionId)->delete('prescription_procedure');
+			$procedureIds = array_unique($procedureIds);
 			foreach ($procedureIds as $key => $q) {
 				if (isset($q) && strlen($q) > 0) {
 					$insert['prescription_id'] = $prescriptionId;
@@ -243,5 +245,14 @@ class Prescription extends MY_Controller {
 			}
 		}
 		echo json_encode(array("status"=>true,"msg"=>"Radiology Test updated successfully."));
+	}
+	public function submit_followup()
+	{
+		check_permissions('add_prescription_token');
+		$userLoginData = $this->userLoginData;
+		parse_str($_POST['data'],$post);
+		$post['followup_date'] = date('Y-m-d H:i:s',strtotime($post['followup_date']));
+		$this->db->insert('token_followup',$post);
+		echo json_encode(array("status"=>true,"msg"=>"Followup added successfully."));
 	}
 }

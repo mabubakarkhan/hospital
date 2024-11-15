@@ -4,6 +4,20 @@ if ($checkUserPermissions['permissions'] == 'all' || in_array('add_prescription_
 ?>
 	<script>
 	$(function(){
+
+		$(document).on('submit', '#prescriptionFollowUpForm', function(event) {
+			event.preventDefault();
+			$form = $(this);
+			$("#prescriptionFollowUpForm button[type='submit']").text('Wait...');
+			$.post('<?=BASEURL."prescription/submit-followup"?>', {data: $form.serialize()}, function(resp) {
+				resp = $.parseJSON(resp);
+				alert(resp.msg);
+				if (resp.status == true) {
+					location.reload();
+				}
+			});
+		});
+
 		$(document).on('submit', '#prescriptionFormId1', function(event) {
 			event.preventDefault();
 			$form = $(this);

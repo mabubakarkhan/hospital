@@ -457,6 +457,31 @@
           	</div><!-- /9 -->
 
           	<div class="col-sm-12 col-xl-3">
+
+          		<?php if ($prescription): ?>
+	          		<div class="card">
+	          			<div class="card-body">
+	          				<?php if ($followUpDate): ?>
+	          					<h5>Next Followup Date</h5>
+	          					<p><strong><?=date("d-m-Y (h:i A)",strtotime($followUpDate['followup_date']))?></strong></p>
+	          				<?php else: ?>
+		          				<form id="prescriptionFollowUpForm">
+		          					<input type="hidden" name="token_id" value="<?=$token['token_id']?>">
+		          					<input type="hidden" name="patient_id" value="<?=$token['patient_id']?>">
+									<input type="hidden" name="prescription_id" value="<?=$prescription['prescription_id']?>">
+									<div>
+										<h5>Next Followup Date</h5>
+									    <input type="datetime-local" name="followup_date" class="form-control" required>
+									</div>
+									<div>
+										<button type="submit" class="btn btn-square btn-primary" style="margin-top: 10px;">Save</button>
+									</div><!-- /2 -->
+								</form><!-- #prescriptionFollowUpForm -->
+	          				<?php endif ?>
+	          			</div><!-- /card-body -->
+	          		</div><!-- /card -->
+				<?php endif ?>
+
           		<div class="card">
           			<div class="card-body">
 	                    <div class="default-according" id="accordionclose">

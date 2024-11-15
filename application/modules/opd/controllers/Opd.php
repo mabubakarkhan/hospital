@@ -38,8 +38,8 @@ class Opd extends MY_Controller {
 			load_view('index',$data,true);
 		}
 		elseif ($checkUserPermissions['permissions'] == 'all' || in_array('view_own_tokens', $checkUserPermissions['permissions'])) {
-			$data['tokens'] = $this->model->get_current_tokens_by_user_id($data['userLoginData']['user_id']);
-			// var_dump($data['tokens']);die;
+			$data['tokens'] = $this->model->get_current_tokens_by_user_id($data['userLoginData']['user_id'],'token');
+			$data['general_tokens'] = $this->model->get_current_tokens_by_user_id($data['userLoginData']['user_id'],'general');
 			load_view('opd_own',$data,true);
 		}
 		else{

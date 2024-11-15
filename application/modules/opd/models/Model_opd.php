@@ -47,13 +47,13 @@ class Model_opd extends CI_Model {
 			ORDER BY u.fname, u.lname
 		;");
 	}
-	public function get_current_tokens_by_user_id($userId)
+	public function get_current_tokens_by_user_id($userId,$type)
 	{
 		return $this->get_results("
 			SELECT t.*, p.fname AS patientFname, p.lname AS patientLname, p.mobile AS patientMobile 
 			FROM `token` AS t 
 			INNER JOIN `patient` AS p ON p.patient_id = t.patient_id 
-			WHERE t.user_id = '$userId' AND DATE(t.at) = CURDATE() 
+			WHERE t.user_id = '$userId' AND DATE(t.at) = CURDATE() AND t.type = '$type' 
 			ORDER BY t.token_number ASC 
 		;");
 	}

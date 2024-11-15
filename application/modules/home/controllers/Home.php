@@ -65,4 +65,21 @@ class Home extends MY_Controller {
 		}
 		echo json_encode(array("status"=>true,"html"=>$html));
 	}
+	public function get_patient_appointments()
+	{
+		check_permissions('create_token');
+		$resp = $this->model->get_patient_appointments($_POST['id']);
+		if ($resp) {
+			$html = '<option value="">Select Doctor</option>';
+			foreach ($resp as $key => $q) {
+				$html .= '<option value="'.$q['user_id'].'" data-service_id="'.$q['service_id'].'" data-user_room_time_id="'.$q['user_room_time_id'].'" data-room_id="'.$q['room_id'].'" data-user_commission="'.$q['user_commission'].'" data-fee="'.$q['fee'].'">'.$q['fname'].' '.$q['lname'].' - '.$q['serviceName'].' ('.$q['roomTitle'].' - '.$q['floorTitle'].') </option>';
+			}
+			echo json_encode(array("status"=>true,"html"=>$html));
+		}
+		else{
+			$html = '<option value="">No Appointment Found</option>';
+			echo json_encode(array("status"=>false,"html"=>"<option value=''>No Appointment Found</option>"));
+		}
+	}
+
 }

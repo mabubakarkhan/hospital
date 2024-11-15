@@ -13,6 +13,7 @@ $(function(){
 			if (resp.status == true) {
 				$(".successMsgSection p").text(resp.msg);
 				$(".successMsgSection").show(0);
+				location.reload();
 			}
 			else{
 				$(".errorMsgSection p").text(resp.msg);
