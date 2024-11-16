@@ -66,8 +66,29 @@ if ($checkUser['permissions'] == 'all' || in_array('create_token', $checkUser['p
 			$.post('<?=BASEURL."opd/create-token"?>', {data: $form.serialize()}, function(resp) {
 				resp = $.parseJSON(resp);
 				alert(resp.msg);
-			});
-		});
+				//auto select next token
+				if (resp.status == true) {
+				    var $select = $form.find('select[name="token_number"]');
+				    var selectedToken = parseInt($select.val(), 10);
+				    $select.find('option:selected').remove();
+				    if ($select.children('option').length > 0) {
+				        var nextOption = $select.children('option').first();
+				        $select.children('option').each(function() {
+				            if (parseInt($(this).val(), 10) > selectedToken) {
+				                nextOption = $(this);
+				                return false;
+				            }
+				        });
+				        nextOption.prop('selected', true);
+				    } else {
+				        var newValue = selectedToken + 1;
+				        var newOption = new Option(newValue, newValue);
+				        $select.append(newOption);
+				        $select.val(newValue);
+				    }
+				}//if (resp.status == true)
+			});//post
+		});//form submit
 
 
 		//Appointment
@@ -226,7 +247,29 @@ if ($checkUser['permissions'] == 'all' || in_array('create_token', $checkUser['p
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Token #</label>
-									<input class="form-control" name="token_number" type="text" value="1" required="">
+									<select name="token_number" class="form-control" required>
+										<option value="">Select Token</option>
+										<?php
+										$tokenNumberKey = 0;
+										$tokenNumberKeyTotal = 101;
+										$token_numbers = explode(',', $token_numbers['token_numbers']);
+										if (count($token_numbers) >= 101) {
+											$tokenNumberKeyTotal = count($token_numbers) + 20;
+										}
+										for ($i=1; $i < $tokenNumberKeyTotal; $i++) {
+										?>
+											<?php if (!(in_array($i, $token_numbers))): ?>
+												<?php if ($tokenNumberKey == 0): ?>
+													<?php $tokenNumberKey = 1; ?>
+													<option value="<?=$i?>" selected><?=$i?></option>
+												<?php else: ?>
+													<option value="<?=$i?>"><?=$i?></option>
+												<?php endif ?>
+											<?php endif ?>
+										<?php
+										}
+										?>
+									</select>
 								</div><!-- /form-group -->
 							</div><!-- /6 -->
 							<div class="col-md-12">
@@ -295,7 +338,29 @@ if ($checkUser['permissions'] == 'all' || in_array('create_token', $checkUser['p
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Token #</label>
-									<input class="form-control" name="token_number" type="text" value="1" required="">
+									<select name="token_number" class="form-control" required>
+										<option value="">Select Token</option>
+										<?php
+										$tokenNumberKey = 0;
+										$tokenNumberKeyTotal = 101;
+										$general_token_numbers = explode(',', $general_token_numbers['token_numbers']);
+										if (count($general_token_numbers) >= 101) {
+											$tokenNumberKeyTotal = count($general_token_numbers) + 20;
+										}
+										for ($i=1; $i < $tokenNumberKeyTotal; $i++) {
+										?>
+											<?php if (!(in_array($i, $general_token_numbers))): ?>
+												<?php if ($tokenNumberKey == 0): ?>
+													<?php $tokenNumberKey = 1; ?>
+													<option value="<?=$i?>" selected><?=$i?></option>
+												<?php else: ?>
+													<option value="<?=$i?>"><?=$i?></option>
+												<?php endif ?>
+											<?php endif ?>
+										<?php
+										}
+										?>
+									</select>
 								</div><!-- /form-group -->
 							</div><!-- /6 -->
 							<div class="col-md-12">
