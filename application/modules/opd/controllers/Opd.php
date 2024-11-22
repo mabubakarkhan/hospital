@@ -31,17 +31,16 @@ class Opd extends MY_Controller {
 		check_permissions('opd');
 		$data['userLoginData'] = $this->userLoginData;
 		$data['meta_title'] = 'OPD';
-		/*$data['services'] = $this->model->services();
-		$data['users'] = $this->model->get_opd_active_users();*/
 		$checkUserPermissions = unserialize($_SESSION['user']);
 		if ($checkUserPermissions['permissions'] == 'all' || in_array('view_all_tokens', $checkUserPermissions['permissions'])) {
+			$data['tokens'] = $this->model->get_current_tokens('token');
+			$data['general_tokens'] = $this->model->get_current_tokens('general');
 			$data['token_numbers'] = $this->model->get_row("SELECT GROUP_CONCAT(`token_number`) AS 'token_numbers' FROM `token` WHERE DATE(`at`) = CURRENT_DATE AND `type` = 'token';");
 			$data['general_token_numbers'] = $this->model->get_row("SELECT GROUP_CONCAT(`token_number`) AS 'token_numbers' FROM `token` WHERE DATE(`at`) = CURRENT_DATE AND `type` = 'general';");
 			load_view('index',$data,true);
 		}
 		elseif ($checkUserPermissions['permissions'] == 'all' || in_array('view_own_tokens', $checkUserPermissions['permissions'])) {
 			$data['tokens'] = $this->model->get_current_tokens_by_user_id($data['userLoginData']['user_id'],'token');
-
 			$data['general_tokens'] = $this->model->get_current_tokens_by_user_id($data['userLoginData']['user_id'],'general');
 			load_view('opd_own',$data,true);
 		}

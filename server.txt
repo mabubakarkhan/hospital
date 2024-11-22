@@ -9,8 +9,3 @@ cubixtechnologyc_hospital
 
 
 https://hospital.cubixtechnology.co.uk/
-
-
-
-tbl
-1.	token_followup

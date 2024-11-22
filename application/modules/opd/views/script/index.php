@@ -14,6 +14,22 @@ if ($checkUser['permissions'] == 'all' || in_array('create_token', $checkUser['p
 			$.post('<?=BASEURL."home/get-current-active-doctors-for-opd"?>', {id: 463}, function(resp) {
 				resp = $.parseJSON(resp);
 				$("#createTokenModal select[name='user_id']").html(resp.html);
+				$("#createTokenModal select[name='token_number'] option").each(function () {
+			        if ($(this).val() !== '') {
+			            $("#createTokenModal select[name='token_number']").val($(this).val());
+			            return false;
+			        }
+			    });
+				$("#createTokenModal").modal('show');
+			});
+		});
+		$(document).on('click', '.createTokenBtnTokenNumber', function(event) {
+			event.preventDefault();
+			$this = $(this);
+			$.post('<?=BASEURL."home/get-current-active-doctors-for-opd"?>', {id: 463}, function(resp) {
+				resp = $.parseJSON(resp);
+				$("#createTokenModal select[name='user_id']").html(resp.html);
+				$("#createTokenModal select[name='token_number']").val($this.attr('data-token'));
 				$("#createTokenModal").modal('show');
 			});
 		});
@@ -86,6 +102,7 @@ if ($checkUser['permissions'] == 'all' || in_array('create_token', $checkUser['p
 				        $select.append(newOption);
 				        $select.val(newValue);
 				    }
+				    location.reload();
 				}//if (resp.status == true)
 			});//post
 		});//form submit
@@ -407,5 +424,43 @@ if ($checkUser['permissions'] == 'all' || in_array('create_token', $checkUser['p
     padding: 12px 16px;
     text-decoration: none;
     display: block;
+}
+.schedule-container {
+  	margin: 20px;
+}
+.createTokenBtnTokenNumber{
+  	cursor: pointer;
+}
+.schedule-date {
+	font-size: 1.5rem;
+	font-weight: bold;
+	padding: 10px;
+}
+.schedule-row {
+	border-bottom: 1px solid #ddd;
+	display: flex;
+	align-items: center;
+	min-height: 60px;
+	margin-bottom: 2px;
+}
+.schedule-item {
+	padding: 10px;
+	flex: 1;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.count {
+	font-weight: bold;
+	font-size: 1.2rem;
+	text-align: center;
+	width: 50px;
+}
+.status-select {
+	width: 150px;
+}
+.action-buttons i {
+	margin: 0 5px;
+	cursor: pointer;
 }
 </style>
