@@ -64,4 +64,17 @@ class Patient extends MY_Controller {
 			echo json_encode(array("status"=>false,"msg"=>"Patient not updated, please try again."));
 		}
 	}
+	public function history($type,$patient,$user)
+	{
+		if ($type == 'all') {
+			check_permissions('all_history_prescription_token');
+		}
+		else{
+			check_permissions('own_history_prescription_token');
+		}
+		$data['userLoginData'] = $this->userLoginData;
+		$data['history'] = $this->model->get_prescription_history($type,$patient,$user);
+		$data['patient'] = $this->model->get_patient_byid($patient);
+		load_view('history',$data);
+	}
 }

@@ -4,7 +4,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<h5>
-					<?=$token['patientFname'].' '.$token['patientLname'].' - '.$token['patientGender'].' - '.$token['patientAge'].' - '.$token['patientMobile']?>
+					<?=$token['patientFname'].' '.$token['patientLname'].' - '.$token['patientGender'].' - '.$token['patientAge'].' - '.$token['patientMobile']?><?=$historyUrl?>
 					<br><small><?=$token['serviceName']?></small>
 				</h5>
 				<br>

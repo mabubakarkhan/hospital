@@ -58,6 +58,19 @@ class Prescription extends MY_Controller {
 		$data['lab_test_cats'] = $this->model->lab_test_active_cats();
 		$data['lab_active_tests'] = $this->model->lab_active_tests();
 		$data['radiology_tests'] = $this->model->radiology_tests('active');
+		$data['historyUrl'] = '';
+		if (in_array('all_history_prescription_token', $data['userLoginData']['permissions'])) {
+			$check = $this->model->get_row("SELECT `token_id` FROM `token` WHERE `patient_id` = '".$data['token']['patient_id']."' ORDER BY `token_id` DESC;");
+			if ($check) {
+				$data['historyUrl'] = ' - <small style="font-size:11px;"><a href="'.BASEURL.'patient/history/all/'.$data['token']['patient_id'].'/'.$data['token']['user_id'].'" target="_blank">history</a></small>';
+			}
+		}
+		else if (in_array('own_history_prescription_token', $data['userLoginData']['permissions'])) {
+			$check = $this->model->get_row("SELECT `token_id` FROM `token` WHERE `patient_id` = '".$data['token']['patient_id']."' AND `user_id` = '".$data['token']['user_id']."' ORDER BY `token_id` DESC;");
+			if ($check) {
+				$data['historyUrl'] = ' - <small style="font-size:11px;"><a href="'.BASEURL.'patient/history/own/'.$data['token']['patient_id'].'/'.$data['token']['user_id'].'" target="_blank">history</a></small>';
+			}
+		}
 		load_view('new',$data,true);
 	}
 	public function submit()

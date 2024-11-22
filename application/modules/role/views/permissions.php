@@ -437,12 +437,16 @@
 										<label class="form-check-label" for="opd-inline-4">View Own Tokens</label>
 									</div>
 									<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
-										<input class="form-check-input" id="opd-inline-4" type="checkbox" name="title[]" value="view_own_tokens" <?=(in_array('view_own_tokens', $permissionsArr)) ? 'checked' : ''?>>
-										<label class="form-check-label" for="opd-inline-4">View Own Tokens</label>
-									</div>
-									<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
 										<input class="form-check-input" id="opd-inline-5" type="checkbox" name="title[]" value="add_prescription_token" <?=(in_array('add_prescription_token', $permissionsArr)) ? 'checked' : ''?>>
 										<label class="form-check-label" for="opd-inline-5">Add Prescription Token</label>
+									</div>
+									<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
+										<input class="form-check-input" id="opd-inline-6" type="checkbox" name="title[]" value="own_history_prescription_token" <?=(in_array('own_history_prescription_token', $permissionsArr)) ? 'checked' : ''?>>
+										<label class="form-check-label" for="opd-inline-6">Own History Prescription</label>
+									</div>
+									<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
+										<input class="form-check-input" id="opd-inline-7" type="checkbox" name="title[]" value="all_history_prescription_token" <?=(in_array('all_history_prescription_token', $permissionsArr)) ? 'checked' : ''?>>
+										<label class="form-check-label" for="opd-inline-7">All History Prescription</label>
 									</div>
 								</div>
 	                      	</div><!-- /col -->
