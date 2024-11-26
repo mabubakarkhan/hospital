@@ -33,9 +33,6 @@ class Opd extends MY_Controller {
 		$data['meta_title'] = 'OPD';
 		$checkUserPermissions = unserialize($_SESSION['user']);
 		if ($checkUserPermissions['permissions'] == 'all' || in_array('view_all_tokens', $checkUserPermissions['permissions'])) {
-			$data['tokens'] = $this->model->get_current_tokens('token');
-			$data['general_tokens'] = $this->model->get_current_tokens('general');
-			$data['token_numbers'] = $this->model->get_row("SELECT GROUP_CONCAT(`token_number`) AS 'token_numbers' FROM `token` WHERE DATE(`at`) = CURRENT_DATE AND `type` = 'token';");
 			$data['general_token_numbers'] = $this->model->get_row("SELECT GROUP_CONCAT(`token_number`) AS 'token_numbers' FROM `token` WHERE DATE(`at`) = CURRENT_DATE AND `type` = 'general';");
 			load_view('index',$data,true);
 		}
@@ -77,5 +74,58 @@ class Opd extends MY_Controller {
 		else{
 			echo json_encode(array("status"=>false,"msg"=>"Token not updated."));
 		}
+	}
+	public function get_tokens()
+	{
+		check_permissions('opd');
+		$data['userLoginData'] = $this->userLoginData;
+		$data['currentDate'] = date('Y-m-d',strtotime($_POST['date']));
+		$data['tokens'] = $this->model->get_tokens('token',$data['currentDate']);
+		$data['general_tokens'] = $this->model->get_tokens('general',$data['currentDate']);
+
+		//slots
+		$data['token_numbers'] = $this->model->get_row("SELECT GROUP_CONCAT(`token_number`) AS 'token_numbers' FROM `token` WHERE DATE(`at`) = '".$data['currentDate']."' AND `type` = 'token';");
+		$tokenOptions = $this->available_tokens($data['token_numbers']);
+
+		//check current date
+		$currentDate = new DateTime();
+		$givenDate = new DateTime($data['currentDate']);
+		$currentDate->setTime(0, 0);
+		$givenDate->setTime(0, 0);
+		$data['allowCreateTokenButton'] = false;
+		if ($givenDate >= $currentDate) {
+		    $data['allowCreateTokenButton'] = true;
+		}
+
+		echo json_encode(
+			array(
+				"status" => true,
+				"html" => $this->load->view('html/tokens',$data,true),
+				"allowCreateTokenButton" => $data['allowCreateTokenButton'],
+				"currentDate" => $data['currentDate'],
+				"tokenOptions" => $tokenOptions
+			)
+		);
+	}
+	protected function available_tokens($token_numbers)
+	{
+		$options = '<option value="">Select Token</option>';
+		$tokenNumberKey = 0;
+		$tokenNumberKeyTotal = 101;
+		$token_numbers = explode(',', $token_numbers['token_numbers']);
+		if (count($token_numbers) >= 101) {
+			$tokenNumberKeyTotal = count($token_numbers) + 20;
+		}
+		for ($i=1; $i < $tokenNumberKeyTotal; $i++) {
+			if (!(in_array($i, $token_numbers))):
+				if ($tokenNumberKey == 0):
+					$tokenNumberKey = 1;
+					$options .= '<option value="'.$i.'" selected>'.$i.'</option>';
+				else:
+					$options .= '<option value="'.$i.'">'.$i.'</option>';
+				endif;
+			endif;
+		}
+		return $options;
 	}
 }

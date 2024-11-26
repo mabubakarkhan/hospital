@@ -57,7 +57,7 @@ class Model_opd extends CI_Model {
 			ORDER BY t.token_number ASC 
 		;");
 	}
-	public function get_current_tokens($type)
+	public function get_tokens($type,$date)
 	{
 		return $this->get_results("
 			SELECT t.token_id, t.token_number, t.type, t.status, s.name AS serviceName, r.title AS roomTitle, r.room_number, f.title AS floorTitle, f.story AS floorStory, p.fname AS patientFname, p.lname AS patientLname 
@@ -67,7 +67,7 @@ class Model_opd extends CI_Model {
 			INNER JOIN `room` AS r ON r.room_id = urt.room_id
 			INNER JOIN `floor` AS f ON f.floor_id = r.floor_id
 			INNER JOIN `patient` AS p ON p.patient_id = t.patient_id 
-			WHERE DATE(t.at) = CURDATE() AND t.type = '$type' 
+			WHERE DATE(t.at) = '$date' AND t.type = '$type' 
 			ORDER BY t.token_number ASC 
 		;");
 	}

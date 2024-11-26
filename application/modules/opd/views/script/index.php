@@ -1,3 +1,5 @@
+<link href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.js"></script>
 <?php
 $checkUser = unserialize($_SESSION['user']);
 $canCreateToken = false;
@@ -8,6 +10,9 @@ if ($checkUser['permissions'] == 'all' || in_array('create_token', $checkUser['p
 
 <?php if ($canCreateToken): ?>
 	<script>
+	flatpickr("#flatpicker", {
+	    dateFormat: "d-m-Y",
+  	});
 	$(function(){
 		$(document).on('click', '.createTokenBtn', function(event) {
 			event.preventDefault();
@@ -163,9 +168,44 @@ if ($checkUser['permissions'] == 'all' || in_array('create_token', $checkUser['p
 			}
 		});
 
+
+		//data load according to selected date
+		$(document).on('change', '#flatpicker', function(event) {
+			event.preventDefault();
+			$input = $(this);
+			$("#tokensShowCase").html('<p>please wait, loading...</p>');
+			$.post('<?=BASEURL."opd/get-tokens"?>', {date: $input.val()}, function(resp) {
+				resp = $.parseJSON(resp);
+				$("#tokensShowCase").html(resp.html);
+				$("#createTokenModal input[name='at']").val(resp.currentDate);
+				$("#createTokenModal select[name='token_number']").html(resp.tokenOptions);
+				if (resp.allowCreateTokenButton == true) {
+					$(".createTokenBtn").show(0);
+				}
+				else{
+					$(".createTokenBtn").hide(0);
+				}
+			});
+		});
+
 	});//onload
 
 	$(document).ready(function() {
+
+		$("#tokensShowCase").html('<p>please wait, loading...</p>');
+		$.post('<?=BASEURL."opd/get-tokens"?>', {date: '<?=date("Y-m-d")?>'}, function(resp) {
+			resp = $.parseJSON(resp);
+			$("#tokensShowCase").html(resp.html);
+			$("#createTokenModal input[name='at']").val(resp.currentDate);
+			$("#createTokenModal select[name='token_number']").html(resp.tokenOptions);
+			if (resp.allowCreateTokenButton == true) {
+				$(".createTokenBtn").show(0);
+			}
+			else{
+				$(".createTokenBtn").hide(0);
+			}
+		});
+
 	    // Function to hide the dropdown
 	    function hideDropdown() {
 	    	if ($("#dropdownPatientSearchList").is(":visible")) {
@@ -258,7 +298,7 @@ if ($checkUser['permissions'] == 'all' || in_array('create_token', $checkUser['p
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Date</label>
-									<input class="form-control" name="at" type="date" value="<?=date('Y-m-d')?>" required="">
+									<input class="form-control" name="at" type="date" value="<?=date('Y-m-d')?>" min="<?= date('Y-m-d') ?>" required="">
 								</div><!-- /form-group -->
 							</div><!-- /6 -->
 							<div class="col-md-6">
