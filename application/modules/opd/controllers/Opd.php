@@ -52,7 +52,19 @@ class Opd extends MY_Controller {
 		parse_str($_POST['data'],$post);
 		$resp = $this->db->insert('token',$post);
 		if ($resp) {
-			echo json_encode(array("status"=>true,"msg"=>"Token created successfully"));
+
+			$data['currentDate'] = date('Y-m-d',strtotime($post['at']));
+			$data['tokens'] = $this->model->get_tokens('token',$data['currentDate']);
+			$data['allowCreateTokenButton'] = true;
+			echo json_encode(
+				array(
+					"status" => true,
+					"html" => $this->load->view('html/tokens',$data,true),
+					"allowCreateTokenButton" => $data['allowCreateTokenButton'],
+					"currentDate" => $data['currentDate'],
+					"msg" => "Token created successfully"
+				)
+			);
 		}
 		else{
 			echo json_encode(array("status"=>false,"msg"=>"Token not created, please try again."));

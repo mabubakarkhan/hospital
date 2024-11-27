@@ -107,7 +107,7 @@ if ($checkUser['permissions'] == 'all' || in_array('create_token', $checkUser['p
 				        $select.append(newOption);
 				        $select.val(newValue);
 				    }
-				    location.reload();
+				    $("#tokensShowCase").html(resp.html);
 				}//if (resp.status == true)
 			});//post
 		});//form submit

@@ -12,7 +12,7 @@ if (count($tokens) >= '100') {
     	$index = array_search((string)$i, $tokenNumbers);
     	if ($index !== false && $tokens) {
     	?>
-    		<div class="schedule-row" style="background: rgba(92,97,242,0.1);">
+    		<div class="schedule-row" style="background: rgba(92,97,242,0.1);" data-token="<?=$i?>">
 				<div class="count"><?=$i?></div>
 				<div class="schedule-item" style="border-left: 2px solid rgba(92,97,242,1);">
 					<div>
