@@ -3,9 +3,9 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12">
-				<h3>services 
-					<?php if ($permissions == 'all' || in_array('service_add', $permissions)): ?>
-						<a href="javascript://" class="btn btn-success addserviceBtn" style="float: right;">Add Service</a>
+				<h3>departments 
+					<?php if ($permissions == 'all' || in_array('department_add', $permissions)): ?>
+						<a href="javascript://" class="btn btn-success addDepartmentBtn" style="float: right;">Add Department</a>
 	              	<?php endif ?>
 				</h3>
 			</div>
@@ -25,26 +25,24 @@
 									<tr>
 										<th>#</th>
 										<th>Name</th>
-										<th>Department</th>
 										<th>Status</th>
-										<?php if ($permissions == 'all' || in_array('service_edit', $permissions)): ?>
+										<?php if ($permissions == 'all' || in_array('department_edit', $permissions)): ?>
 											<th>Edit</th>
 										<?php endif ?>
 									</tr>
 								</thead>
 								<tbody>
 
-									<?php if ($services): ?>
-										<?php foreach ($services as $qKey => $q): ?>
+									<?php if ($departments): ?>
+										<?php foreach ($departments as $qKey => $q): ?>
 											<tr>
 												<td><?=($qKey+1)?></td>
 												<td><?=$q['name']?></td>
-												<td><?=$q['departmentName']?></td>
 												<td><?=$q['status']?></td>
 												<td>
 													<ul class="action">
-														<?php if ($permissions == 'all' || in_array('service_edit', $permissions)): ?>
-															<li class="edit"> <a href="javascript://" class="editserviceBtn" data-id="<?=$q['service_id']?>" data-name="<?=$q['name']?>" data-status="<?=$q['status']?>" data-department_id="<?=$q['department_id']?>"><i class="icon-pencil-alt"></i></a></li>
+														<?php if ($permissions == 'all' || in_array('department_edit', $permissions)): ?>
+															<li class="edit"> <a href="javascript://" class="editDepartmentBtn" data-id="<?=$q['department_id']?>" data-name="<?=$q['name']?>" data-status="<?=$q['status']?>"><i class="icon-pencil-alt"></i></a></li>
 										              	<?php endif ?>
 													</ul>
 												</td>

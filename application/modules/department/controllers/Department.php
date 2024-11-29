@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Service extends MY_Controller {
+class Department extends MY_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -28,24 +28,23 @@ class Service extends MY_Controller {
 
 	public function index()
 	{
-		check_permissions('service_view');
+		check_permissions('department_view');
 		$data['userLoginData'] = $this->userLoginData;
-		$data['meta_title'] = 'All Services';
-		$data['services'] = $this->model->services();
+		$data['meta_title'] = 'All Departments';
 		$data['departments'] = $this->model->departments();
 		load_view('index',$data,true);
 	}
 	public function add()
 	{
-		check_permissions('service_add');
+		check_permissions('department_add');
 		$userLoginData = $this->userLoginData;
 		parse_str($_POST['data'],$post);
-		$resp = $this->db->insert('service',$post);
+		$resp = $this->db->insert('department',$post);
 		if ($resp) {
-			echo json_encode(array("status"=>true,"msg"=>"Service added successfully"));
+			echo json_encode(array("status"=>true,"msg"=>"Department added successfully"));
 		}
 		else{
-			echo json_encode(array("status"=>false,"msg"=>"Service not added, please try again."));
+			echo json_encode(array("status"=>false,"msg"=>"Department not added, please try again."));
 		}
 	}
 	public function update()
@@ -55,13 +54,13 @@ class Service extends MY_Controller {
 		$id = $post['id'];unset($post['id']);
 		$post['updated_at'] = date('Y-m-d H:i:s');
 		$resp = $this->db
-		->where('service_id',$id)
-		->update('service',$post);
+		->where('department_id',$id)
+		->update('department',$post);
 		if ($resp) {
-			echo json_encode(array("status"=>true,"msg"=>"Service updated successfully"));
+			echo json_encode(array("status"=>true,"msg"=>"Department updated successfully"));
 		}
 		else{
-			echo json_encode(array("status"=>false,"msg"=>"Service not updated, please try again."));
+			echo json_encode(array("status"=>false,"msg"=>"Department not updated, please try again."));
 		}
 	}
 }

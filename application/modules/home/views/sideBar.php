@@ -55,6 +55,16 @@
                 </ul>
               </li>
             <?php endif ?>
+            <?php if ($permissions == 'all' || in_array('department', $permissions)): ?>
+              <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title"
+                  href="javascript:void(0)"><i data-feather="airplay"></i><span class="lan-16">Departments</span></a>
+                <ul class="sidebar-submenu">
+                  <?php if ($permissions == 'all' || in_array('department_view', $permissions)): ?>
+                    <li><a href="<?=BASEURL.'department'?>">All Departments</a></li>
+                  <?php endif ?>
+                </ul>
+              </li>
+            <?php endif ?>
             <?php if ($permissions == 'all' || in_array('service', $permissions)): ?>
               <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title"
                   href="javascript:void(0)"><i data-feather="airplay"></i><span class="lan-16">Services</span></a>

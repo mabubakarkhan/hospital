@@ -92,7 +92,40 @@
 
 			<div class="row">
 
-				<div class="col-sm-12 col-xl-6">
+				<div class="col-sm-12 col-xl-4">
+					<div class="card">
+						<div class="card-body">
+
+							<div class="col-sm-12">
+                        		<h5>
+                        			<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
+                        					<input class="form-check-input" id="department-inline-0" type="checkbox" name="title[]" value="department" <?=(in_array('department', $permissionsArr)) ? 'checked' : ''?> >
+										<label class="form-check-label" for="department-inline-0"><strong>Department</strong></label>
+									</div>
+                        		</h5>
+                      		</div>
+	                      	<div class="col">
+								<div class="m-t-15 m-checkbox-inline">
+									<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
+										<input class="form-check-input" id="department-inline-1" type="checkbox" name="title[]" value="department_view" <?=(in_array('department_view', $permissionsArr)) ? 'checked' : ''?>>
+										<label class="form-check-label" for="department-inline-1">View</label>
+									</div>
+									<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
+										<input class="form-check-input" id="department-inline-2" type="checkbox" name="title[]" value="department_add" <?=(in_array('department_add', $permissionsArr)) ? 'checked' : ''?>>
+										<label class="form-check-label" for="department-inline-2">Add</label>
+									</div>
+									<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
+										<input class="form-check-input" id="department-inline-3" type="checkbox" name="title[]" value="department_edit" <?=(in_array('department_edit', $permissionsArr)) ? 'checked' : ''?>>
+										<label class="form-check-label" for="department-inline-3">Edit</label>
+									</div>
+								</div>
+	                      	</div><!-- /col -->
+
+						</div>
+					</div><!-- /card -->
+				</div><!-- /4 -->
+
+				<div class="col-sm-12 col-xl-4">
 					<div class="card">
 						<div class="card-body">
 
@@ -108,24 +141,24 @@
 								<div class="m-t-15 m-checkbox-inline">
 									<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
 										<input class="form-check-input" id="service-inline-1" type="checkbox" name="title[]" value="service_view" <?=(in_array('service_view', $permissionsArr)) ? 'checked' : ''?>>
-										<label class="form-check-label" for="service-inline-1">View service</label>
+										<label class="form-check-label" for="service-inline-1">View</label>
 									</div>
 									<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
 										<input class="form-check-input" id="service-inline-2" type="checkbox" name="title[]" value="service_add" <?=(in_array('service_add', $permissionsArr)) ? 'checked' : ''?>>
-										<label class="form-check-label" for="service-inline-2">Add service</label>
+										<label class="form-check-label" for="service-inline-2">Add</label>
 									</div>
 									<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
 										<input class="form-check-input" id="service-inline-3" type="checkbox" name="title[]" value="service_edit" <?=(in_array('service_edit', $permissionsArr)) ? 'checked' : ''?>>
-										<label class="form-check-label" for="service-inline-3">Edit Service</label>
+										<label class="form-check-label" for="service-inline-3">Edit</label>
 									</div>
 								</div>
 	                      	</div><!-- /col -->
 
 						</div>
 					</div><!-- /card -->
-				</div><!-- /6 -->
+				</div><!-- /4 -->
 
-				<div class="col-sm-12 col-xl-6">
+				<div class="col-sm-12 col-xl-4">
 					<div class="card">
 						<div class="card-body">
 
@@ -152,7 +185,7 @@
 
 						</div>
 					</div><!-- /card -->
-				</div><!-- /6 -->
+				</div><!-- /4 -->
 
 
 			</div><!-- /row -->
