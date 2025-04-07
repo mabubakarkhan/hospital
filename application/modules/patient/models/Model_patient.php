@@ -37,15 +37,39 @@ class Model_patient extends CI_Model {
 	{
 		$where = '';
 		if ($type == 'own') {
-			$where  = "AND t.user_id = '".$user."'";
+		    $where = "AND t.user_id = '".$user."'";
 		}
-		return $this->get_results("
-			SELECT t.token_id,t.at,t.status,t.type,s.name AS service, u.fname, u.lname 
-			FROM `token` AS t 
-			INNER JOIN `service` AS s ON t.service_id = s.service_id 
-			INNER JOIN `user` AS u ON t.user_id = u.user_id 
-			WHERE t.patient_id = '$patient' $where 
-			ORDER BY t.at DESC
-		;");
+		$resp['token'] = $this->get_results("
+		    SELECT t.token_id AS id, t.at, t.status, t.type, s.name AS service, u.fname, u.lname 
+		    FROM `token` AS t 
+		    INNER JOIN `service` AS s ON t.service_id = s.service_id 
+		    INNER JOIN `user` AS u ON t.user_id = u.user_id 
+		    WHERE t.patient_id = '$patient' $where
+		");
+		$where = '';
+		if ($type == 'own') {
+		    $where = "AND ea.discharge_by = '".$user."'";
+		}
+
+		$resp['emergency'] = $this->get_results("
+		    SELECT ea.emergency_admit_id AS id, ea.at, ea.status, u.fname, u.lname, s.name AS service, 'emergency' AS type
+		    FROM `emergency_admit` AS ea 
+		    LEFT JOIN `user` AS u ON ea.discharge_by = u.user_id 
+		    INNER JOIN `service` AS s ON ea.service_id = s.service_id 
+		    WHERE ea.patient_id = '$patient' $where
+		");
+		if ($resp['token'] == false) {
+			return $resp['emergency'];
+		}
+		else if ($resp['emergency'] == false) {
+			return $resp['token'];
+		}
+		else{
+			$mergedResults = array_merge($resp['token'], $resp['emergency']);
+			usort($mergedResults, function($a, $b) {
+			    return strtotime($b['at']) - strtotime($a['at']);
+			});
+			return $mergedResults;
+		}
 	}
 }

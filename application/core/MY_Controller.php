@@ -23,6 +23,9 @@ class MY_Controller extends MX_Controller
 			$this->load->helper(array('form','url','dal_helper','template_helper','session_helper','access_helper'));
 			$this->_hmvc_fixes();
 			$this->userLoginData = check_login();
+			if (isset($this->userLoginData['emergency_service'])) {
+				define('EMERGENCY_SERVICE', $this->userLoginData['emergency_service']);
+			}
 		}
 			// $this->_hmvc_fixes();
 	}

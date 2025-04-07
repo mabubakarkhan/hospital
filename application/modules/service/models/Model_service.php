@@ -27,7 +27,7 @@ class Model_service extends CI_Model {
 	public function services()
 	{
 		return $this->get_results("
-			SELECT s.*, d.name AS departmentName, d.status AS departmentStatus  
+			SELECT s.*, d.name AS departmentName, d.status AS departmentStatus 
 			FROM `service` AS s 
 			INNER JOIN `department` AS d ON s.department_id = d.department_id 
 			ORDER BY s.name

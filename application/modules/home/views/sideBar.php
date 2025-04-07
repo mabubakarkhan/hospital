@@ -75,6 +75,16 @@
                 </ul>
               </li>
             <?php endif ?>
+            <?php if ($permissions == 'all' || in_array('emergency_setting', $permissions)): ?>
+              <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title"
+                  href="javascript:void(0)"><i data-feather="airplay"></i><span class="lan-16">Emergency Setting</span></a>
+                <ul class="sidebar-submenu">
+                  <?php if ($permissions == 'all' || in_array('emergency_setting', $permissions)): ?>
+                    <li><a href="<?=BASEURL.'emergency/setting'?>">Setting</a></li>
+                  <?php endif ?>
+                </ul>
+              </li>
+            <?php endif ?>
             <?php if ($permissions == 'all' || in_array('laboratory', $permissions)): ?>
               <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title"
                   href="javascript:void(0)"><i data-feather="airplay"></i><span class="lan-16">Laboratory</span></a>

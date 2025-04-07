@@ -9,3 +9,11 @@ cubixtechnologyc_hospital
 
 
 https://hospital.cubixtechnology.co.uk/
+
+
+
+
+1.	ALTER TABLE `user` ADD COLUMN `emergency_service` ENUM('yes','no') Default 'no' AFTER `type_zero`;
+2.	ALTER TABLE `user` ADD INDEX(`emergency_service`);
+3.	ALTER TABLE `prescription` ADD `emergency_admit_id` INT NOT NULL DEFAULT '0' AFTER `prescription_id`, ADD INDEX (`emergency_admit_id`);
+4.	ALTER TABLE `token_followup` ADD `emergency_admit_id` INT NOT NULL DEFAULT '0' AFTER `token_id`, ADD INDEX (`emergency_admit_id`);

@@ -25,17 +25,22 @@ class Prescription extends MY_Controller {
 		$this->load->database();
 		$this->load->model('Model_'.strtolower(get_class()),'model');
 	}
-
 	public function index()
 	{
 		redirect('logout');
 	}
-	public function new()
+	public function new($emergency_admit = false)
 	{
+		unset($_SESSION['prescriptionId']);
+		if ($emergency_admit !=	false) {
+			$this->new_emergency($_GET['id']);
+			return true;
+		}
 		check_permissions('add_prescription_token');
 		$data['userLoginData'] = $this->userLoginData;
 		$data['meta_title'] = 'Prescription';
 		$data['token'] = $this->model->get_token_detail_byid($_GET['id']);
+		$data['hiddenField'] = '<input type="hidden" name="token_id" value="'.$data['token']['token_id'].'">';
 		$data['prescription'] = $this->model->get_prescription_by_token_id($data['token']['token_id']);
 		$data['procedures'] = $this->model->procedures('active');
 		$data['prescription_procedures'] = false;
@@ -44,6 +49,7 @@ class Prescription extends MY_Controller {
 		$data['prescription_radiology_tests'] = false;
 		$data['investigations'] = false;
 		if ($data['prescription']) {
+			$_SESSION['prescriptionId'] = $data['prescription']['prescription_id'];
 			$data['prescription_procedures'] = $this->model->prescription_procedures($data['prescription']['prescription_id']);
 			$data['prescription_drugs'] = $this->model->get_prescription_drugs($data['prescription']['prescription_id']);
 			$prescription_lab_tests = $this->model->get_prescription_lab_tests($data['prescription']['prescription_id']);
@@ -73,6 +79,58 @@ class Prescription extends MY_Controller {
 		}
 		load_view('new',$data,true);
 	}
+	public function new_emergency($emergency_admit_id)
+	{
+		check_permissions('emergency');
+		$data['userLoginData'] = $this->userLoginData;
+		$data['meta_title'] = 'Prescription';
+		$data['token'] = $this->model->get_emergency_admit_detail_byid($emergency_admit_id);
+		$data['token']['user_id'] = $data['userLoginData']['user_id'];
+		$data['hiddenField'] = '<input type="hidden" name="emergency_admit_id" value="'.$data['token']['emergency_admit_id'].'">';
+		$data['prescription'] = $this->model->get_prescription_by_emergency_admit_id($data['token']['emergency_admit_id']);
+		$data['procedures'] = $this->model->procedures('active');
+		$data['prescription_procedures'] = false;
+		$data['prescription_lab_tests'] = false;
+		$data['prescription_drugs'] = false;
+		$data['prescription_radiology_tests'] = false;
+		$data['investigations'] = false;
+		if ($data['prescription']) {
+			$_SESSION['prescriptionId'] = $data['prescription']['prescription_id'];
+			$data['prescription_procedures'] = $this->model->prescription_procedures($data['prescription']['prescription_id']);
+			$data['prescription_drugs'] = $this->model->get_prescription_drugs($data['prescription']['prescription_id']);
+			$prescription_lab_tests = $this->model->get_prescription_lab_tests($data['prescription']['prescription_id']);
+			$data['prescription_lab_tests'] = explode(',', $prescription_lab_tests['ids']);
+			$data['investigations'] = $this->model->get_investigations($data['prescription']['prescription_id']);
+			$data['prescription_radiology_tests'] = $this->model->get_prescription_radiology_tests($data['prescription']['prescription_id']);
+		}
+		if (!($data['token'])) {
+			redirect('logout');
+		}
+		$data['followUpDate'] = $this->model->get_row("SELECT `followup_date` FROM `token_followup` WHERE `emergency_admit_id` = '".$data['token']['emergency_admit_id']."'");
+		$data['lab_test_cats'] = $this->model->lab_test_active_cats();
+		$data['lab_active_tests'] = $this->model->lab_active_tests();
+		$data['radiology_tests'] = $this->model->radiology_tests('active');
+		$data['historyUrl'] = '';
+		if (in_array('all_history_prescription_token', $data['userLoginData']['permissions'])) {
+			$check = $this->model->get_row("SELECT `token_id` FROM `token` WHERE `patient_id` = '".$data['token']['patient_id']."' ORDER BY `token_id` DESC;");
+			if ($check) {
+				$check = $this->model->get_row("SELECT `emergency_admit_id` FROM `emergency_admit` WHERE `patient_id` = '".$data['token']['patient_id']."' ORDER BY `emergency_admit_id` DESC;");
+				if ($check) {
+					$data['historyUrl'] = ' - <small style="font-size:11px;"><a href="'.BASEURL.'patient/history/all/'.$data['token']['patient_id'].'/'.$data['token']['user_id'].'" target="_blank">history</a></small>';
+				}
+			}
+		}
+		else if (in_array('own_history_prescription_token', $data['userLoginData']['permissions'])) {
+			$check = $this->model->get_row("SELECT `token_id` FROM `token` WHERE `patient_id` = '".$data['token']['patient_id']."' AND `user_id` = '".$data['token']['user_id']."' ORDER BY `token_id` DESC;");
+			if ($check) {
+				$check = $this->model->get_row("SELECT `emergency_admit_id` FROM `emergency_admit` WHERE `patient_id` = '".$data['token']['patient_id']."' AND `discharge_by` = '".$data['token']['user_id']."' ORDER BY `emergency_admit_id` DESC;");
+				if ($check) {
+					$data['historyUrl'] = ' - <small style="font-size:11px;"><a href="'.BASEURL.'patient/history/own/'.$data['token']['patient_id'].'/'.$data['token']['user_id'].'" target="_blank">history</a></small>';
+				}
+			}
+		}
+		load_view('new',$data,true);
+	}
 	public function submit()
 	{
 		check_permissions('add_prescription_token');
@@ -98,6 +156,7 @@ class Prescription extends MY_Controller {
 					$insert['prescription_id'] = $prescriptionId;
 					$insert['procedure_id'] = $q;
 					$this->db->insert('prescription_procedure',$insert);
+					$_SESSION['prescriptionId'] = $data['prescription']['prescription_id'];
 				}
 			}
 			echo json_encode(array("status"=>true,"msg"=>"Record updated successfully."));
@@ -117,6 +176,7 @@ class Prescription extends MY_Controller {
 		else{
 			$ins['token_id'] = $post['token_id'];
 			$this->db->insert('prescription',$ins);
+			$_SESSION['prescriptionId'] = $data['prescription']['prescription_id'];
 			$prescriptionId = $this->db->insert_id();
 		}
 		$this->db->where('prescription_id',$prescriptionId)->delete('prescription_lab_test');
@@ -138,8 +198,14 @@ class Prescription extends MY_Controller {
 			$post['prescription_id'] = $post['prescription_id'];
 		}
 		else{
-			$ins['token_id'] = $post['token_id'];
+			if (isset($post['emergency_admit_id'])) {
+				$ins['emergency_admit_id'] = $post['emergency_admit_id'];
+			}
+			else{
+				$ins['token_id'] = $post['token_id'];
+			}
 			$this->db->insert('prescription',$ins);
+			$_SESSION['prescriptionId'] = $data['prescription']['prescription_id'];
 			$post['prescription_id'] = $this->db->insert_id();
 		}
 		$resp = $this->db->insert('prescription_drug',$post);
@@ -216,12 +282,24 @@ class Prescription extends MY_Controller {
 			$this->db->where('prescription_id',$insert['prescription_id'])->delete('investigation');
 		}
 		else{
-			$ins['token_id'] = $post['token_id'];
+
+			if (isset($post['emergency_admit_id'])) {
+				$ins['emergency_admit_id'] = $post['emergency_admit_id'];
+			}
+			else{
+				$ins['token_id'] = $post['token_id'];
+			}
 			$this->db->insert('prescription',$ins);
+			$_SESSION['prescriptionId'] = $data['prescription']['prescription_id'];
 			$insert['prescription_id'] = $this->db->insert_id();
 		}
 		$insert['user_id'] = $post['user_id'];
-		$insert['token_id'] = $post['token_id'];
+		if (isset($post['emergency_admit_id'])) {
+			$insert['emergency_admit_id'] = $post['emergency_admit_id'];
+		}
+		else{
+			$insert['token_id'] = $post['token_id'];
+		}
 		foreach ($post['lab_test_id'] as $key => $q) {
 			if (isset($q) && strlen($q) > 0) {
 				$insert['lab_test_id'] = $q;
@@ -244,12 +322,23 @@ class Prescription extends MY_Controller {
 			$this->db->where('prescription_id',$insert['prescription_id'])->delete('prescription_radiology_test');
 		}
 		else{
-			$ins['token_id'] = $post['token_id'];
+			if (isset($post['emergency_admit_id'])) {
+				$ins['emergency_admit_id'] = $post['emergency_admit_id'];
+			}
+			else{
+				$ins['token_id'] = $post['token_id'];
+			}
 			$this->db->insert('prescription',$ins);
+			$_SESSION['prescriptionId'] = $data['prescription']['prescription_id'];
 			$insert['prescription_id'] = $this->db->insert_id();
 		}
 		$insert['user_id'] = $post['user_id'];
-		$insert['token_id'] = $post['token_id'];
+		if (isset($post['emergency_admit_id'])) {
+			$insert['emergency_admit_id'] = $post['emergency_admit_id'];
+		}
+		else{
+			$insert['token_id'] = $post['token_id'];
+		}
 		foreach ($post['radiology_test_id'] as $key => $q) {
 			if (isset($q) && strlen($q) > 0) {
 				$insert['radiology_test_id'] = $q;
@@ -267,5 +356,21 @@ class Prescription extends MY_Controller {
 		$post['followup_date'] = date('Y-m-d H:i:s',strtotime($post['followup_date']));
 		$this->db->insert('token_followup',$post);
 		echo json_encode(array("status"=>true,"msg"=>"Followup added successfully."));
+	}
+	/**
+	 * 
+	 * 
+	 * @print
+	 * 
+	 * */
+	public function print($type,$prescriptionId)
+	{
+		if ($type == 'prescription') {
+			$this->print_prescription($prescriptionId);
+		}
+	}
+	public function print_prescription($prescriptionId)
+	{
+		die;
 	}
 }

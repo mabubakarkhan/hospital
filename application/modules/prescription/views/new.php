@@ -6,6 +6,10 @@
 				<h5>
 					<?=$token['patientFname'].' '.$token['patientLname'].' - '.$token['patientGender'].' - '.$token['patientAge'].' - '.$token['patientMobile']?><?=$historyUrl?>
 					<br><small><?=$token['serviceName']?></small>
+					<br>
+					<?php if ($prescription): ?>
+						<!-- <button class="print-btn" id="printPrescription">Print Prescription</button> -->
+					<?php endif ?>
 				</h5>
 				<br>
 			</div>
@@ -19,7 +23,7 @@
                 <div class="card">
                   	<div class="card-body">
 	                    <ul class="nav nav-tabs" id="icon-tab" role="tablist" style="margin-bottom: 20px;">
-							<li class="nav-item"><a class="nav-link active" id="icon-Prescription-tab" data-bs-toggle="tab" href="#icon-Prescription" role="tab" aria-controls="icon-Prescription" aria-selected="true"><i class="fa fa-plus-square"></i>Prescription</a></li>
+							<li class="nav-item active"><a class="nav-link active" id="medical_history-icon-tab" data-bs-toggle="tab" href="#icon-Prescription" role="tab" aria-controls="medical_history-icon-tab" aria-selected="false"><i class="fa fa-file"></i>Medical History</a></li>
 							<li class="nav-item"><a class="nav-link" id="Vitals-icon-tab" data-bs-toggle="tab" href="#Vitals-icon" role="tab" aria-controls="Vitals-icon" aria-selected="false"><i class="fa fa-heartbeat"></i>Vitals</a></li>
 							<li class="nav-item"><a class="nav-link" id="Lab-order-icon-tab" data-bs-toggle="tab" href="#Lab-order-icon" role="tab" aria-controls="Lab-order-icon" aria-selected="false"><i class="icofont icofont-laboratory"></i>Lab order</a></li>
 							<li class="nav-item"><a class="nav-link" id="Radiology-order-icon-tab" data-bs-toggle="tab" href="#Radiology-order-icon" role="tab" aria-controls="Radiology-order-icon" aria-selected="false"><i class="icofont icofont-radio-active"></i>Radiology order</a></li>
@@ -33,7 +37,7 @@
 									<?php if ($prescription): ?>
 										<input type="hidden" name="prescription_id" value="<?=$prescription['prescription_id']?>">
 									<?php endif ?>
-									<input type="hidden" name="token_id" value="<?=$token['token_id']?>">
+									<?=$hiddenField?>
 									<input type="hidden" name="user_id" value="<?=$token['user_id']?>">
 									<div class="form-gorup">
 										<label>Medical History</label>
@@ -116,7 +120,7 @@
 									<?php if ($prescription): ?>
 										<input type="hidden" name="prescription_id" value="<?=$prescription['prescription_id']?>">
 									<?php endif ?>
-									<input type="hidden" name="token_id" value="<?=$token['token_id']?>">
+									<?=$hiddenField?>
 									<input type="hidden" name="user_id" value="<?=$token['user_id']?>">
 									<div class="row">
 										
@@ -244,7 +248,7 @@
 			                      			<?php if ($prescription): ?>
 												<input type="hidden" name="prescription_id" value="<?=$prescription['prescription_id']?>">
 											<?php endif ?>
-											<input type="hidden" name="token_id" value="<?=$token['token_id']?>">
+											<?=$hiddenField?>
 											<input type="hidden" name="user_id" value="<?=$token['user_id']?>">
 			                      			<div class="form-group" align="right">
 			                      				<hr>
@@ -270,7 +274,7 @@
 										<?php else: ?>
 											<input type="hidden" name="prescription_id" value="0">
 										<?php endif ?>
-										<input type="hidden" name="token_id" value="<?=$token['token_id']?>">
+										<?=$hiddenField?>
 										<input type="hidden" name="user_id" value="<?=$token['user_id']?>">
 
 										<?php if ($prescription_radiology_tests): ?>
@@ -362,7 +366,7 @@
 												<?php else: ?>
 													<input type="hidden" name="prescription_id" value="0">
 												<?php endif ?>
-												<input type="hidden" name="token_id" value="<?=$token['token_id']?>">
+												<?=$hiddenField?>
 												<input type="hidden" name="user_id" value="<?=$token['user_id']?>">
 
 												<?php if ($investigations): ?>
@@ -466,7 +470,7 @@
 	          					<p><strong><?=date("d-m-Y (h:i A)",strtotime($followUpDate['followup_date']))?></strong></p>
 	          				<?php else: ?>
 		          				<form id="prescriptionFollowUpForm">
-		          					<input type="hidden" name="token_id" value="<?=$token['token_id']?>">
+		          					<?=$hiddenField?>
 		          					<input type="hidden" name="patient_id" value="<?=$token['patient_id']?>">
 									<input type="hidden" name="prescription_id" value="<?=$prescription['prescription_id']?>">
 									<div>

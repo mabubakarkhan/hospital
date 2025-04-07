@@ -23,7 +23,7 @@
 							<div class="col-sm-12">
                         		<h5>
                         			<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
-                        					<input class="form-check-input" id="role-inline-0" type="checkbox" name="title[]" value="role" <?=(in_array('role', $permissionsArr)) ? 'checked' : ''?> >
+                    					<input class="form-check-input" id="role-inline-0" type="checkbox" name="title[]" value="role" <?=(in_array('role', $permissionsArr)) ? 'checked' : ''?> >
 										<label class="form-check-label" for="role-inline-0"><strong>Role</strong></label>
 									</div>
                         		</h5>
@@ -187,6 +187,40 @@
 					</div><!-- /card -->
 				</div><!-- /4 -->
 
+
+			</div><!-- /row -->
+
+
+			<div class="row">
+
+				<div class="col-sm-12 col-xl-12">
+					<div class="card">
+						<div class="card-body">
+
+							<div class="col-sm-12">
+                        		<h5>
+                        			<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
+                    					<input class="form-check-input" id="emergency-inline-0" type="checkbox" name="title[]" value="emergency" <?=(in_array('emergency', $permissionsArr)) ? 'checked' : ''?> >
+										<label class="form-check-label" for="emergency-inline-0"><strong>Emergency</strong></label>
+									</div>
+                        		</h5>
+                      		</div>
+	                      	<div class="col">
+								<div class="m-t-15 m-checkbox-inline">
+									<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
+										<input class="form-check-input" id="emergency-inline-1" type="checkbox" name="title[]" value="emergency_setting" <?=(in_array('emergency_setting', $permissionsArr)) ? 'checked' : ''?>>
+										<label class="form-check-label" for="emergency-inline-1">Setting</label>
+									</div>
+									<div class="form-check form-check-inline checkbox checkbox-dark mb-0">
+										<input class="form-check-input" id="emergency-inline-12" type="checkbox" name="title[]" value="emergency_desk" <?=(in_array('emergency_desk', $permissionsArr)) ? 'checked' : ''?>>
+										<label class="form-check-label" for="emergency-inline-12">Desk</label>
+									</div>
+								</div>
+	                      	</div><!-- /col -->
+
+						</div>
+					</div><!-- /card -->
+				</div><!-- /12 -->
 
 			</div><!-- /row -->
 

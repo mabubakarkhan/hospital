@@ -32,6 +32,9 @@
 										<?php if ($permissions == 'all' || in_array('patient_edit', $permissions)): ?>
 											<th>Edit</th>
 										<?php endif ?>
+										<?php if ($permissions == 'all' || in_array('patient_view', $permissions)): ?>
+											<th>View</th>
+										<?php endif ?>
 									</tr>
 								</thead>
 								<tbody>
@@ -45,13 +48,20 @@
 												<td><?=$q['gender']?></td>
 												<td><?=$q['id_card']?></td>
 												<td><?=$q['address']?></td>
-												<td>
-													<ul class="action">
-														<?php if ($permissions == 'all' || in_array('patient_edit', $permissions)): ?>
+												<?php if ($permissions == 'all' || in_array('patient_edit', $permissions)): ?>
+													<td>
+														<ul class="action">
 															<li class="edit"> <a href="javascript://" class="editPatientBtn" data-id="<?=$q['patient_id']?>" data-fname="<?=$q['fname']?>" data-lname="<?=$q['lname']?>" data-mobile="<?=$q['mobile']?>" data-address="<?=$q['address']?>" data-id-card="<?=$q['id_card']?>" data-gender="<?=$q['gender']?>" data-age="<?=$q['age']?>"><i class="icon-pencil-alt"></i></a></li>
-										              	<?php endif ?>
-													</ul>
-												</td>
+														</ul>
+													</td>
+								              	<?php endif ?>
+								              	<?php if ($permissions == 'all' || in_array('patient_view', $permissions)): ?>
+													<td>
+														<ul class="action">
+															<li class="edit"> <a href="<?=BASEURL.'patient/profile/'.$q['patient_id']?>"><i class="icon-eye"></i></a></li>
+														</ul>
+													</td>
+								              	<?php endif ?>
 											</tr>
 										<?php endforeach ?>
 									<?php endif ?>

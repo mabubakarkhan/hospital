@@ -75,8 +75,18 @@
                 </li>
               </ul>
               <ul class="header-left"> 
-                <?php if ($permissions == 'all' || in_array('opd', $permissions)): ?>
+                <?php if ((in_array('opd', $permissions)) && (EMERGENCY_SERVICE == 'no')): ?>
                     <li><a href="<?=BASEURL.'opd'?>">OPD</a></li>
+                <?php elseif ($permissions == 'all'): ?>
+                    <li><a href="<?=BASEURL.'opd'?>">OPD</a></li>
+                <?php endif ?>
+
+                <?php if ($permissions == 'all' || in_array('emergency_desk', $permissions)): ?>
+                    <li><a href="<?=BASEURL.'emergency'?>"><span class="f-w-600">Emergency</span></a></li>
+                <?php endif ?>
+
+                <?php if ($permissions == 'all' || (EMERGENCY_SERVICE == 'yes' && in_array('emergency', $permissions))): ?>
+                    <li><a href="<?=BASEURL.'emergency/patients'?>"><span class="f-w-600">Emergency Patients</span></a></li>
                 <?php endif ?>
                 <li class="onhover-dropdown"><span class="f-w-600">Dashboard</span><span><i class="middle" data-feather="chevron-down"></i></span>
                   <ul class="onhover-show-div left-dropdown">
@@ -84,8 +94,6 @@
                     <li> <a href="dashboard-02.html"> Ecommerce</a></li>
                   </ul>
                 </li>
-
-
               </ul>
             </div>
           </div>
@@ -152,7 +160,7 @@
               <li class="onhover-dropdown">
                 <div class="message"><i data-feather="message-square"></i></div>
                 <ul class="message-dropdown onhover-show-div">
-                  <li><i data-feather="message-square">            </i>
+                  <li><i data-feather="message-square"></i>
                     <h6 class="f-18 mb-0">Messages</h6>
                   </li>
                   <li>

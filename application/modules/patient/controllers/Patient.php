@@ -34,6 +34,15 @@ class Patient extends MY_Controller {
 		$data['patients'] = $this->model->patients();
 		load_view('index',$data);
 	}
+	public function profile($patientId)
+	{
+		check_permissions('patient_view');
+		$data['userLoginData'] = $this->userLoginData;
+		$data['meta_title'] = 'Patient Profile';
+		$data['patient'] = $this->model->get_patient_byid($patientId);
+		$data['history'] = $this->model->get_prescription_history('all',$patientId,false);
+		load_view('profile',$data);
+	}
 	public function add()
 	{
 		check_permissions('patient_add');

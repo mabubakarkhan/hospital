@@ -28,6 +28,10 @@ class Model_prescription extends CI_Model {
 	{
 		return $this->get_row("SELECT * FROM `prescription` WHERE `token_id` = '$tokenId';");
 	}
+	public function get_prescription_by_emergency_admit_id($emergency_admit_id)
+	{
+		return $this->get_row("SELECT * FROM `prescription` WHERE `emergency_admit_id` = '$emergency_admit_id';");
+	}
 	public function get_token_detail_byid($tokenId)
 	{
 		return $this->get_row("
@@ -36,6 +40,16 @@ class Model_prescription extends CI_Model {
 			INNER JOIN `patient` AS p ON p.patient_id = t.patient_id 
 			INNER JOIN `service` AS s ON s.service_id = t.service_id 
 			WHERE t.token_id = '$tokenId' 
+		;");
+	}
+	public function get_emergency_admit_detail_byid($emergency_admit_id)
+	{
+		return $this->get_row("
+			SELECT ed.*, p.fname AS patientFname, p.lname AS patientLname, p.mobile AS patientMobile, p.age AS patientAge, p.gender AS patientGender, s.name AS serviceName 
+			FROM `emergency_admit` AS ed 
+			INNER JOIN `patient` AS p ON p.patient_id = ed.patient_id 
+			INNER JOIN `service` AS s ON s.service_id = ed.service_id 
+			WHERE ed.emergency_admit_id = '$emergency_admit_id' 
 		;");
 	}
 	public function procedures($status)

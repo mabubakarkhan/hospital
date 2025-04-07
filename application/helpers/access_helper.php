@@ -7,6 +7,7 @@ function check_permissions($land) {
     	return true;
     }
     else{
+        die('else');
     	redirect('logout');
     }
 }

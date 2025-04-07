@@ -39,7 +39,11 @@
 												<td><?=$q['type']?></td>
 												<td><?=$q['status']?></td>
 												<td><?=date('d F, Y',strtotime($q['at']))?></td>
-												<td><a href="<?=BASEURL.'prescription/new/?id='.$q['token_id']?>" target="_blank"><i class="fa fa-eye"></i></a></td>
+												<?php if ($q['type'] == 'emergency'): ?>
+													<td><a href="<?=BASEURL.'prescription/new/true/?id='.$q['id']?>" target="_blank"><i class="fa fa-eye"></i></a></td>
+												<?php else: ?>
+													<td><a href="<?=BASEURL.'prescription/new/?id='.$q['id']?>" target="_blank"><i class="fa fa-eye"></i></a></td>
+												<?php endif ?>
 											</tr>
 										<?php endforeach ?>
 									<?php endif ?>

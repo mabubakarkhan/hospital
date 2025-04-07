@@ -1,6 +1,6 @@
 <?php
 $checkUserPermissions = unserialize($_SESSION['user']);
-if ($checkUserPermissions['permissions'] == 'all' || in_array('add_prescription_token', $checkUserPermissions['permissions'])) {
+if ($checkUserPermissions['permissions'] == 'all' || (in_array('add_prescription_token', $checkUserPermissions['permissions']) || in_array('emergency', $checkUserPermissions['permissions']))) {
 ?>
 	<script>
 	$(function(){
@@ -424,7 +424,7 @@ if ($checkUserPermissions['permissions'] == 'all' || in_array('add_prescription_
 							<input type="hidden" name="prescription_id" value="0">
 						<?php endif ?>
 						<input type="hidden" name="drug_id">
-						<input type="hidden" name="token_id" value="<?=$token['token_id']?>">
+						<?=$hiddenField?>
 						<input type="hidden" name="user_id" value="<?=$token['user_id']?>">
 						<div class="row">
 							<div class="col-md-8">
@@ -739,7 +739,52 @@ if ($checkUserPermissions['permissions'] == 'all' || in_array('add_prescription_
 	}
 	</style>
 
+
+
+	<!-- print -->
+	<script>
+	$(document).ready(function () {
+	    $("#printPrescription").click(function () {
+	        $.ajax({
+	            url: "<?=BASEURL.'prescription/print/prescription/'.$_SESSION['prescriptionId'].'/'?>",
+	            type: "GET",
+	            dataType: "json",
+	            success: function (data) {
+	                // Update prescription content with fetched data
+	                $("#patientName").text(data.patient_name);
+	                $("#patientAge").text(data.age);
+	                $("#patientGender").text(data.gender);
+	                $("#patientAddress").text(data.address);
+	                $("#prescriptionDate").text(data.date);
+	                $("#prescriptionDetails").text(data.prescription);
+
+	                // Delay for a short period to ensure content updates
+	                setTimeout(function () {
+	                    printSection("#prescriptionContent");
+	                }, 500);
+	            }
+	        });
+	    });
+
+	    function printSection(elementId) {
+	        var printContent = $(elementId).html();
+	        var originalContent = $("body").html();
+	        
+	        $("body").html(printContent);
+	        window.print();
+	        $("body").html(originalContent);
+	        location.reload();  // Reload to restore page state after printing
+	    }
+	});
+
+	</script>
+
+
+
+
+
+
+
 <?php
 }//check permission
 ?>
-

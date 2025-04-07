@@ -82,6 +82,20 @@
 								</div><!-- /6 -->
 								<div class="col-md-6">
 									<div class="mb-3">
+										<label class="form-label">Emergency Service</label>
+										<select name="emergency_service" class="form-control" required>
+											<?php if ($q['emergency_service'] == 'yes'): ?>
+												<option value="yes" selected>YES</option>
+												<option value="no">NO</option>
+											<?php else: ?>
+												<option value="yes">YES</option>
+												<option value="no" selected>NO</option>
+											<?php endif ?>
+										</select>
+									</div>
+								</div><!-- /6 -->
+								<div class="col-md-6">
+									<div class="mb-3">
 										<label class="form-label">Profile Pic</label>
 										<?php if ($mode == 'edit'): ?>
 											<input class="form-control" type="file" data-bs-original-title="" name="img">
